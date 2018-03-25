@@ -3,7 +3,7 @@ date = 2016-04-20
 lastmod = 2017-09-03
 draft = false
 tags = ["academic", "hugo"]
-title = "Getting started with the Academic framework for Hugo"
+title = "Not by me: Using this as future template...Getting started with the Academic framework for Hugo"
 math = true
 summary = """
 Create a beautifully simple personal or academic website in under 10 minutes. 

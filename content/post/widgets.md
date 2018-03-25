@@ -2,7 +2,7 @@
 date = 2016-04-19
 draft = false
 tags = ["academic", "hugo"]
-title = "Customizing the homepage with widgets"
+title = "Not by me: Using this as future template...Customizing the homepage with widgets"
 math = false
 summary = """
 Enable/disable and configure widgets to customize your homepage.

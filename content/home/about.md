@@ -10,31 +10,46 @@ weight = 5
 # List your academic interests.
 [interests]
   interests = [
-    "Artificial Intelligence",
-    "Computational Linguistics",
-    "Information Retrieval"
+    "Data Analytics",
+    "Quantitative Trading",
   ]
 
 # List your qualifications (such as academic degrees).
 [[education.courses]]
-  course = "PhD in Artificial Intelligence"
-  institution = "Stanford University"
-  year = 2012
+  course = "Msc in Computer Science"
+  institution = "Georgia Institute of Technology"
+  year = 2021
 
 [[education.courses]]
-  course = "MEng in Artificial Intelligence"
-  institution = "Massachusetts Institute of Technology"
-  year = 2009
+  course = "Gdip in Computer Science"
+  institution = "University of Adelaide"
+  year = 2018
 
 [[education.courses]]
-  course = "BSc in Artificial Intelligence"
-  institution = "Massachusetts Institute of Technology"
-  year = 2008
+  course = "Msc in Applied Statistics"
+  institution = "National University of Singapore"
+  year = 2016
+  
+[[education.courses]]
+  course = "Bsc in Economics and Finance"
+  institution = "Singapore Management University"
+  year = 2013
  
 +++
 
 # Biography
 
-Lena Smith is a professor of artificial intelligence at the Stanford AI Lab. Her research interests include distributed robotics, mobile computing and programmable matter. She leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
+I'm a versatile analyst that understands the supply chain of Analytics: 1.) Sourcing for raw data (Web-Crawling, Social Media APIs) 2.) Database (SQL) 3.) Analysis (Statistics, Econometrics, Machine-Learning) and 4.) Delivery (Interactive Data visualizations, Automated Reports, Intranet). In addition, I possess strong project-management and communication skills essential in delivering results to stakeholders. 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate. 
+As a curious & keen learner, I strive to improve myself through structured and unstructured learning. 
+
+I am currently pursuing a Computer Science Masters in Georgia Institute of Technology. I believe this complements my background in economics, statistics, finance and computer science - as a graduate from NUS Msc. in Statistics, SMU Bsc. Economics & Finance, Uni of Adelaide Gdip in CS, as well as an analytics practitioner. 
+
+Given that that issues are increasingly complex, I embrace a multidisciplinary approach in analysing and understanding issues; I'm passionate about data analytics, economics, finance, organisational behaviour and programming.
+
+Over the course of my career, I hope to think, learn, experiment, code and write more!
+
+Through this blog, I hope to share my thoughts on analytics and quantitative trading. The latter is something I hope to work on - hopefully with some skin in the game - over the next few years.
+
+You may contact me at jironghuang88@gmail.com if we share common interests!
+

@@ -2,7 +2,7 @@
 date = 2016-04-17
 draft = false
 tags = []
-title = "Writing content with Markdown, LaTeX, and Shortcodes"
+title = "Not by me: Using this as future template...Writing content with Markdown, LaTeX, and Shortcodes"
 math = true
 +++
 

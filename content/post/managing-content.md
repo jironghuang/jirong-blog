@@ -2,7 +2,7 @@
 date = 2016-04-18
 draft = false
 tags = ["academic", "hugo"]
-title = "Managing content"
+title = "Not by me: Using this as future template...Managing content"
 math = false
 +++
 

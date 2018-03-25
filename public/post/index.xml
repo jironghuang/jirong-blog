@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Academic</title>
+    <title>Posts on Jirong&#39;s sandbox</title>
     <link>/post/</link>
-    <description>Recent content in Posts on Academic</description>
+    <description>Recent content in Posts on Jirong&#39;s sandbox</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
@@ -11,7 +11,17 @@
     <atom:link href="/post/" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Getting started with the Academic framework for Hugo</title>
+      <title>Test post</title>
+      <link>/post/test-post/</link>
+      <pubDate>Sun, 25 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/test-post/</guid>
+      <description>&lt;p&gt;Trying out this new post here&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Not by me: Using this as future template...Getting started with the Academic framework for Hugo</title>
       <link>/post/getting-started/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0800</pubDate>
       
@@ -301,7 +311,7 @@ $ git log --pretty=oneline --abbrev-commit --decorate HEAD..upstream/master
     </item>
     
     <item>
-      <title>Customizing the homepage with widgets</title>
+      <title>Not by me: Using this as future template...Customizing the homepage with widgets</title>
       <link>/post/widgets/</link>
       <pubDate>Tue, 19 Apr 2016 00:00:00 +0800</pubDate>
       
@@ -369,7 +379,7 @@ $ git log --pretty=oneline --abbrev-commit --decorate HEAD..upstream/master
     </item>
     
     <item>
-      <title>Managing content</title>
+      <title>Not by me: Using this as future template...Managing content</title>
       <link>/post/managing-content/</link>
       <pubDate>Mon, 18 Apr 2016 00:00:00 +0800</pubDate>
       
@@ -599,7 +609,7 @@ widgets = true
     </item>
     
     <item>
-      <title>Writing content with Markdown, LaTeX, and Shortcodes</title>
+      <title>Not by me: Using this as future template...Writing content with Markdown, LaTeX, and Shortcodes</title>
       <link>/post/writing-markdown-latex/</link>
       <pubDate>Sun, 17 Apr 2016 00:00:00 +0800</pubDate>
       
@@ -1015,7 +1025,7 @@ Here&#39;s some important information...
     </item>
     
     <item>
-      <title>Frequently Asked Questions (FAQ)</title>
+      <title>Not by me: Using this as future template...Frequently Asked Questions (FAQ)</title>
       <link>/post/faq/</link>
       <pubDate>Sun, 10 Apr 2016 00:00:00 +0800</pubDate>
       
@@ -1068,7 +1078,7 @@ y &amp;amp;=&amp;amp; 1+1   \\\\\\
     </item>
     
     <item>
-      <title>Hello R Markdown</title>
+      <title>Not by me: Using this as future template...Hello R Markdown</title>
       <link>/post/2015-07-23-r-rmarkdown/</link>
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
       
@@ -1116,7 +1126,7 @@ Figure 1: A fancy pie chart.
     </item>
     
     <item>
-      <title>Migrate from Jekyll to Hugo</title>
+      <title>Not by me: Using this as future template...Migrate from Jekyll to Hugo</title>
       <link>/post/migrate-from-jekyll/</link>
       <pubDate>Mon, 10 Mar 2014 00:00:00 +0800</pubDate>
       

@@ -3,7 +3,7 @@
 date = "2016-04-27"
 
 # Project title.
-title = "Deep Learning"
+title = "Not by me: Leaving this as Placeholder"
 
 # Project summary to display on homepage.
 summary = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."

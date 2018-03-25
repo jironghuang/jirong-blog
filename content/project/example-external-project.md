@@ -3,7 +3,7 @@
 date = "2016-04-27"
 
 # Project title.
-title = "External Project"
+title = "Not by me: Leaving this as Placeholder"
 
 # Project summary to display on homepage.
 summary = "An example of linking directly to an external project website using `external_link`."
