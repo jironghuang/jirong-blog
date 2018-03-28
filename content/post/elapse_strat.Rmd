@@ -1,0 +1,81 @@
+---
+title: "Days elapsed strategy"
+author: "Jirong"
+date: 2018-03-28T21:13:14-05:00
+categories: ["trading"]
+tags: ["momentum", "finance"]
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+I simply adapted the code in this post here (https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/) for the following momentum strategy.
+
+This is a momentum based strategy: Long if current day is <50 days of 200 days high. Nil position otherwise. 
+
+Returns are pretty impressive for Singapore market. That being said, it will be useful to try it with different parameters and different markets!
+
+
+```{r}
+#Inspired by the blog post here-->https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/
+#http://etfprophet.com/days-since-200-day-highs/
+#Simple momentum strategy
+
+rm(list = ls(all = TRUE))
+
+library(quantmod)
+library(PerformanceAnalytics)
+
+ticker = "EWS"
+stock = getSymbols(ticker,from="1900-01-01",auto.assign=F)
+stock = subset(stock,!is.na(stock[,6]))
+
+daysSinceHigh <- function(x, n){
+  apply(embed(x, n), 1, which.max)-1
+}
+
+myStrat <- function(x, nHold=100, nHigh=200) {
+  position <- ifelse(daysSinceHigh(x, nHigh)<=nHold,1,0)
+  c(rep(0,nHigh-1),position)
+}
+
+myStock <- Cl(stock)
+myPosition <- myStrat(myStock,50,200)
+bmkReturns <- dailyReturn(myStock, type = "arithmetic")
+myReturns <- bmkReturns*Lag(myPosition,1)
+myReturns[1] <- 0
+
+names(bmkReturns) <- 'stock'
+names(myReturns) <- 'Me'
+```
+
+```{r}
+######################################Performance analysis################################
+
+charts.PerformanceSummary(cbind(bmkReturns,myReturns))
+
+Performance <- function(x) {
+  
+  cumRetx = Return.cumulative(x)
+  annRetx = Return.annualized(x, scale=252)
+  sharpex = SharpeRatio.annualized(x, scale=252)
+  winpctx = length(x[x > 0])/length(x[x != 0])
+  annSDx = sd.annualized(x, scale=252)
+  
+  DDs <- findDrawdowns(x)
+  maxDDx = min(DDs$return)
+  maxLx = max(DDs$length)
+  
+  Perf = c(cumRetx, annRetx, sharpex, winpctx, annSDx, maxDDx, maxLx)
+  names(Perf) = c("Cumulative Return", "Annual Return","Annualized Sharpe Ratio",
+                  "Win %", "Annualized Volatility", "Maximum Drawdown", "Max Length Drawdown")
+  return(Perf)
+}
+
+cbind(Me=Performance(myReturns),stock = Performance(bmkReturns))
+```
+
+
+

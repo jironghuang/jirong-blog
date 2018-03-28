@@ -1,0 +1,101 @@
+---
+title: "Days elapsed strategy"
+author: "Jirong"
+date: 2018-03-28T21:13:14-05:00
+categories: ["trading"]
+tags: ["momentum", "finance"]
+---
+
+
+
+<p>I simply adapted the code in this post here (<a href="https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/" class="uri">https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/</a>) for the following momentum strategy.</p>
+<p>This is a momentum based strategy: Long if current day is &lt;50 days of 200 days high. Nil position otherwise.</p>
+<p>Returns are pretty impressive for Singapore market. That being said, it will be useful to try it with different parameters and different markets!</p>
+<pre class="r"><code>#Inspired by the blog post here--&gt;https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/
+#http://etfprophet.com/days-since-200-day-highs/
+#Simple momentum strategy
+
+rm(list = ls(all = TRUE))
+
+library(quantmod)</code></pre>
+<pre><code>## Loading required package: xts</code></pre>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre><code>## Loading required package: TTR</code></pre>
+<pre><code>## Version 0.4-0 included new data defaults. See ?getSymbols.</code></pre>
+<pre class="r"><code>library(PerformanceAnalytics)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;PerformanceAnalytics&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:graphics&#39;:
+## 
+##     legend</code></pre>
+<pre class="r"><code>ticker = &quot;EWS&quot;
+stock = getSymbols(ticker,from=&quot;1900-01-01&quot;,auto.assign=F)</code></pre>
+<pre><code>## &#39;getSymbols&#39; currently uses auto.assign=TRUE by default, but will
+## use auto.assign=FALSE in 0.5-0. You will still be able to use
+## &#39;loadSymbols&#39; to automatically load data. getOption(&quot;getSymbols.env&quot;)
+## and getOption(&quot;getSymbols.auto.assign&quot;) will still be checked for
+## alternate defaults.
+## 
+## This message is shown once per session and may be disabled by setting 
+## options(&quot;getSymbols.warning4.0&quot;=FALSE). See ?getSymbols for details.</code></pre>
+<pre><code>## 
+## WARNING: There have been significant changes to Yahoo Finance data.
+## Please see the Warning section of &#39;?getSymbols.yahoo&#39; for details.
+## 
+## This message is shown once per session and may be disabled by setting
+## options(&quot;getSymbols.yahoo.warning&quot;=FALSE).</code></pre>
+<pre class="r"><code>stock = subset(stock,!is.na(stock[,6]))
+
+daysSinceHigh &lt;- function(x, n){
+  apply(embed(x, n), 1, which.max)-1
+}
+
+myStrat &lt;- function(x, nHold=100, nHigh=200) {
+  position &lt;- ifelse(daysSinceHigh(x, nHigh)&lt;=nHold,1,0)
+  c(rep(0,nHigh-1),position)
+}
+
+myStock &lt;- Cl(stock)
+myPosition &lt;- myStrat(myStock,50,200)
+bmkReturns &lt;- dailyReturn(myStock, type = &quot;arithmetic&quot;)
+myReturns &lt;- bmkReturns*Lag(myPosition,1)
+myReturns[1] &lt;- 0
+
+names(bmkReturns) &lt;- &#39;stock&#39;
+names(myReturns) &lt;- &#39;Me&#39;</code></pre>
+<pre class="r"><code>######################################Performance analysis################################
+
+charts.PerformanceSummary(cbind(bmkReturns,myReturns))</code></pre>
+<p><img src="/post/elapse_strat_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>Performance &lt;- function(x) {
+  
+  cumRetx = Return.cumulative(x)
+  annRetx = Return.annualized(x, scale=252)
+  sharpex = SharpeRatio.annualized(x, scale=252)
+  winpctx = length(x[x &gt; 0])/length(x[x != 0])
+  annSDx = sd.annualized(x, scale=252)
+  
+  DDs &lt;- findDrawdowns(x)
+  maxDDx = min(DDs$return)
+  maxLx = max(DDs$length)
+  
+  Perf = c(cumRetx, annRetx, sharpex, winpctx, annSDx, maxDDx, maxLx)
+  names(Perf) = c(&quot;Cumulative Return&quot;, &quot;Annual Return&quot;,&quot;Annualized Sharpe Ratio&quot;,
+                  &quot;Win %&quot;, &quot;Annualized Volatility&quot;, &quot;Maximum Drawdown&quot;, &quot;Max Length Drawdown&quot;)
+  return(Perf)
+}
+
+cbind(Me=Performance(myReturns),stock = Performance(bmkReturns))</code></pre>
+<pre><code>##                                    Me         stock
+## Cumulative Return          1.34472747  4.839996e-02
+## Annual Return              0.03948042  2.149949e-03
+## Annualized Sharpe Ratio    0.27173345  7.277579e-03
+## Win %                      0.53411131  5.153861e-01
+## Annualized Volatility      0.14529099  2.954209e-01
+## Maximum Drawdown          -0.34483591 -7.584541e-01
+## Max Length Drawdown     1522.00000000  2.775000e+03</code></pre>
