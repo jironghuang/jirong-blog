@@ -11,11 +11,111 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Permanent Portfolio</title>
-      <link>/post/modified_perm_port/</link>
-      <pubDate>Sat, 31 Mar 2018 21:13:14 -0500</pubDate>
+      <title>Days elapsed strategy</title>
+      <link>/post/elapse_strat/</link>
+      <pubDate>Wed, 28 Mar 2018 21:13:14 -0500</pubDate>
       
-      <guid>/post/modified_perm_port/</guid>
+      <guid>/post/elapse_strat/</guid>
+      <description>&lt;p&gt;I simply adapted the code in this post here (&lt;a href=&#34;https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/&#34; class=&#34;uri&#34;&gt;https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/&lt;/a&gt;) for the following momentum strategy.&lt;/p&gt;
+&lt;p&gt;This is a momentum based strategy: Long if current day is &amp;lt;50 days of 200 days high. Nil position otherwise.&lt;/p&gt;
+&lt;p&gt;Returns are pretty impressive for Singapore market. That being said, it will be useful to try it with different parameters and different markets!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Inspired by the blog post here--&amp;gt;https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/
+#http://etfprophet.com/days-since-200-day-highs/
+#Simple momentum strategy
+
+rm(list = ls(all = TRUE))
+
+library(quantmod)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package: xts&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package: zoo&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Attaching package: &amp;#39;zoo&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:base&amp;#39;:
+## 
+##     as.Date, as.Date.numeric&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package: TTR&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Version 0.4-0 included new data defaults. See ?getSymbols.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(PerformanceAnalytics)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Attaching package: &amp;#39;PerformanceAnalytics&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## The following object is masked from &amp;#39;package:graphics&amp;#39;:
+## 
+##     legend&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ticker = &amp;quot;EWS&amp;quot;
+stock = getSymbols(ticker,from=&amp;quot;1900-01-01&amp;quot;,auto.assign=F)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## &amp;#39;getSymbols&amp;#39; currently uses auto.assign=TRUE by default, but will
+## use auto.assign=FALSE in 0.5-0. You will still be able to use
+## &amp;#39;loadSymbols&amp;#39; to automatically load data. getOption(&amp;quot;getSymbols.env&amp;quot;)
+## and getOption(&amp;quot;getSymbols.auto.assign&amp;quot;) will still be checked for
+## alternate defaults.
+## 
+## This message is shown once per session and may be disabled by setting 
+## options(&amp;quot;getSymbols.warning4.0&amp;quot;=FALSE). See ?getSymbols for details.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## WARNING: There have been significant changes to Yahoo Finance data.
+## Please see the Warning section of &amp;#39;?getSymbols.yahoo&amp;#39; for details.
+## 
+## This message is shown once per session and may be disabled by setting
+## options(&amp;quot;getSymbols.yahoo.warning&amp;quot;=FALSE).&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stock = subset(stock,!is.na(stock[,6]))
+
+daysSinceHigh &amp;lt;- function(x, n){
+  apply(embed(x, n), 1, which.max)-1
+}
+
+myStrat &amp;lt;- function(x, nHold=100, nHigh=200) {
+  position &amp;lt;- ifelse(daysSinceHigh(x, nHigh)&amp;lt;=nHold,1,0)
+  c(rep(0,nHigh-1),position)
+}
+
+myStock &amp;lt;- Cl(stock)
+myPosition &amp;lt;- myStrat(myStock,50,200)
+bmkReturns &amp;lt;- dailyReturn(myStock, type = &amp;quot;arithmetic&amp;quot;)
+myReturns &amp;lt;- bmkReturns*Lag(myPosition,1)
+myReturns[1] &amp;lt;- 0
+
+names(bmkReturns) &amp;lt;- &amp;#39;stock&amp;#39;
+names(myReturns) &amp;lt;- &amp;#39;Me&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;######################################Performance analysis################################
+
+charts.PerformanceSummary(cbind(bmkReturns,myReturns))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/elapse_strat_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Performance &amp;lt;- function(x) {
+  
+  cumRetx = Return.cumulative(x)
+  annRetx = Return.annualized(x, scale=252)
+  sharpex = SharpeRatio.annualized(x, scale=252)
+  winpctx = length(x[x &amp;gt; 0])/length(x[x != 0])
+  annSDx = sd.annualized(x, scale=252)
+  
+  DDs &amp;lt;- findDrawdowns(x)
+  maxDDx = min(DDs$return)
+  maxLx = max(DDs$length)
+  
+  Perf = c(cumRetx, annRetx, sharpex, winpctx, annSDx, maxDDx, maxLx)
+  names(Perf) = c(&amp;quot;Cumulative Return&amp;quot;, &amp;quot;Annual Return&amp;quot;,&amp;quot;Annualized Sharpe Ratio&amp;quot;,
+                  &amp;quot;Win %&amp;quot;, &amp;quot;Annualized Volatility&amp;quot;, &amp;quot;Maximum Drawdown&amp;quot;, &amp;quot;Max Length Drawdown&amp;quot;)
+  return(Perf)
+}
+
+cbind(Me=Performance(myReturns),stock = Performance(bmkReturns))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##                                   Me         stock
+## Cumulative Return          1.3858788  6.680000e-02
+## Annual Return              0.0402951  2.941980e-03
+## Annualized Sharpe Ratio    0.2771689  9.957791e-03
+## Win %                      0.5343203  5.154799e-01
+## Annualized Volatility      0.1453810  2.954450e-01
+## Maximum Drawdown          -0.3448359 -7.584541e-01
+## Max Length Drawdown     1522.0000000  2.775000e+03&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Permanent Portfolio</title>
+      <link>/post/elapse_strat_v2/</link>
+      <pubDate>Wed, 28 Mar 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/post/elapse_strat_v2/</guid>
       <description>&lt;div id=&#34;an-all-weather-portfolio&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;An all weather portfolio&lt;/h2&gt;
 &lt;p&gt;Based on the literature, permanent portfolio is an investment strategy that is able to yield moderate returns and relatively low volatility. Investor is recommended to invest 25% in equal proportion in GLD, Index, Bond and Cash and rebalance it to this proportion annually.&lt;/p&gt;
@@ -223,7 +323,7 @@ table.Drawdowns(ticker_all$portfolio_ret, top=10)&lt;/code&gt;&lt;/pre&gt;
 ## Annualized Std Dev               0.0899 0.1893 0.1885 0.0482
 ## Annualized Sharpe (Rf=0%)        0.5464 0.3274 0.2294 0.7535&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;charts.PerformanceSummary(merge(ticker_all$portfolio_ret, ticker_all$ret1, ticker_all$ret2, ticker_all$ret3))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/modified_perm_port_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/elapse_strat_v2_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;yearly-portfolio-performance&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Yearly Portfolio Performance&lt;/h2&gt;
@@ -271,110 +371,10 @@ yearly_ret&lt;/code&gt;&lt;/pre&gt;
 ## 2017-12-29    0.115604533 0.04028321 0.0094896000  2.6342224
 ## 2018-03-29   -0.010810745 0.08058259 0.0158213115 -0.3304939&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(yearly_ret$yearly.returns)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/modified_perm_port_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/elapse_strat_v2_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(yearly_ret$Sharpe)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/modified_perm_port_files/figure-html/unnamed-chunk-4-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/elapse_strat_v2_files/figure-html/unnamed-chunk-4-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Days elapsed strategy</title>
-      <link>/post/elapse_strat/</link>
-      <pubDate>Wed, 28 Mar 2018 21:13:14 -0500</pubDate>
-      
-      <guid>/post/elapse_strat/</guid>
-      <description>&lt;p&gt;I simply adapted the code in this post here (&lt;a href=&#34;https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/&#34; class=&#34;uri&#34;&gt;https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/&lt;/a&gt;) for the following momentum strategy.&lt;/p&gt;
-&lt;p&gt;This is a momentum based strategy: Long if current day is &amp;lt;50 days of 200 days high. Nil position otherwise.&lt;/p&gt;
-&lt;p&gt;Returns are pretty impressive for Singapore market. That being said, it will be useful to try it with different parameters and different markets!&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Inspired by the blog post here--&amp;gt;https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/
-#http://etfprophet.com/days-since-200-day-highs/
-#Simple momentum strategy
-
-rm(list = ls(all = TRUE))
-
-library(quantmod)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Loading required package: xts&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Loading required package: zoo&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Attaching package: &amp;#39;zoo&amp;#39;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:base&amp;#39;:
-## 
-##     as.Date, as.Date.numeric&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Loading required package: TTR&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Version 0.4-0 included new data defaults. See ?getSymbols.&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(PerformanceAnalytics)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Attaching package: &amp;#39;PerformanceAnalytics&amp;#39;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following object is masked from &amp;#39;package:graphics&amp;#39;:
-## 
-##     legend&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ticker = &amp;quot;EWS&amp;quot;
-stock = getSymbols(ticker,from=&amp;quot;1900-01-01&amp;quot;,auto.assign=F)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## &amp;#39;getSymbols&amp;#39; currently uses auto.assign=TRUE by default, but will
-## use auto.assign=FALSE in 0.5-0. You will still be able to use
-## &amp;#39;loadSymbols&amp;#39; to automatically load data. getOption(&amp;quot;getSymbols.env&amp;quot;)
-## and getOption(&amp;quot;getSymbols.auto.assign&amp;quot;) will still be checked for
-## alternate defaults.
-## 
-## This message is shown once per session and may be disabled by setting 
-## options(&amp;quot;getSymbols.warning4.0&amp;quot;=FALSE). See ?getSymbols for details.&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## WARNING: There have been significant changes to Yahoo Finance data.
-## Please see the Warning section of &amp;#39;?getSymbols.yahoo&amp;#39; for details.
-## 
-## This message is shown once per session and may be disabled by setting
-## options(&amp;quot;getSymbols.yahoo.warning&amp;quot;=FALSE).&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stock = subset(stock,!is.na(stock[,6]))
-
-daysSinceHigh &amp;lt;- function(x, n){
-  apply(embed(x, n), 1, which.max)-1
-}
-
-myStrat &amp;lt;- function(x, nHold=100, nHigh=200) {
-  position &amp;lt;- ifelse(daysSinceHigh(x, nHigh)&amp;lt;=nHold,1,0)
-  c(rep(0,nHigh-1),position)
-}
-
-myStock &amp;lt;- Cl(stock)
-myPosition &amp;lt;- myStrat(myStock,50,200)
-bmkReturns &amp;lt;- dailyReturn(myStock, type = &amp;quot;arithmetic&amp;quot;)
-myReturns &amp;lt;- bmkReturns*Lag(myPosition,1)
-myReturns[1] &amp;lt;- 0
-
-names(bmkReturns) &amp;lt;- &amp;#39;stock&amp;#39;
-names(myReturns) &amp;lt;- &amp;#39;Me&amp;#39;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;######################################Performance analysis################################
-
-charts.PerformanceSummary(cbind(bmkReturns,myReturns))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/elapse_strat_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Performance &amp;lt;- function(x) {
-  
-  cumRetx = Return.cumulative(x)
-  annRetx = Return.annualized(x, scale=252)
-  sharpex = SharpeRatio.annualized(x, scale=252)
-  winpctx = length(x[x &amp;gt; 0])/length(x[x != 0])
-  annSDx = sd.annualized(x, scale=252)
-  
-  DDs &amp;lt;- findDrawdowns(x)
-  maxDDx = min(DDs$return)
-  maxLx = max(DDs$length)
-  
-  Perf = c(cumRetx, annRetx, sharpex, winpctx, annSDx, maxDDx, maxLx)
-  names(Perf) = c(&amp;quot;Cumulative Return&amp;quot;, &amp;quot;Annual Return&amp;quot;,&amp;quot;Annualized Sharpe Ratio&amp;quot;,
-                  &amp;quot;Win %&amp;quot;, &amp;quot;Annualized Volatility&amp;quot;, &amp;quot;Maximum Drawdown&amp;quot;, &amp;quot;Max Length Drawdown&amp;quot;)
-  return(Perf)
-}
-
-cbind(Me=Performance(myReturns),stock = Performance(bmkReturns))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##                                    Me         stock
-## Cumulative Return          1.34472747  4.839996e-02
-## Annual Return              0.03948042  2.149949e-03
-## Annualized Sharpe Ratio    0.27173345  7.277579e-03
-## Win %                      0.53411131  5.153861e-01
-## Annualized Volatility      0.14529099  2.954209e-01
-## Maximum Drawdown          -0.34483591 -7.584541e-01
-## Max Length Drawdown     1522.00000000  2.775000e+03&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     

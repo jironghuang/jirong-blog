@@ -6,4 +6,6 @@ setwd("/home/jirong/Desktop/github/jirong-blog")
 
 # blogdown::new_post("Test post")
 
-hugo_server(host="192.168.1.9", port=3337)    #Need to hard code ip address for it work across computers
+# hugo_server(host="192.168.1.9", port=3337)    #Need to hard code ip address for it work across computers
+
+# hugo server -t hugo-academic --disableFastRender

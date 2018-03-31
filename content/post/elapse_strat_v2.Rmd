@@ -1,7 +1,7 @@
 ---
 title: "Permanent Portfolio"
 author: "Jirong"
-date: 2018-03-31T21:13:14-05:00
+date: 2018-03-28T21:13:14-05:00
 categories: ["trading"]
 tags: ["momentum", "finance"]
 ---
@@ -199,7 +199,3 @@ yearly_ret
 plot(yearly_ret$yearly.returns)
 plot(yearly_ret$Sharpe)
 ```
-
-
-
-
