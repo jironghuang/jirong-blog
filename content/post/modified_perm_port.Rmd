@@ -1,0 +1,205 @@
+---
+title: "Permanent Portfolio"
+author: "Jirong"
+date: 2018-03-31T21:13:14-05:00
+categories: ["trading"]
+tags: ["momentum", "finance"]
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## An all weather portfolio
+
+Based on the literature, permanent portfolio is an investment strategy that is able to yield moderate returns and relatively low volatility. Investor is recommended to invest 25% in equal proportion in GLD, Index, Bond and Cash and rebalance it to this proportion annually. 
+
+This approach is something that I've always been keen to adopt for a portion of my portfolio. 
+
+To investigate, I simulated a portfolio starting at $100 on Nov 2004. I modified the asset allocation proportion slightly by first eliminating the cash and distributed the % amongst the following tickers,
+
+- AGG: US Bonds
+- GLD: Gold
+- GSPC: SnP 500 
+
+The portfolio is rebalanced yearly back to the same targeted proportion.
+
+Note: 
+
+- I admit that the code that I wrote here is very procedural. If I've time, I'll try to 'functionalize' the codes so that I could use it for other portfolio simulation purposes.
+- The looping in the R vectorized setting is known to be super slow! If I really have time to spare, I'll convert some of the loops to Rcpp (C++). But I highly doubt so since the data is not that huge at the moement (unless I venture into tick data. Oh well, who knows).   
+
+## Key points
+
+On the annualized returns, it's not really fantastic. But it still returns a respectable annualized performance of 5%; 1% lower than Gold and 0.5% higher than SnP 500 over the same period.
+
+What stands out are the following performance metrics:
+
+- In terms of draw-down, it performed remarkably well relative to a pure SnP500 poortfolio. It suffered a loss of 25% as compared to a loss of 60% duirng the financial crisis.
+- On the Sharpe Ratio (annualized returns in excess of risk-free rate), it's considerably higher than GOLD and Snp500. Though it's slightly lower than AGG.
+
+Feel free to adapt or adopt the code. You can easily substitue the stocks based on your preferred asset allocation.
+
+## Setting up the analysis.
+
+In this section, I downloaded stock data using quant mod. And merge the time series.
+```{r}
+library(quantmod)
+library(ggplot2)
+library(PerformanceAnalytics)
+library(tidyr)
+library(dplyr)
+library(tibble)
+
+# Download data-->Fix the ending date for project section
+ticker1 = "GLD"
+stock1 = getSymbols(ticker1,from="1900-01-01",auto.assign=F)
+names(stock1) = c("open","high","low","close","volume","adj_close")
+stock1 = stock1[,6]
+
+ticker2 = "^GSPC"
+stock2 = getSymbols(ticker2,from="1900-01-01",auto.assign=F)
+names(stock2) = c("open","high","low","close","volume","adj_close")
+stock2 = stock2[,6]
+
+ticker3 = "AGG"
+stock3 = getSymbols(ticker3,from="1900-01-01",auto.assign=F)
+names(stock3) = c("open","high","low","close","volume","adj_close")
+stock3 = stock3[,6]
+
+# Merge the time series and subset NA
+#These are the various time series
+ticker_list = c("stock1","stock2","stock3")
+
+#read in list. Loop through and assign variable to holder variable. Then assign it to combined list
+ticker_all = get(ticker_list[1])  
+
+#Merging in the time series
+for(i in 2:length(ticker_list)){
+  ticker_ind = get(ticker_list[i])
+  ticker_all = merge(ticker_all,ticker_ind)  
+}
+
+names(ticker_all) = c("stock1","stock2","stock3")
+
+```
+
+## Running the simulation
+
+Next, I run the simulation - By intialising 33% asset allocation in each of the asset and rebalance at end of each year. Daily portfolio returns are then obtained throught the ROC function.  
+
+```{r}
+#Assign equal weights to each stream of returns
+ticker_all = cbind(ticker_all,rowMeans(ticker_all))
+ticker_all = subset(ticker_all,!is.na(ticker_all[,4]))
+ticker_all = ticker_all[,-ncol(ticker_all)]
+
+#Identify the period of rebalancing. Show the indexes
+rebal_index = data.frame(index = endpoints(ticker_all,on="years")[-1])
+# endpoints(ticker_all,on="quarters") 
+
+#Merge in the indicator into ticker_all--Can't seem to merge. Will do the inefficient loop
+# merge(ticker_all,rebal_index, by = "index", all = T)
+ticker_all$rebal = NA
+for(i in 1:nrow(rebal_index)){
+  ticker_all$rebal[rebal_index$index[i]] = 1
+}
+
+ticker_all$rebal = ifelse(is.na(ticker_all$rebal),0,ticker_all$rebal)
+
+#Create the returns for each price series
+ticker_all$ret1 = ROC(ticker_all[,1])
+ticker_all$ret2 = ROC(ticker_all[,2])
+ticker_all$ret3 = ROC(ticker_all[,3])
+
+#Initialise value for each stock series, with a total portfolio value
+ticker_all$val1 = NA; ticker_all$val1[1] = 100
+ticker_all$val2 = NA; ticker_all$val2[1] = 100
+ticker_all$val3 = NA; ticker_all$val3[1] = 100
+
+ticker_all$portfolio_val = NA
+ticker_all$portfolio_val[1] = rowSums(ticker_all[1,8:10])
+
+#Loop each row and 'compound'. Till it reaches the rebalancing date. Then reset stock value amount in that day. Take the portfolio value in t-1
+for(i in 2:nrow(ticker_all)){
+  
+  if(as.numeric(ticker_all$rebal[i]) == 0){
+    
+  #During non-rebalancing days
+  ticker_all$val1[i] = as.numeric(ticker_all$val1[i-1]) * (1 + as.numeric(ticker_all$ret1[i]))
+  ticker_all$val2[i] = as.numeric(ticker_all$val2[i-1]) * (1 + as.numeric(ticker_all$ret2[i]))
+  ticker_all$val3[i] = as.numeric(ticker_all$val3[i-1]) * (1 + as.numeric(ticker_all$ret3[i]))
+
+  ticker_all$portfolio_val[i] = rowSums(ticker_all[i,8:10])
+  
+  }else{
+  #During re-balancing days
+  ticker_all$val1[i] = ticker_all$portfolio_val[i-1] / 3
+  ticker_all$val2[i] = ticker_all$portfolio_val[i-1] / 3
+  ticker_all$val3[i] = ticker_all$portfolio_val[i-1] / 3
+  
+  ticker_all$portfolio_val[i] = rowSums(ticker_all[i,8:10])      
+  } 
+}
+
+#Generate the daily portfolio returns
+ticker_all$portfolio_ret = ROC(ticker_all[,11])
+
+```
+
+## Portfolio Performance for the entire period
+On the annualized returns, it's not really fantastic. But it still returns a respectable annualized performance of 5%; 1% lower than Gold and 0.5% higher than SnP 500 over the same period.
+
+What stands out are the following performance metrics:
+
+- In terms of draw-down, it performed remarkably well relative to a pure SnP500 portfolio. It suffered a loss of only 25% as compared to a loss of 60% during the financial crisis.
+- On the Sharpe Ratio (annualized returns in excess of risk-free rate), it's considerably higher than GOLD and Snp500. Though it's slightly lower than AGG.
+
+```{r}
+######################################Study the portfolio returns########################################
+#Carry out the portfolio return series
+table.Drawdowns(ticker_all$portfolio_ret, top=10)
+table.DownsideRisk(merge(ticker_all$portfolio_ret, ticker_all$ret1, ticker_all$ret2, ticker_all$ret3))
+table.AnnualizedReturns(merge(ticker_all$portfolio_ret, ticker_all$ret1, ticker_all$ret2, ticker_all$ret3))
+charts.PerformanceSummary(merge(ticker_all$portfolio_ret, ticker_all$ret1, ticker_all$ret2, ticker_all$ret3))
+```
+
+## Yearly Portfolio Performance
+
+I also tabulated the yearly metrics of the portfolio to give a sense of the performance over years. 
+
+```{r}
+#####################################Study the annualized portfolio returns series#######################
+#Use the rebal-indicator. Loop through the chunks
+# https://www.quantmod.com/documentation/periodReturn.html
+# https://rpubs.com/mohammadshadan/288218
+# yearly_ret = periodReturn(ticker_all$portfolio_val
+#              ,period='yearly',subset='2004::')  # returns years 2003 to present
+
+yearly_ret = periodReturn(ticker_all$portfolio_val
+                          ,period='yearly')  # returns years 2003 to present
+
+#Inefficient way to calulate standard deviation. If it've time, I will probably optimize this
+split_val = split(ticker_all$portfolio_ret, f = "years")
+yearly_ret$annual_sd = sapply(X = split_val, FUN = StdDev) * sqrt(252)
+
+
+getSymbols('DGS3MO',src = 'FRED')
+rf = DGS3MO; rm(DGS3MO)
+rf = rf["2004/2018"] 
+
+split_val_rf = split(rf$DGS3MO, f = "years")
+yearly_ret$annual_rf = sapply(X = split_val_rf, FUN = mean, na.rm = T)/100 
+
+yearly_ret$Sharpe = (yearly_ret$yearly.returns - yearly_ret$annual_rf)/yearly_ret$annual_sd  
+
+yearly_ret
+
+plot(yearly_ret$yearly.returns)
+plot(yearly_ret$Sharpe)
+```
+
+
+
+
