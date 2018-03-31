@@ -1,5 +1,5 @@
 ---
-title: "Modified Permanent Portfolio"
+title: "Modified Permanent Portfolio Asset Allocation"
 author: "Jirong"
 date: 2018-03-31T21:13:14-05:00
 categories: ["investment"]
