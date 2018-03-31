@@ -112,10 +112,10 @@ cbind(Me=Performance(myReturns),stock = Performance(bmkReturns))&lt;/code&gt;&lt
     
     <item>
       <title>Permanent Portfolio</title>
-      <link>/post/elapse_strat_v2/</link>
+      <link>/post/perm_port/</link>
       <pubDate>Wed, 28 Mar 2018 21:13:14 -0500</pubDate>
       
-      <guid>/post/elapse_strat_v2/</guid>
+      <guid>/post/perm_port/</guid>
       <description>&lt;div id=&#34;an-all-weather-portfolio&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;An all weather portfolio&lt;/h2&gt;
 &lt;p&gt;Based on the literature, permanent portfolio is an investment strategy that is able to yield moderate returns and relatively low volatility. Investor is recommended to invest 25% in equal proportion in GLD, Index, Bond and Cash and rebalance it to this proportion annually.&lt;/p&gt;
@@ -323,7 +323,7 @@ table.Drawdowns(ticker_all$portfolio_ret, top=10)&lt;/code&gt;&lt;/pre&gt;
 ## Annualized Std Dev               0.0899 0.1893 0.1885 0.0482
 ## Annualized Sharpe (Rf=0%)        0.5464 0.3274 0.2294 0.7535&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;charts.PerformanceSummary(merge(ticker_all$portfolio_ret, ticker_all$ret1, ticker_all$ret2, ticker_all$ret3))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/elapse_strat_v2_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/perm_port_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;yearly-portfolio-performance&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Yearly Portfolio Performance&lt;/h2&gt;
@@ -371,9 +371,9 @@ yearly_ret&lt;/code&gt;&lt;/pre&gt;
 ## 2017-12-29    0.115604533 0.04028321 0.0094896000  2.6342224
 ## 2018-03-29   -0.010810745 0.08058259 0.0158213115 -0.3304939&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(yearly_ret$yearly.returns)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/elapse_strat_v2_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/perm_port_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(yearly_ret$Sharpe)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/elapse_strat_v2_files/figure-html/unnamed-chunk-4-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/perm_port_files/figure-html/unnamed-chunk-4-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
