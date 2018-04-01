@@ -1,7 +1,7 @@
 ---
 title: "Permanent Portfolio"
 author: "Jirong"
-date: 2018-03-28T21:13:14-05:00
+date: 2018-03-31
 categories: ["trading"]
 tags: ["momentum", "finance"]
 ---
@@ -13,33 +13,31 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## An all weather portfolio
 
-Based on the literature, permanent portfolio is an investment strategy that is able to yield moderate returns and relatively low volatility. Investor is recommended to invest 25% in equal proportion in GLD, Index, Bond and Cash and rebalance it to this proportion annually. 
+Based on the literature, permanent portfolio is an investment strategy that is able to yield moderate returns and relatively low volatility. Investor is recommended to invest equally (25%) into GLD, Index, Bond and Cash and rebalance it back to this proportion on regular intervals. 
 
-This approach is something that I've always been keen to adopt for a portion of my portfolio. 
+This approach is something that I'm keen to adopt for a portion of my portfolio. 
 
-To investigate, I simulated a portfolio starting at $100 on Nov 2004. I modified the asset allocation proportion slightly by first eliminating the cash and distributed the % amongst the following tickers,
+To investigate the feasibility, I simulated a portfolio starting at $300 on Nov 2004. I modified the asset allocation proportion slightly by first eliminating the cash and distributed the % amongst the following tickers,
 
 - AGG: US Bonds
 - GLD: Gold
 - GSPC: SnP 500 
 
-The portfolio is rebalanced yearly back to the same targeted proportion.
-
 Note: 
 
 - I admit that the code that I wrote here is very procedural. If I've time, I'll try to 'functionalize' the codes so that I could use it for other portfolio simulation purposes.
-- The looping in the R vectorized setting is known to be super slow! If I really have time to spare, I'll convert some of the loops to Rcpp (C++). But I highly doubt so since the data is not that huge at the moement (unless I venture into tick data. Oh well, who knows).   
+- The looping in the R vectorized setting is known to be super slow! If I really have time to spare, I'll convert some of the loops to Rcpp (C++). But I highly doubt so since the data is not that huge at the moment (unless I venture into tick data. Oh well, who knows).   
 
 ## Key points
 
 On the annualized returns, it's not really fantastic. But it still returns a respectable annualized performance of 5%; 1% lower than Gold and 0.5% higher than SnP 500 over the same period.
 
-What stands out are the following performance metrics:
+What stands out, however, are the following performance metrics:
 
-- In terms of draw-down, it performed remarkably well relative to a pure SnP500 poortfolio. It suffered a loss of 25% as compared to a loss of 60% duirng the financial crisis.
-- On the Sharpe Ratio (annualized returns in excess of risk-free rate), it's considerably higher than GOLD and Snp500. Though it's slightly lower than AGG.
+- In terms of draw-down, it performed remarkably well relative to a pure SnP500 portfolio. It suffered a loss of only 25% as compared to a catastrophic loss of 60% duirng the financial crisis.
+- On the Sharpe Ratio (annualized returns in excess of risk-free rate per unit of volatility), it's considerably higher than GOLD and Snp500. Though it's slightly lower than AGG.
 
-Feel free to adapt or adopt the code. You can easily substitue the stocks based on your preferred asset allocation.
+Feel free to adapt or adopt the code. You can easily substitute the stocks based on your preferred asset allocation.
 
 ## Setting up the analysis.
 
@@ -87,7 +85,7 @@ names(ticker_all) = c("stock1","stock2","stock3")
 
 ## Running the simulation
 
-Next, I run the simulation - By intialising 33% asset allocation in each of the asset and rebalance at end of each year. Daily portfolio returns are then obtained throught the ROC function.  
+Next, I run the simulation - By intialising 33% asset allocation in each of the asset and rebalance at the end of each year. Daily portfolio returns are then obtained throught the ROC function.  
 
 ```{r}
 #Assign equal weights to each stream of returns
