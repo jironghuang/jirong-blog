@@ -1,0 +1,2726 @@
+---
+title: "Macroeconomic Analysis - Country's Market Capitalization to GDP ratio"
+author: "Jirong"
+date: 2018-04-01
+categories: ["investment"]
+tags: ["economics", "macroeonomics"]
+---
+
+
+
+<div id="analysis-of-market-cap-to-gdp" class="section level2">
+<h2>Analysis of Market Cap to GDP</h2>
+<p>Warren Buffett, the world’s greatest investor once remarked that Country’s Total Market Capitalization to GDP ratio is a good indicator to measure the ‘stock sentiments of the ’temperature’ of the market. My wild guess is - he draws his inspiration from P/E ratio where price correspondes to the Total Market Cap and GDP to Earnings.</p>
+</div>
+<div id="key-points" class="section level2">
+<h2>Key points</h2>
+<ul>
+<li>By historical standards, the Market Cap to GDP ratios are currently way higher than average, 5-year average and 10-year averages</li>
+<li>This may spell some bad news in the near term. What goes up would eventually come down. Caveat: I noticed that there’s an uptrend the ratio over the time. Perhaps I could adjust for that using a time-trend in the future.<br />
+</li>
+<li>Of the countries that are ‘heated’, Belgium, France, Saudi Arabia, Thailand and Vietnam are at all-time high. Shorting could be an option but please conduct additional analysis before deciding on a position.</li>
+<li>P/E ratios of these ETFs could be used to supplement this analysis. Unfortunately I don’t have a set of readily ‘analyzable’ data.</li>
+<li>Alternatively, we could rely on the % from 52 week high as an indicator (wrote an article on this in my Linkedin articles section (<a href="https://www.linkedin.com/pulse/investment-compass-our-volatile-times-jirong-huang/" class="uri">https://www.linkedin.com/pulse/investment-compass-our-volatile-times-jirong-huang/</a>); also developed an ugly Shiny real-time dashboard but I’ll only share it when I’m pleased with my GUI design).</li>
+</ul>
+</div>
+<div id="future-developments" class="section level2">
+<h2>Future developments</h2>
+<p>I’ve plans to convert this to an interactive real-time dashboard hosted in the cloud. But this really depends on my spare capacity.</p>
+</div>
+<div id="setting-up-analysis-and-loading-in-necessary-libraries" class="section level2">
+<h2>Setting up analysis and loading in necessary libraries</h2>
+<pre class="r"><code>#Macro analysis on Mkt cap to GDP
+#Do trailing 5 year averages
+#Maybe better t
+#Rebase to 2016 using GFP growth figures for key countries 
+
+library(&quot;WDI&quot;)</code></pre>
+<pre><code>## Loading required package: RJSONIO</code></pre>
+<pre class="r"><code>library(&quot;reshape2&quot;)
+library(&quot;rvest&quot;)</code></pre>
+<pre><code>## Loading required package: xml2</code></pre>
+<pre class="r"><code>library(&quot;ggplot2&quot;)
+
+rm(list = ls())
+# hk_ind = (3193235.54 * 1000000)/(320.9 * 1000000000)
+
+setwd(&quot;/home/jirong/Dropbox/macro analysis&quot;)</code></pre>
+</div>
+<div id="extracting-gdp-and-countrys-total-market-capitalization-via-its-api-before-2017" class="section level2">
+<h2>Extracting GDP and Country’s Total Market Capitalization via its API (Before 2017)</h2>
+<p>I first extract the Countries’ Market Cap and GDP data form World Bank’s API. But the current dataset is only updated till 2016 in its database.</p>
+<pre class="r"><code>##################################Trying out world bank API########################
+#Market cap data
+mkt_cap = WDI(country = &quot;all&quot;, indicator = &quot;CM.MKT.LCAP.CD&quot;,
+    start = 1900, end = 2018, extra = FALSE, cache = NULL)
+
+
+
+names(mkt_cap)[which(names(mkt_cap) == &quot;CM.MKT.LCAP.CD&quot;)] = &quot;value&quot; 
+
+#Cast the dataframes
+mkt_cap_wide = dcast(mkt_cap,country ~ year,na.rm = T)
+
+
+#GDP data--&gt;NY.GDP.MKTP.CD
+gdp = WDI(country = &quot;all&quot;, indicator = &quot;NY.GDP.MKTP.CD&quot;,
+              start = 1900, end = 2018, extra = FALSE, cache = NULL)
+
+names(gdp)[which(names(gdp) == &quot;NY.GDP.MKTP.CD&quot;)] = &quot;value&quot; 
+
+#Cast the dataframes
+gdp_wide = dcast(gdp,country ~ year,na.rm = T)
+
+#For a start--&gt;Scrape the data from wikipedia--&gt;Port it to a google sheet--&gt;To &#39;project&#39; the 2017 GDP growth rates
+#https://en.wikipedia.org/wiki/List_of_countries_by_real_GDP_growth_rate</code></pre>
+</div>
+<div id="extracting-2017-gdp-growth-rate-from-wikipedia-page" class="section level2">
+<h2>Extracting 2017 GDP Growth Rate from Wikipedia Page</h2>
+<p>Since WB’s APi lack 2017 data, I had to crawl the 2017 GDP growth rate from Wikipedia to extapolate the 2017 Growth Rate.</p>
+<p>There may some issues on using real and nominal GDP growth rates but I’ll choose to ignore that for now.</p>
+<p>For simplicity, I assume 2018’s GDP to be same as 2017. I could have used the projected 2018 GDP from World Bank or IMF but those data are not readily available (for crawling or through API). Or maybe I’m too plain lazy!</p>
+<pre class="r"><code>url &lt;- &quot;https://en.wikipedia.org/wiki/List_of_countries_by_real_GDP_growth_rate#cite_note-1&quot;
+
+webpage = read_html(url)
+tbls &lt;- html_nodes(webpage, &quot;table&quot;)
+tbls_ls &lt;- webpage %&gt;%
+  html_nodes(&quot;table&quot;) %&gt;%
+  .[1:4] %&gt;%
+  html_table(fill = TRUE)
+
+gdp_growth = tbls_ls[[1]]  #GDP real growth rates
+names(gdp_growth) = c(&quot;rank&quot;,&quot;country&quot;,&quot;gdp_rate&quot;)
+
+#Remove all []
+for(i in 2:ncol(gdp_growth)){
+  gdp_growth[,i] = gsub(&quot;\\[.*\\]&quot;,&quot;&quot;,gdp_growth[,i])
+}
+gdp_growth$gdp_rate = as.numeric(gdp_growth$gdp_rate)
+
+#Merge in to the data frame
+gdp_wide = merge(gdp_wide,gdp_growth, by = &quot;country&quot;, all.x = T)
+gdp_wide = gdp_wide[!duplicated(gdp_wide$country),]
+
+gdp_wide$`2017` = gdp_wide$`2016` * (1+ gdp_wide$gdp_rate/100)
+
+#removing unnecssary names
+gdp_wide = gdp_wide[,-which(names(gdp_wide) == &quot;rank&quot;)]
+gdp_wide = gdp_wide[,-which(names(gdp_wide) == &quot;gdp_rate&quot;)]
+
+#Assume 2018 GDP to be same as 2017
+gdp_wide$`2018` = gdp_wide$`2017`</code></pre>
+</div>
+<div id="extracting-2017-2018-stock-prices" class="section level2">
+<h2>Extracting 2017-2018 Stock Prices</h2>
+<p>To obtain the 2017 and latest Countries’ Market Captialization, I developed an ingenious way!</p>
+<p>I first mapped each country to an ETF in New York Stock Exchange at the end of this section.</p>
+<p>Next, I accessed Google Finance API via a script “match_WB_US_ticker.R”. This is a fairly complicated script that I choose not to show here - pls PM me if you wish to have it.</p>
+<p>Then I compute the ETF’s returns from Jan 2017 (to end 2017 and current price) and mapped the growth rates on end 2016 WB market capitalization data. This allows me to impute the country’s market capitalization in 2017 and the updated (1 April 2018) Country’s Market Capitalization.</p>
+<ul>
+<li>wb_ticker$ticker = NA</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Arab World”)] = “MES”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Argentina”)] = “ARGT”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Australia”)] = “EWA”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Austria”)] = “EWO”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Belgium”)] = “EWK”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Brazil”)] = “EWZ”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Canada”)] = “EWC”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Chile”)] = “ECH”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “China”)] = “MCHI”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Colombia”)] = “ICOL”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Denmark”)] = “EDEN” #Something wrong with this</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Euro area”)] = “IEV”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “European Union”)] = “EZU”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “France”)] = “EWQ”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Germany”)] = “EWG”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Greece”)] = “GREK”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Hong Kong SAR, China”)] = “EWH”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “India”)] = “INDA”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Indonesia”)] = “EIDO”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Ireland”)] = “EIRL”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Israel”)] = “EIS”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Italy”)] = “EWI”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Japan”)] = “EWJ”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Ireland”)] = “EIRL”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Korea, Rep.”)] = “EWY”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Malaysia”)] = “EWM”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Ireland”)] = “EIRL”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Meixco”)] = “EWW”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Netherlands”)] = “EWN”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “New Zealand”)] = “ENZL”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Nigeria”)] = “NGE”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Netherlands”)] = “EWN”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Netherlands”)] = “EWN”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Norway”)] = “ENOR”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Peru”)] = “EPU”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Philippines”)] = “EPHE”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Poland”)] = “EPOL”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Portugal”)] = “PGAL”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Qatar”)] = “QAT”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Portugal”)] = “PGAL”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Russian Federation”)] = “ERUS”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Saudi Arabia”)] = “KSA”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Singapore”)] = “EWS”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “South Africa”)] = “EZA”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Spain”)] = “EWP”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Sweden”)] = “EWD”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Switzerland”)] = “EWL”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Thailand”)] = “THD”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Turkey”)] = “TUR”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “United Kingdom”)] = “EWU”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “United States”)] = “VTI”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “Vietnam”)] = “VNM”</li>
+<li>wb_ticker<span class="math inline">\(ticker[which(wb_ticker\)</span>country == “World”)] = “VT”</li>
+</ul>
+<pre class="r"><code>#For each country, assign a ticker symbol from NYSE
+#Store the end 2016 price and the most updated price now. Then pluck the growth rate on the market cap 
+source(&quot;match_WB_US_ticker.R&quot;)</code></pre>
+<pre><code>## Loading required package: xts</code></pre>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre><code>## Loading required package: TTR</code></pre>
+<pre><code>## Version 0.4-0 included new data defaults. See ?getSymbols.</code></pre>
+<pre><code>## &#39;getSymbols&#39; currently uses auto.assign=TRUE by default, but will
+## use auto.assign=FALSE in 0.5-0. You will still be able to use
+## &#39;loadSymbols&#39; to automatically load data. getOption(&quot;getSymbols.env&quot;)
+## and getOption(&quot;getSymbols.auto.assign&quot;) will still be checked for
+## alternate defaults.
+## 
+## This message is shown once per session and may be disabled by setting 
+## options(&quot;getSymbols.warning4.0&quot;=FALSE). See ?getSymbols for details.</code></pre>
+<pre><code>## 
+## WARNING: There have been significant changes to Yahoo Finance data.
+## Please see the Warning section of &#39;?getSymbols.yahoo&#39; for details.
+## 
+## This message is shown once per session and may be disabled by setting
+## options(&quot;getSymbols.yahoo.warning&quot;=FALSE).</code></pre>
+<pre><code>## Warning: MES download failed; trying again.
+
+## Warning: MES download failed; trying again.</code></pre>
+<pre class="r"><code>mkt_cap_wide = merge(mkt_cap_wide,wb_ticker, by = &quot;country&quot;, all.x = T)
+mkt_cap_wide$`2017` = mkt_cap_wide$`2016` * (1+mkt_cap_wide$returns_17)
+mkt_cap_wide$`2018` = mkt_cap_wide$`2016` * (1+mkt_cap_wide$returns)
+
+mkt_cap_wide = mkt_cap_wide[,-which(names(mkt_cap_wide) == &quot;returns&quot;)]
+mkt_cap_wide = mkt_cap_wide[,-which(names(mkt_cap_wide) == &quot;returns_17&quot;)]</code></pre>
+</div>
+<div id="calculating-market-cap-to-gdp-ratio" class="section level2">
+<h2>Calculating Market Cap to GDP Ratio</h2>
+<p>Here, I simply divide the countries’ total market capitalization over their GDPs</p>
+<pre class="r"><code>#Plot the market cap to growth rates 
+#Check if names are the same
+nrow(gdp_wide) == sum(mkt_cap_wide$country == gdp_wide$country)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>mkt_cap_gdp = mkt_cap_wide
+mkt_cap_gdp[,2:ncol(mkt_cap_gdp)] = mkt_cap_wide[,2:ncol(mkt_cap_wide)] / gdp_wide[,2:ncol(gdp_wide)]
+
+mkt_cap_gdp = subset(mkt_cap_gdp,!is.na(mkt_cap_gdp$`2018`))</code></pre>
+</div>
+<div id="finding-current-level-relative-to-averages-and-all-time-high" class="section level2">
+<h2>Finding current level relative to averages and all-time high</h2>
+<p>To understand if the current level is high, I derive the historical average, 5-year average and 10-year averages.</p>
+<pre class="r"><code>#Use apply function to find the average, 5 year average, 10 year average, 20 year average
+#Find historical average
+avg = apply(mkt_cap_gdp[,c(-1,-which(names(mkt_cap_gdp) == &quot;2018&quot;))],1,mean,na.rm = T)
+
+#Find 5-year average
+avg_5 = apply(mkt_cap_gdp[,-c(1,which(names(mkt_cap_gdp) == &quot;2018&quot;),
+                              which(names(mkt_cap_gdp) == &quot;1960&quot;):
+                              which(names(mkt_cap_gdp) == &quot;2012&quot;))],
+                              1,mean,na.rm = T)
+
+#Find 10-year average
+avg_10 = apply(mkt_cap_gdp[,-c(1,which(names(mkt_cap_gdp) == &quot;2018&quot;),
+                               which(names(mkt_cap_gdp) == &quot;1960&quot;):
+                               which(names(mkt_cap_gdp) == &quot;2007&quot;))],1,mean,na.rm = T)
+
+#Find max
+max_ratio = apply(mkt_cap_gdp[,c(-1,-which(names(mkt_cap_gdp) == &quot;2018&quot;))],1,max,na.rm = T)
+
+#Find min
+min_ratio = apply(mkt_cap_gdp[,c(-1,-which(names(mkt_cap_gdp) == &quot;2018&quot;))],1,min,na.rm = T)
+
+#Form a new data frame
+avg_ratios = data.frame(country = mkt_cap_gdp$country, avg = avg, avg_5 = avg_5, avg_10 = avg_10)
+
+
+#See if undervalued or overvalued
+mkt_cap_gdp$more_avg = ifelse(mkt_cap_gdp$`2018` &gt; avg_ratios$avg,1,0)
+mkt_cap_gdp$more_avg_5 = ifelse(mkt_cap_gdp$`2018` &gt; avg_ratios$avg_5,1,0)
+mkt_cap_gdp$more_avg_10 = ifelse(mkt_cap_gdp$`2018` &gt; avg_ratios$avg_10,1,0)
+
+mkt_cap_gdp$less_avg = ifelse(mkt_cap_gdp$`2018` &lt; avg_ratios$avg,1,0)
+mkt_cap_gdp$less_avg_5 = ifelse(mkt_cap_gdp$`2018` &lt; avg_ratios$avg_5,1,0)
+mkt_cap_gdp$less_avg_10 = ifelse(mkt_cap_gdp$`2018` &lt; avg_ratios$avg_10,1,0)
+
+#See if it&#39;s at all time high
+mkt_cap_gdp$all_time_high = ifelse(mkt_cap_gdp$`2018` &gt; max_ratio,1,0)
+
+#See if it&#39;s at all time low
+mkt_cap_gdp$all_time_low = ifelse(mkt_cap_gdp$`2018` &lt; min_ratio,1,0)</code></pre>
+</div>
+<div id="displaying-the-tabular-data" class="section level2">
+<h2>Displaying the tabular data</h2>
+<pre class="r"><code>library(knitr)
+
+###################################Subset data frame to flash it out as table############################
+#Subset country and indicators
+dat = subset(mkt_cap_gdp,select = c(&quot;country&quot;,&quot;2018&quot;,&quot;all_time_high&quot;,&quot;all_time_low&quot; ,&quot;more_avg&quot;,     
+                                    &quot;more_avg_5&quot;,&quot;more_avg_10&quot;,&quot;less_avg&quot;,&quot;less_avg_5&quot;,&quot;less_avg_10&quot;))
+
+
+dat$avg = avg
+dat$avg_5 = avg_5
+dat$avg_10 = avg_10
+dat$max_ratio = max_ratio 
+dat$min_ratio = min_ratio
+
+dat = subset(dat,select = c( &quot;country&quot;,&quot;2018&quot;,&quot;avg&quot;,&quot;avg_5&quot;, &quot;avg_10&quot;, &quot;max_ratio&quot;, &quot;min_ratio&quot;, 
+                             &quot;all_time_high&quot;, &quot;all_time_low&quot;, &quot;more_avg&quot;,&quot;more_avg_5&quot;,&quot;more_avg_10&quot;,&quot;less_avg&quot;,&quot;less_avg_5&quot;,   
+                             &quot;less_avg_10&quot;   ))
+
+kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-7">Table 1: </span>Summarized data</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">country</th>
+<th align="right">2018</th>
+<th align="right">avg</th>
+<th align="right">avg_5</th>
+<th align="right">avg_10</th>
+<th align="right">max_ratio</th>
+<th align="right">min_ratio</th>
+<th align="right">all_time_high</th>
+<th align="right">all_time_low</th>
+<th align="right">more_avg</th>
+<th align="right">more_avg_5</th>
+<th align="right">more_avg_10</th>
+<th align="right">less_avg</th>
+<th align="right">less_avg_5</th>
+<th align="right">less_avg_10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>9</td>
+<td align="left">Argentina</td>
+<td align="right">0.1714592</td>
+<td align="right">0.1096417</td>
+<td align="right">0.1185503</td>
+<td align="right">0.1136155</td>
+<td align="right">0.2742805</td>
+<td align="right">0.0115399</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td align="left">Australia</td>
+<td align="right">1.1018001</td>
+<td align="right">0.7849408</td>
+<td align="right">0.9698462</td>
+<td align="right">0.9894222</td>
+<td align="right">1.5206944</td>
+<td align="right">0.2141006</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td align="left">Austria</td>
+<td align="right">0.4573739</td>
+<td align="right">0.1747203</td>
+<td align="right">0.2996147</td>
+<td align="right">0.2738809</td>
+<td align="right">0.6083190</td>
+<td align="right">0.0119132</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td align="left">Belgium</td>
+<td align="right">0.9672180</td>
+<td align="right">0.4576344</td>
+<td align="right">0.8203120</td>
+<td align="right">0.6552541</td>
+<td align="right">0.9667037</td>
+<td align="right">0.0786858</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>28</td>
+<td align="left">Brazil</td>
+<td align="right">0.5459326</td>
+<td align="right">0.4864667</td>
+<td align="right">0.3885210</td>
+<td align="right">0.4761217</td>
+<td align="right">0.9804070</td>
+<td align="right">0.2495489</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>37</td>
+<td align="left">Canada</td>
+<td align="right">1.3253550</td>
+<td align="right">1.0294271</td>
+<td align="right">1.2141208</td>
+<td align="right">1.1505540</td>
+<td align="right">2.1421613</td>
+<td align="right">0.2730157</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>44</td>
+<td align="left">Chile</td>
+<td align="right">1.2079987</td>
+<td align="right">0.9780697</td>
+<td align="right">0.9359206</td>
+<td align="right">1.0560277</td>
+<td align="right">1.5640281</td>
+<td align="right">0.6357907</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>45</td>
+<td align="left">China</td>
+<td align="right">0.9435735</td>
+<td align="right">0.5541939</td>
+<td align="right">0.6586526</td>
+<td align="right">0.5922091</td>
+<td align="right">1.2608774</td>
+<td align="right">0.1757910</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>46</td>
+<td align="left">Colombia</td>
+<td align="right">0.4152542</td>
+<td align="right">0.4740204</td>
+<td align="right">0.3968742</td>
+<td align="right">0.4980473</td>
+<td align="right">0.7264409</td>
+<td align="right">0.2948531</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td>81</td>
+<td align="left">France</td>
+<td align="right">1.0967180</td>
+<td align="right">0.4627055</td>
+<td align="right">0.8749564</td>
+<td align="right">0.7540257</td>
+<td align="right">1.0904311</td>
+<td align="right">0.0505182</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>86</td>
+<td align="left">Germany</td>
+<td align="right">0.5845979</td>
+<td align="right">0.3124133</td>
+<td align="right">0.5134009</td>
+<td align="right">0.4394087</td>
+<td align="right">0.6514221</td>
+<td align="right">0.0757537</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>89</td>
+<td align="left">Greece</td>
+<td align="right">0.2286706</td>
+<td align="right">0.3887054</td>
+<td align="right">0.2454864</td>
+<td align="right">0.2349021</td>
+<td align="right">0.8319075</td>
+<td align="right">0.1173702</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>109</td>
+<td align="left">India</td>
+<td align="right">0.8181802</td>
+<td align="right">0.7686593</td>
+<td align="right">0.7322429</td>
+<td align="right">0.7422071</td>
+<td align="right">1.5145139</td>
+<td align="right">0.4654705</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>110</td>
+<td align="left">Indonesia</td>
+<td align="right">0.4816789</td>
+<td align="right">0.3316202</td>
+<td align="right">0.4457203</td>
+<td align="right">0.4165210</td>
+<td align="right">0.5079426</td>
+<td align="right">0.1264619</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>113</td>
+<td align="left">Ireland</td>
+<td align="right">0.4707651</td>
+<td align="right">0.5310842</td>
+<td align="right">0.5167314</td>
+<td align="right">0.4231623</td>
+<td align="right">0.8200256</td>
+<td align="right">0.1799502</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>115</td>
+<td align="left">Israel</td>
+<td align="right">0.6852565</td>
+<td align="right">0.4967924</td>
+<td align="right">0.7087535</td>
+<td align="right">0.7155942</td>
+<td align="right">1.3153192</td>
+<td align="right">0.1082331</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>118</td>
+<td align="left">Japan</td>
+<td align="right">1.2171904</td>
+<td align="right">0.6833536</td>
+<td align="right">1.0212187</td>
+<td align="right">0.8128934</td>
+<td align="right">1.3957870</td>
+<td align="right">0.0299994</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>149</td>
+<td align="left">Malaysia</td>
+<td align="right">1.3760923</td>
+<td align="right">1.3314568</td>
+<td align="right">1.3332500</td>
+<td align="right">1.3330347</td>
+<td align="right">3.2099345</td>
+<td align="right">0.5177362</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>172</td>
+<td align="left">Netherlands</td>
+<td align="right">1.4113213</td>
+<td align="right">0.6765263</td>
+<td align="right">1.0597736</td>
+<td align="right">0.8606709</td>
+<td align="right">1.5703487</td>
+<td align="right">0.1348295</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>174</td>
+<td align="left">New Zealand</td>
+<td align="right">0.5118832</td>
+<td align="right">0.3930220</td>
+<td align="right">0.4142401</td>
+<td align="right">0.3556930</td>
+<td align="right">0.7258725</td>
+<td align="right">0.1816452</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>177</td>
+<td align="left">Nigeria</td>
+<td align="right">0.4144800</td>
+<td align="right">0.2020160</td>
+<td align="right">0.1647290</td>
+<td align="right">0.1598451</td>
+<td align="right">0.5100267</td>
+<td align="right">0.0401567</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>180</td>
+<td align="left">Norway</td>
+<td align="right">0.7590142</td>
+<td align="right">0.3889078</td>
+<td align="right">0.5586501</td>
+<td align="right">0.5303237</td>
+<td align="right">0.9334204</td>
+<td align="right">0.0382400</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>191</td>
+<td align="left">Peru</td>
+<td align="right">0.5283250</td>
+<td align="right">0.3748111</td>
+<td align="right">0.4047909</td>
+<td align="right">0.4641154</td>
+<td align="right">0.7005235</td>
+<td align="right">0.1778061</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>192</td>
+<td align="left">Philippines</td>
+<td align="right">0.7951673</td>
+<td align="right">0.5843383</td>
+<td align="right">0.8409973</td>
+<td align="right">0.7458218</td>
+<td align="right">0.9734513</td>
+<td align="right">0.2274825</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>193</td>
+<td align="left">Poland</td>
+<td align="right">0.3877869</td>
+<td align="right">0.2530704</td>
+<td align="right">0.3402953</td>
+<td align="right">0.3228428</td>
+<td align="right">0.4930003</td>
+<td align="right">0.0321113</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>194</td>
+<td align="left">Portugal</td>
+<td align="right">0.3560969</td>
+<td align="right">0.3711296</td>
+<td align="right">0.3052927</td>
+<td align="right">0.3091215</td>
+<td align="right">0.5506054</td>
+<td align="right">0.2515971</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>198</td>
+<td align="left">Qatar</td>
+<td align="right">0.8496087</td>
+<td align="right">0.8916907</td>
+<td align="right">0.8759542</td>
+<td align="right">0.8406159</td>
+<td align="right">1.1981400</td>
+<td align="right">0.6639241</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>205</td>
+<td align="left">Saudi Arabia</td>
+<td align="right">0.8024435</td>
+<td align="right">0.6384813</td>
+<td align="right">0.6644581</td>
+<td align="right">0.6384813</td>
+<td align="right">0.7427995</td>
+<td align="right">0.5048476</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>210</td>
+<td align="left">Singapore</td>
+<td align="right">2.7866995</td>
+<td align="right">1.6826933</td>
+<td align="right">2.3851348</td>
+<td align="right">2.3359542</td>
+<td align="right">2.9957371</td>
+<td align="right">0.5783827</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>217</td>
+<td align="left">South Africa</td>
+<td align="right">4.1558066</td>
+<td align="right">1.6135703</td>
+<td align="right">3.0001952</td>
+<td align="right">2.6018387</td>
+<td align="right">4.2338415</td>
+<td align="right">0.5382403</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>221</td>
+<td align="left">Spain</td>
+<td align="right">0.6689242</td>
+<td align="right">0.4772077</td>
+<td align="right">0.6883850</td>
+<td align="right">0.7234932</td>
+<td align="right">1.2166453</td>
+<td align="right">0.0571364</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td>234</td>
+<td align="left">Switzerland</td>
+<td align="right">2.4144076</td>
+<td align="right">1.5197636</td>
+<td align="right">2.2360912</td>
+<td align="right">2.0244203</td>
+<td align="right">2.9123320</td>
+<td align="right">0.3468363</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>238</td>
+<td align="left">Thailand</td>
+<td align="right">1.4134030</td>
+<td align="right">0.6409642</td>
+<td align="right">1.0300358</td>
+<td align="right">0.8650881</td>
+<td align="right">1.3113318</td>
+<td align="right">0.1523916</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>244</td>
+<td align="left">Turkey</td>
+<td align="right">0.2530878</td>
+<td align="right">0.2522192</td>
+<td align="right">0.2237978</td>
+<td align="right">0.2621403</td>
+<td align="right">0.4404953</td>
+<td align="right">0.1220066</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>252</td>
+<td align="left">United States</td>
+<td align="right">1.6787106</td>
+<td align="right">0.9202279</td>
+<td align="right">1.5006823</td>
+<td align="right">1.2654987</td>
+<td align="right">1.6976350</td>
+<td align="right">0.3657692</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>258</td>
+<td align="left">Vietnam</td>
+<td align="right">0.4430073</td>
+<td align="right">0.2451936</td>
+<td align="right">0.2956463</td>
+<td align="right">0.2451936</td>
+<td align="right">0.4049576</td>
+<td align="right">0.0956392</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(subset(dat,more_avg == 1), caption = &quot;Countries with ratio more than average&quot;)</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-7">Table 1: </span>Countries with ratio more than average</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">country</th>
+<th align="right">2018</th>
+<th align="right">avg</th>
+<th align="right">avg_5</th>
+<th align="right">avg_10</th>
+<th align="right">max_ratio</th>
+<th align="right">min_ratio</th>
+<th align="right">all_time_high</th>
+<th align="right">all_time_low</th>
+<th align="right">more_avg</th>
+<th align="right">more_avg_5</th>
+<th align="right">more_avg_10</th>
+<th align="right">less_avg</th>
+<th align="right">less_avg_5</th>
+<th align="right">less_avg_10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>9</td>
+<td align="left">Argentina</td>
+<td align="right">0.1714592</td>
+<td align="right">0.1096417</td>
+<td align="right">0.1185503</td>
+<td align="right">0.1136155</td>
+<td align="right">0.2742805</td>
+<td align="right">0.0115399</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td align="left">Australia</td>
+<td align="right">1.1018001</td>
+<td align="right">0.7849408</td>
+<td align="right">0.9698462</td>
+<td align="right">0.9894222</td>
+<td align="right">1.5206944</td>
+<td align="right">0.2141006</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td align="left">Austria</td>
+<td align="right">0.4573739</td>
+<td align="right">0.1747203</td>
+<td align="right">0.2996147</td>
+<td align="right">0.2738809</td>
+<td align="right">0.6083190</td>
+<td align="right">0.0119132</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td align="left">Belgium</td>
+<td align="right">0.9672180</td>
+<td align="right">0.4576344</td>
+<td align="right">0.8203120</td>
+<td align="right">0.6552541</td>
+<td align="right">0.9667037</td>
+<td align="right">0.0786858</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>28</td>
+<td align="left">Brazil</td>
+<td align="right">0.5459326</td>
+<td align="right">0.4864667</td>
+<td align="right">0.3885210</td>
+<td align="right">0.4761217</td>
+<td align="right">0.9804070</td>
+<td align="right">0.2495489</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>37</td>
+<td align="left">Canada</td>
+<td align="right">1.3253550</td>
+<td align="right">1.0294271</td>
+<td align="right">1.2141208</td>
+<td align="right">1.1505540</td>
+<td align="right">2.1421613</td>
+<td align="right">0.2730157</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>44</td>
+<td align="left">Chile</td>
+<td align="right">1.2079987</td>
+<td align="right">0.9780697</td>
+<td align="right">0.9359206</td>
+<td align="right">1.0560277</td>
+<td align="right">1.5640281</td>
+<td align="right">0.6357907</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>45</td>
+<td align="left">China</td>
+<td align="right">0.9435735</td>
+<td align="right">0.5541939</td>
+<td align="right">0.6586526</td>
+<td align="right">0.5922091</td>
+<td align="right">1.2608774</td>
+<td align="right">0.1757910</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>81</td>
+<td align="left">France</td>
+<td align="right">1.0967180</td>
+<td align="right">0.4627055</td>
+<td align="right">0.8749564</td>
+<td align="right">0.7540257</td>
+<td align="right">1.0904311</td>
+<td align="right">0.0505182</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>86</td>
+<td align="left">Germany</td>
+<td align="right">0.5845979</td>
+<td align="right">0.3124133</td>
+<td align="right">0.5134009</td>
+<td align="right">0.4394087</td>
+<td align="right">0.6514221</td>
+<td align="right">0.0757537</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>109</td>
+<td align="left">India</td>
+<td align="right">0.8181802</td>
+<td align="right">0.7686593</td>
+<td align="right">0.7322429</td>
+<td align="right">0.7422071</td>
+<td align="right">1.5145139</td>
+<td align="right">0.4654705</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>110</td>
+<td align="left">Indonesia</td>
+<td align="right">0.4816789</td>
+<td align="right">0.3316202</td>
+<td align="right">0.4457203</td>
+<td align="right">0.4165210</td>
+<td align="right">0.5079426</td>
+<td align="right">0.1264619</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>115</td>
+<td align="left">Israel</td>
+<td align="right">0.6852565</td>
+<td align="right">0.4967924</td>
+<td align="right">0.7087535</td>
+<td align="right">0.7155942</td>
+<td align="right">1.3153192</td>
+<td align="right">0.1082331</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td>118</td>
+<td align="left">Japan</td>
+<td align="right">1.2171904</td>
+<td align="right">0.6833536</td>
+<td align="right">1.0212187</td>
+<td align="right">0.8128934</td>
+<td align="right">1.3957870</td>
+<td align="right">0.0299994</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>149</td>
+<td align="left">Malaysia</td>
+<td align="right">1.3760923</td>
+<td align="right">1.3314568</td>
+<td align="right">1.3332500</td>
+<td align="right">1.3330347</td>
+<td align="right">3.2099345</td>
+<td align="right">0.5177362</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>172</td>
+<td align="left">Netherlands</td>
+<td align="right">1.4113213</td>
+<td align="right">0.6765263</td>
+<td align="right">1.0597736</td>
+<td align="right">0.8606709</td>
+<td align="right">1.5703487</td>
+<td align="right">0.1348295</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>174</td>
+<td align="left">New Zealand</td>
+<td align="right">0.5118832</td>
+<td align="right">0.3930220</td>
+<td align="right">0.4142401</td>
+<td align="right">0.3556930</td>
+<td align="right">0.7258725</td>
+<td align="right">0.1816452</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>177</td>
+<td align="left">Nigeria</td>
+<td align="right">0.4144800</td>
+<td align="right">0.2020160</td>
+<td align="right">0.1647290</td>
+<td align="right">0.1598451</td>
+<td align="right">0.5100267</td>
+<td align="right">0.0401567</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>180</td>
+<td align="left">Norway</td>
+<td align="right">0.7590142</td>
+<td align="right">0.3889078</td>
+<td align="right">0.5586501</td>
+<td align="right">0.5303237</td>
+<td align="right">0.9334204</td>
+<td align="right">0.0382400</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>191</td>
+<td align="left">Peru</td>
+<td align="right">0.5283250</td>
+<td align="right">0.3748111</td>
+<td align="right">0.4047909</td>
+<td align="right">0.4641154</td>
+<td align="right">0.7005235</td>
+<td align="right">0.1778061</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>192</td>
+<td align="left">Philippines</td>
+<td align="right">0.7951673</td>
+<td align="right">0.5843383</td>
+<td align="right">0.8409973</td>
+<td align="right">0.7458218</td>
+<td align="right">0.9734513</td>
+<td align="right">0.2274825</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>193</td>
+<td align="left">Poland</td>
+<td align="right">0.3877869</td>
+<td align="right">0.2530704</td>
+<td align="right">0.3402953</td>
+<td align="right">0.3228428</td>
+<td align="right">0.4930003</td>
+<td align="right">0.0321113</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>205</td>
+<td align="left">Saudi Arabia</td>
+<td align="right">0.8024435</td>
+<td align="right">0.6384813</td>
+<td align="right">0.6644581</td>
+<td align="right">0.6384813</td>
+<td align="right">0.7427995</td>
+<td align="right">0.5048476</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>210</td>
+<td align="left">Singapore</td>
+<td align="right">2.7866995</td>
+<td align="right">1.6826933</td>
+<td align="right">2.3851348</td>
+<td align="right">2.3359542</td>
+<td align="right">2.9957371</td>
+<td align="right">0.5783827</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>217</td>
+<td align="left">South Africa</td>
+<td align="right">4.1558066</td>
+<td align="right">1.6135703</td>
+<td align="right">3.0001952</td>
+<td align="right">2.6018387</td>
+<td align="right">4.2338415</td>
+<td align="right">0.5382403</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>221</td>
+<td align="left">Spain</td>
+<td align="right">0.6689242</td>
+<td align="right">0.4772077</td>
+<td align="right">0.6883850</td>
+<td align="right">0.7234932</td>
+<td align="right">1.2166453</td>
+<td align="right">0.0571364</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>234</td>
+<td align="left">Switzerland</td>
+<td align="right">2.4144076</td>
+<td align="right">1.5197636</td>
+<td align="right">2.2360912</td>
+<td align="right">2.0244203</td>
+<td align="right">2.9123320</td>
+<td align="right">0.3468363</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>238</td>
+<td align="left">Thailand</td>
+<td align="right">1.4134030</td>
+<td align="right">0.6409642</td>
+<td align="right">1.0300358</td>
+<td align="right">0.8650881</td>
+<td align="right">1.3113318</td>
+<td align="right">0.1523916</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>244</td>
+<td align="left">Turkey</td>
+<td align="right">0.2530878</td>
+<td align="right">0.2522192</td>
+<td align="right">0.2237978</td>
+<td align="right">0.2621403</td>
+<td align="right">0.4404953</td>
+<td align="right">0.1220066</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td>252</td>
+<td align="left">United States</td>
+<td align="right">1.6787106</td>
+<td align="right">0.9202279</td>
+<td align="right">1.5006823</td>
+<td align="right">1.2654987</td>
+<td align="right">1.6976350</td>
+<td align="right">0.3657692</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>258</td>
+<td align="left">Vietnam</td>
+<td align="right">0.4430073</td>
+<td align="right">0.2451936</td>
+<td align="right">0.2956463</td>
+<td align="right">0.2451936</td>
+<td align="right">0.4049576</td>
+<td align="right">0.0956392</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(subset(dat,more_avg_5 == 1), caption = &quot;Countries with ratio more than 5-year average&quot;)</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-7">Table 1: </span>Countries with ratio more than 5-year average</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">country</th>
+<th align="right">2018</th>
+<th align="right">avg</th>
+<th align="right">avg_5</th>
+<th align="right">avg_10</th>
+<th align="right">max_ratio</th>
+<th align="right">min_ratio</th>
+<th align="right">all_time_high</th>
+<th align="right">all_time_low</th>
+<th align="right">more_avg</th>
+<th align="right">more_avg_5</th>
+<th align="right">more_avg_10</th>
+<th align="right">less_avg</th>
+<th align="right">less_avg_5</th>
+<th align="right">less_avg_10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>9</td>
+<td align="left">Argentina</td>
+<td align="right">0.1714592</td>
+<td align="right">0.1096417</td>
+<td align="right">0.1185503</td>
+<td align="right">0.1136155</td>
+<td align="right">0.2742805</td>
+<td align="right">0.0115399</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td align="left">Australia</td>
+<td align="right">1.1018001</td>
+<td align="right">0.7849408</td>
+<td align="right">0.9698462</td>
+<td align="right">0.9894222</td>
+<td align="right">1.5206944</td>
+<td align="right">0.2141006</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td align="left">Austria</td>
+<td align="right">0.4573739</td>
+<td align="right">0.1747203</td>
+<td align="right">0.2996147</td>
+<td align="right">0.2738809</td>
+<td align="right">0.6083190</td>
+<td align="right">0.0119132</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td align="left">Belgium</td>
+<td align="right">0.9672180</td>
+<td align="right">0.4576344</td>
+<td align="right">0.8203120</td>
+<td align="right">0.6552541</td>
+<td align="right">0.9667037</td>
+<td align="right">0.0786858</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>28</td>
+<td align="left">Brazil</td>
+<td align="right">0.5459326</td>
+<td align="right">0.4864667</td>
+<td align="right">0.3885210</td>
+<td align="right">0.4761217</td>
+<td align="right">0.9804070</td>
+<td align="right">0.2495489</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>37</td>
+<td align="left">Canada</td>
+<td align="right">1.3253550</td>
+<td align="right">1.0294271</td>
+<td align="right">1.2141208</td>
+<td align="right">1.1505540</td>
+<td align="right">2.1421613</td>
+<td align="right">0.2730157</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>44</td>
+<td align="left">Chile</td>
+<td align="right">1.2079987</td>
+<td align="right">0.9780697</td>
+<td align="right">0.9359206</td>
+<td align="right">1.0560277</td>
+<td align="right">1.5640281</td>
+<td align="right">0.6357907</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>45</td>
+<td align="left">China</td>
+<td align="right">0.9435735</td>
+<td align="right">0.5541939</td>
+<td align="right">0.6586526</td>
+<td align="right">0.5922091</td>
+<td align="right">1.2608774</td>
+<td align="right">0.1757910</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>46</td>
+<td align="left">Colombia</td>
+<td align="right">0.4152542</td>
+<td align="right">0.4740204</td>
+<td align="right">0.3968742</td>
+<td align="right">0.4980473</td>
+<td align="right">0.7264409</td>
+<td align="right">0.2948531</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td>81</td>
+<td align="left">France</td>
+<td align="right">1.0967180</td>
+<td align="right">0.4627055</td>
+<td align="right">0.8749564</td>
+<td align="right">0.7540257</td>
+<td align="right">1.0904311</td>
+<td align="right">0.0505182</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>86</td>
+<td align="left">Germany</td>
+<td align="right">0.5845979</td>
+<td align="right">0.3124133</td>
+<td align="right">0.5134009</td>
+<td align="right">0.4394087</td>
+<td align="right">0.6514221</td>
+<td align="right">0.0757537</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>109</td>
+<td align="left">India</td>
+<td align="right">0.8181802</td>
+<td align="right">0.7686593</td>
+<td align="right">0.7322429</td>
+<td align="right">0.7422071</td>
+<td align="right">1.5145139</td>
+<td align="right">0.4654705</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>110</td>
+<td align="left">Indonesia</td>
+<td align="right">0.4816789</td>
+<td align="right">0.3316202</td>
+<td align="right">0.4457203</td>
+<td align="right">0.4165210</td>
+<td align="right">0.5079426</td>
+<td align="right">0.1264619</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>118</td>
+<td align="left">Japan</td>
+<td align="right">1.2171904</td>
+<td align="right">0.6833536</td>
+<td align="right">1.0212187</td>
+<td align="right">0.8128934</td>
+<td align="right">1.3957870</td>
+<td align="right">0.0299994</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>149</td>
+<td align="left">Malaysia</td>
+<td align="right">1.3760923</td>
+<td align="right">1.3314568</td>
+<td align="right">1.3332500</td>
+<td align="right">1.3330347</td>
+<td align="right">3.2099345</td>
+<td align="right">0.5177362</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>172</td>
+<td align="left">Netherlands</td>
+<td align="right">1.4113213</td>
+<td align="right">0.6765263</td>
+<td align="right">1.0597736</td>
+<td align="right">0.8606709</td>
+<td align="right">1.5703487</td>
+<td align="right">0.1348295</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>174</td>
+<td align="left">New Zealand</td>
+<td align="right">0.5118832</td>
+<td align="right">0.3930220</td>
+<td align="right">0.4142401</td>
+<td align="right">0.3556930</td>
+<td align="right">0.7258725</td>
+<td align="right">0.1816452</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>177</td>
+<td align="left">Nigeria</td>
+<td align="right">0.4144800</td>
+<td align="right">0.2020160</td>
+<td align="right">0.1647290</td>
+<td align="right">0.1598451</td>
+<td align="right">0.5100267</td>
+<td align="right">0.0401567</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>180</td>
+<td align="left">Norway</td>
+<td align="right">0.7590142</td>
+<td align="right">0.3889078</td>
+<td align="right">0.5586501</td>
+<td align="right">0.5303237</td>
+<td align="right">0.9334204</td>
+<td align="right">0.0382400</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>191</td>
+<td align="left">Peru</td>
+<td align="right">0.5283250</td>
+<td align="right">0.3748111</td>
+<td align="right">0.4047909</td>
+<td align="right">0.4641154</td>
+<td align="right">0.7005235</td>
+<td align="right">0.1778061</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>193</td>
+<td align="left">Poland</td>
+<td align="right">0.3877869</td>
+<td align="right">0.2530704</td>
+<td align="right">0.3402953</td>
+<td align="right">0.3228428</td>
+<td align="right">0.4930003</td>
+<td align="right">0.0321113</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>194</td>
+<td align="left">Portugal</td>
+<td align="right">0.3560969</td>
+<td align="right">0.3711296</td>
+<td align="right">0.3052927</td>
+<td align="right">0.3091215</td>
+<td align="right">0.5506054</td>
+<td align="right">0.2515971</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>205</td>
+<td align="left">Saudi Arabia</td>
+<td align="right">0.8024435</td>
+<td align="right">0.6384813</td>
+<td align="right">0.6644581</td>
+<td align="right">0.6384813</td>
+<td align="right">0.7427995</td>
+<td align="right">0.5048476</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>210</td>
+<td align="left">Singapore</td>
+<td align="right">2.7866995</td>
+<td align="right">1.6826933</td>
+<td align="right">2.3851348</td>
+<td align="right">2.3359542</td>
+<td align="right">2.9957371</td>
+<td align="right">0.5783827</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>217</td>
+<td align="left">South Africa</td>
+<td align="right">4.1558066</td>
+<td align="right">1.6135703</td>
+<td align="right">3.0001952</td>
+<td align="right">2.6018387</td>
+<td align="right">4.2338415</td>
+<td align="right">0.5382403</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>234</td>
+<td align="left">Switzerland</td>
+<td align="right">2.4144076</td>
+<td align="right">1.5197636</td>
+<td align="right">2.2360912</td>
+<td align="right">2.0244203</td>
+<td align="right">2.9123320</td>
+<td align="right">0.3468363</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>238</td>
+<td align="left">Thailand</td>
+<td align="right">1.4134030</td>
+<td align="right">0.6409642</td>
+<td align="right">1.0300358</td>
+<td align="right">0.8650881</td>
+<td align="right">1.3113318</td>
+<td align="right">0.1523916</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>244</td>
+<td align="left">Turkey</td>
+<td align="right">0.2530878</td>
+<td align="right">0.2522192</td>
+<td align="right">0.2237978</td>
+<td align="right">0.2621403</td>
+<td align="right">0.4404953</td>
+<td align="right">0.1220066</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>252</td>
+<td align="left">United States</td>
+<td align="right">1.6787106</td>
+<td align="right">0.9202279</td>
+<td align="right">1.5006823</td>
+<td align="right">1.2654987</td>
+<td align="right">1.6976350</td>
+<td align="right">0.3657692</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>258</td>
+<td align="left">Vietnam</td>
+<td align="right">0.4430073</td>
+<td align="right">0.2451936</td>
+<td align="right">0.2956463</td>
+<td align="right">0.2451936</td>
+<td align="right">0.4049576</td>
+<td align="right">0.0956392</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(subset(dat,more_avg_10 == 1), caption = &quot;Countries with ratio more than 10-year average&quot;)</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-7">Table 1: </span>Countries with ratio more than 10-year average</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">country</th>
+<th align="right">2018</th>
+<th align="right">avg</th>
+<th align="right">avg_5</th>
+<th align="right">avg_10</th>
+<th align="right">max_ratio</th>
+<th align="right">min_ratio</th>
+<th align="right">all_time_high</th>
+<th align="right">all_time_low</th>
+<th align="right">more_avg</th>
+<th align="right">more_avg_5</th>
+<th align="right">more_avg_10</th>
+<th align="right">less_avg</th>
+<th align="right">less_avg_5</th>
+<th align="right">less_avg_10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>9</td>
+<td align="left">Argentina</td>
+<td align="right">0.1714592</td>
+<td align="right">0.1096417</td>
+<td align="right">0.1185503</td>
+<td align="right">0.1136155</td>
+<td align="right">0.2742805</td>
+<td align="right">0.0115399</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td align="left">Australia</td>
+<td align="right">1.1018001</td>
+<td align="right">0.7849408</td>
+<td align="right">0.9698462</td>
+<td align="right">0.9894222</td>
+<td align="right">1.5206944</td>
+<td align="right">0.2141006</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td align="left">Austria</td>
+<td align="right">0.4573739</td>
+<td align="right">0.1747203</td>
+<td align="right">0.2996147</td>
+<td align="right">0.2738809</td>
+<td align="right">0.6083190</td>
+<td align="right">0.0119132</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td align="left">Belgium</td>
+<td align="right">0.9672180</td>
+<td align="right">0.4576344</td>
+<td align="right">0.8203120</td>
+<td align="right">0.6552541</td>
+<td align="right">0.9667037</td>
+<td align="right">0.0786858</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>28</td>
+<td align="left">Brazil</td>
+<td align="right">0.5459326</td>
+<td align="right">0.4864667</td>
+<td align="right">0.3885210</td>
+<td align="right">0.4761217</td>
+<td align="right">0.9804070</td>
+<td align="right">0.2495489</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>37</td>
+<td align="left">Canada</td>
+<td align="right">1.3253550</td>
+<td align="right">1.0294271</td>
+<td align="right">1.2141208</td>
+<td align="right">1.1505540</td>
+<td align="right">2.1421613</td>
+<td align="right">0.2730157</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>44</td>
+<td align="left">Chile</td>
+<td align="right">1.2079987</td>
+<td align="right">0.9780697</td>
+<td align="right">0.9359206</td>
+<td align="right">1.0560277</td>
+<td align="right">1.5640281</td>
+<td align="right">0.6357907</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>45</td>
+<td align="left">China</td>
+<td align="right">0.9435735</td>
+<td align="right">0.5541939</td>
+<td align="right">0.6586526</td>
+<td align="right">0.5922091</td>
+<td align="right">1.2608774</td>
+<td align="right">0.1757910</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>81</td>
+<td align="left">France</td>
+<td align="right">1.0967180</td>
+<td align="right">0.4627055</td>
+<td align="right">0.8749564</td>
+<td align="right">0.7540257</td>
+<td align="right">1.0904311</td>
+<td align="right">0.0505182</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>86</td>
+<td align="left">Germany</td>
+<td align="right">0.5845979</td>
+<td align="right">0.3124133</td>
+<td align="right">0.5134009</td>
+<td align="right">0.4394087</td>
+<td align="right">0.6514221</td>
+<td align="right">0.0757537</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>109</td>
+<td align="left">India</td>
+<td align="right">0.8181802</td>
+<td align="right">0.7686593</td>
+<td align="right">0.7322429</td>
+<td align="right">0.7422071</td>
+<td align="right">1.5145139</td>
+<td align="right">0.4654705</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>110</td>
+<td align="left">Indonesia</td>
+<td align="right">0.4816789</td>
+<td align="right">0.3316202</td>
+<td align="right">0.4457203</td>
+<td align="right">0.4165210</td>
+<td align="right">0.5079426</td>
+<td align="right">0.1264619</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>113</td>
+<td align="left">Ireland</td>
+<td align="right">0.4707651</td>
+<td align="right">0.5310842</td>
+<td align="right">0.5167314</td>
+<td align="right">0.4231623</td>
+<td align="right">0.8200256</td>
+<td align="right">0.1799502</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>118</td>
+<td align="left">Japan</td>
+<td align="right">1.2171904</td>
+<td align="right">0.6833536</td>
+<td align="right">1.0212187</td>
+<td align="right">0.8128934</td>
+<td align="right">1.3957870</td>
+<td align="right">0.0299994</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>149</td>
+<td align="left">Malaysia</td>
+<td align="right">1.3760923</td>
+<td align="right">1.3314568</td>
+<td align="right">1.3332500</td>
+<td align="right">1.3330347</td>
+<td align="right">3.2099345</td>
+<td align="right">0.5177362</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>172</td>
+<td align="left">Netherlands</td>
+<td align="right">1.4113213</td>
+<td align="right">0.6765263</td>
+<td align="right">1.0597736</td>
+<td align="right">0.8606709</td>
+<td align="right">1.5703487</td>
+<td align="right">0.1348295</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>174</td>
+<td align="left">New Zealand</td>
+<td align="right">0.5118832</td>
+<td align="right">0.3930220</td>
+<td align="right">0.4142401</td>
+<td align="right">0.3556930</td>
+<td align="right">0.7258725</td>
+<td align="right">0.1816452</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>177</td>
+<td align="left">Nigeria</td>
+<td align="right">0.4144800</td>
+<td align="right">0.2020160</td>
+<td align="right">0.1647290</td>
+<td align="right">0.1598451</td>
+<td align="right">0.5100267</td>
+<td align="right">0.0401567</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>180</td>
+<td align="left">Norway</td>
+<td align="right">0.7590142</td>
+<td align="right">0.3889078</td>
+<td align="right">0.5586501</td>
+<td align="right">0.5303237</td>
+<td align="right">0.9334204</td>
+<td align="right">0.0382400</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>191</td>
+<td align="left">Peru</td>
+<td align="right">0.5283250</td>
+<td align="right">0.3748111</td>
+<td align="right">0.4047909</td>
+<td align="right">0.4641154</td>
+<td align="right">0.7005235</td>
+<td align="right">0.1778061</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>192</td>
+<td align="left">Philippines</td>
+<td align="right">0.7951673</td>
+<td align="right">0.5843383</td>
+<td align="right">0.8409973</td>
+<td align="right">0.7458218</td>
+<td align="right">0.9734513</td>
+<td align="right">0.2274825</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>193</td>
+<td align="left">Poland</td>
+<td align="right">0.3877869</td>
+<td align="right">0.2530704</td>
+<td align="right">0.3402953</td>
+<td align="right">0.3228428</td>
+<td align="right">0.4930003</td>
+<td align="right">0.0321113</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>194</td>
+<td align="left">Portugal</td>
+<td align="right">0.3560969</td>
+<td align="right">0.3711296</td>
+<td align="right">0.3052927</td>
+<td align="right">0.3091215</td>
+<td align="right">0.5506054</td>
+<td align="right">0.2515971</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>198</td>
+<td align="left">Qatar</td>
+<td align="right">0.8496087</td>
+<td align="right">0.8916907</td>
+<td align="right">0.8759542</td>
+<td align="right">0.8406159</td>
+<td align="right">1.1981400</td>
+<td align="right">0.6639241</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>205</td>
+<td align="left">Saudi Arabia</td>
+<td align="right">0.8024435</td>
+<td align="right">0.6384813</td>
+<td align="right">0.6644581</td>
+<td align="right">0.6384813</td>
+<td align="right">0.7427995</td>
+<td align="right">0.5048476</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>210</td>
+<td align="left">Singapore</td>
+<td align="right">2.7866995</td>
+<td align="right">1.6826933</td>
+<td align="right">2.3851348</td>
+<td align="right">2.3359542</td>
+<td align="right">2.9957371</td>
+<td align="right">0.5783827</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>217</td>
+<td align="left">South Africa</td>
+<td align="right">4.1558066</td>
+<td align="right">1.6135703</td>
+<td align="right">3.0001952</td>
+<td align="right">2.6018387</td>
+<td align="right">4.2338415</td>
+<td align="right">0.5382403</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>234</td>
+<td align="left">Switzerland</td>
+<td align="right">2.4144076</td>
+<td align="right">1.5197636</td>
+<td align="right">2.2360912</td>
+<td align="right">2.0244203</td>
+<td align="right">2.9123320</td>
+<td align="right">0.3468363</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>238</td>
+<td align="left">Thailand</td>
+<td align="right">1.4134030</td>
+<td align="right">0.6409642</td>
+<td align="right">1.0300358</td>
+<td align="right">0.8650881</td>
+<td align="right">1.3113318</td>
+<td align="right">0.1523916</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>252</td>
+<td align="left">United States</td>
+<td align="right">1.6787106</td>
+<td align="right">0.9202279</td>
+<td align="right">1.5006823</td>
+<td align="right">1.2654987</td>
+<td align="right">1.6976350</td>
+<td align="right">0.3657692</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>258</td>
+<td align="left">Vietnam</td>
+<td align="right">0.4430073</td>
+<td align="right">0.2451936</td>
+<td align="right">0.2956463</td>
+<td align="right">0.2451936</td>
+<td align="right">0.4049576</td>
+<td align="right">0.0956392</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="showing-the-graphical-results" class="section level2">
+<h2>Showing the Graphical Results</h2>
+<p>In this section, I first plot a convoluted time-series charts displaying all the countries in the dataset.</p>
+<p>Then, I filter the countries who are currently at all-time high (for the ratio). And the countries are,</p>
+<ul>
+<li>Belgium</li>
+<li>France</li>
+<li>Saudi Arabia</li>
+<li>Thailand</li>
+<li>Vietnam</li>
+</ul>
+<pre class="r"><code>###################################Melt the data frame for further analysis############################
+mkt_cap_gdp_long = melt(mkt_cap_gdp, id = c(&quot;country&quot;))
+mkt_cap_gdp_long$variable = as.numeric(as.vector(mkt_cap_gdp_long$variable))</code></pre>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
+<pre class="r"><code>#All the countries
+ggplot(data = mkt_cap_gdp_long,
+       aes(x = variable, y = value, colour = country)) +
+       geom_line()</code></pre>
+<pre><code>## Warning: Removed 1298 rows containing missing values (geom_path).</code></pre>
+<p><img src="/post/mkt_cap_gdp_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>#######################look at overvalued country#######################
+mkt_cap_gdp_max_long = melt(subset(mkt_cap_gdp,all_time_high == 1), id = c(&quot;country&quot;))
+mkt_cap_gdp_max_long$variable = as.numeric(as.vector(mkt_cap_gdp_max_long$variable))</code></pre>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
+<pre class="r"><code>#All the countries
+ggplot(data = mkt_cap_gdp_max_long,
+       aes(x = variable, y = value, colour = country)) +
+  geom_line()</code></pre>
+<pre><code>## Warning: Removed 196 rows containing missing values (geom_path).</code></pre>
+<p><img src="/post/mkt_cap_gdp_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+</div>

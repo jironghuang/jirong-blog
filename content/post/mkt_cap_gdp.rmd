@@ -1,0 +1,316 @@
+---
+title: "Macroeconomic Analysis - Country's Market Capitalization to GDP ratio"
+author: "Jirong"
+date: 2018-04-01
+categories: ["investment"]
+tags: ["economics", "macroeonomics"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Analysis of Market Cap to GDP
+
+Warren Buffett, the world's greatest investor once remarked that Country's Total Market Capitalization to GDP ratio is a good indicator to measure the 'stock sentiments of the 'temperature' of the market. My wild guess is -  he draws his inspiration from P/E ratio where price correspondes to the Total Market Cap and GDP to Earnings.
+
+## Key points
+
+- By historical standards, the Market Cap to GDP ratios are currently way higher than average, 5-year average and 10-year averages
+- This may spell some bad news in the near term. What goes up would eventually come down. Caveat: I noticed that there's an uptrend the ratio over the time. Perhaps I could adjust for that using a time-trend in the future.  
+- Of the countries that are 'heated', Belgium, France, Saudi Arabia, Thailand and Vietnam are at all-time high. Shorting could be an option but please conduct additional analysis before deciding on a position.
+- P/E ratios of these ETFs could be used to supplement this analysis. Unfortunately I don't have a set of readily 'analyzable' data. 
+- Alternatively, we could rely on the % from 52 week high as an indicator (wrote an article on this in my Linkedin articles section (https://www.linkedin.com/pulse/investment-compass-our-volatile-times-jirong-huang/); also developed an ugly Shiny real-time dashboard but I'll only share it when I'm pleased with my GUI design). 
+
+## Future developments
+
+I've plans to convert this to an interactive real-time dashboard hosted in the cloud. But this really depends on my spare capacity. 
+
+## Setting up analysis and loading in necessary libraries
+```{r}
+#Macro analysis on Mkt cap to GDP
+#Do trailing 5 year averages
+#Maybe better t
+#Rebase to 2016 using GFP growth figures for key countries 
+
+library("WDI")
+library("reshape2")
+library("rvest")
+library("ggplot2")
+
+rm(list = ls())
+# hk_ind = (3193235.54 * 1000000)/(320.9 * 1000000000)
+
+setwd("/home/jirong/Dropbox/macro analysis")
+```
+
+
+## Extracting GDP and Country's Total Market Capitalization via its API (Before 2017)
+
+I first extract the Countries' Market Cap and GDP data form World Bank's API. But the current dataset is only updated till 2016 in its database.
+```{r}
+##################################Trying out world bank API########################
+#Market cap data
+mkt_cap = WDI(country = "all", indicator = "CM.MKT.LCAP.CD",
+    start = 1900, end = 2018, extra = FALSE, cache = NULL)
+
+
+
+names(mkt_cap)[which(names(mkt_cap) == "CM.MKT.LCAP.CD")] = "value" 
+
+#Cast the dataframes
+mkt_cap_wide = dcast(mkt_cap,country ~ year,na.rm = T)
+
+
+#GDP data-->NY.GDP.MKTP.CD
+gdp = WDI(country = "all", indicator = "NY.GDP.MKTP.CD",
+              start = 1900, end = 2018, extra = FALSE, cache = NULL)
+
+names(gdp)[which(names(gdp) == "NY.GDP.MKTP.CD")] = "value" 
+
+#Cast the dataframes
+gdp_wide = dcast(gdp,country ~ year,na.rm = T)
+
+#For a start-->Scrape the data from wikipedia-->Port it to a google sheet-->To 'project' the 2017 GDP growth rates
+#https://en.wikipedia.org/wiki/List_of_countries_by_real_GDP_growth_rate
+```
+
+## Extracting 2017 GDP Growth Rate from Wikipedia Page
+
+Since WB's APi lack 2017 data, I had to crawl the 2017 GDP growth rate from Wikipedia to extapolate the 2017 Growth Rate.
+
+There may some issues on using real and nominal GDP growth rates but I'll choose to ignore that for now.
+
+For simplicity, I assume 2018's GDP to be same as 2017. I could have used the projected 2018 GDP from World Bank or IMF but those data are not readily available (for crawling or through API). Or maybe I'm too plain lazy!
+
+```{r}
+url <- "https://en.wikipedia.org/wiki/List_of_countries_by_real_GDP_growth_rate#cite_note-1"
+
+webpage = read_html(url)
+tbls <- html_nodes(webpage, "table")
+tbls_ls <- webpage %>%
+  html_nodes("table") %>%
+  .[1:4] %>%
+  html_table(fill = TRUE)
+
+gdp_growth = tbls_ls[[1]]  #GDP real growth rates
+names(gdp_growth) = c("rank","country","gdp_rate")
+
+#Remove all []
+for(i in 2:ncol(gdp_growth)){
+  gdp_growth[,i] = gsub("\\[.*\\]","",gdp_growth[,i])
+}
+gdp_growth$gdp_rate = as.numeric(gdp_growth$gdp_rate)
+
+#Merge in to the data frame
+gdp_wide = merge(gdp_wide,gdp_growth, by = "country", all.x = T)
+gdp_wide = gdp_wide[!duplicated(gdp_wide$country),]
+
+gdp_wide$`2017` = gdp_wide$`2016` * (1+ gdp_wide$gdp_rate/100)
+
+#removing unnecssary names
+gdp_wide = gdp_wide[,-which(names(gdp_wide) == "rank")]
+gdp_wide = gdp_wide[,-which(names(gdp_wide) == "gdp_rate")]
+
+#Assume 2018 GDP to be same as 2017
+gdp_wide$`2018` = gdp_wide$`2017`
+```
+
+## Extracting 2017-2018 Stock Prices
+To obtain the 2017 and latest Countries' Market Captialization, I developed an ingenious way!  
+
+I first mapped each country to an ETF in New York Stock Exchange at the end of this section.
+
+Next, I accessed Google Finance API via a script "match_WB_US_ticker.R". This is a fairly complicated script that I choose not to show here - pls PM me if you wish to have it.
+
+Then I compute the ETF's returns from Jan 2017 (to end 2017 and current price) and mapped the growth rates on end 2016 WB market capitalization data. This allows me to impute the country's market capitalization in 2017 and the updated (1 April 2018) Country's Market Capitalization.  
+
+- wb_ticker$ticker = NA
+- wb_ticker$ticker[which(wb_ticker$country == "Arab World")] = "MES" 
+- wb_ticker$ticker[which(wb_ticker$country == "Argentina")] = "ARGT" 
+- wb_ticker$ticker[which(wb_ticker$country == "Australia")] = "EWA" 
+- wb_ticker$ticker[which(wb_ticker$country == "Austria")] = "EWO" 
+- wb_ticker$ticker[which(wb_ticker$country == "Belgium")] = "EWK" 
+- wb_ticker$ticker[which(wb_ticker$country == "Brazil")] = "EWZ" 
+- wb_ticker$ticker[which(wb_ticker$country == "Canada")] = "EWC" 
+- wb_ticker$ticker[which(wb_ticker$country == "Chile")] = "ECH" 
+- wb_ticker$ticker[which(wb_ticker$country == "China")] = "MCHI" 
+- wb_ticker$ticker[which(wb_ticker$country == "Colombia")] = "ICOL" 
+- wb_ticker$ticker[which(wb_ticker$country == "Denmark")] = "EDEN"    #Something wrong with this
+- wb_ticker$ticker[which(wb_ticker$country == "Euro area")] = "IEV" 
+- wb_ticker$ticker[which(wb_ticker$country == "European Union")] = "EZU"
+- wb_ticker$ticker[which(wb_ticker$country == "France")] = "EWQ"
+- wb_ticker$ticker[which(wb_ticker$country == "Germany")] = "EWG"
+- wb_ticker$ticker[which(wb_ticker$country == "Greece")] = "GREK"
+- wb_ticker$ticker[which(wb_ticker$country == "Hong Kong SAR, China")] = "EWH"
+- wb_ticker$ticker[which(wb_ticker$country == "India")] = "INDA"
+- wb_ticker$ticker[which(wb_ticker$country == "Indonesia")] = "EIDO"
+- wb_ticker$ticker[which(wb_ticker$country == "Ireland")] = "EIRL"
+- wb_ticker$ticker[which(wb_ticker$country == "Israel")] = "EIS"
+- wb_ticker$ticker[which(wb_ticker$country == "Italy")] = "EWI"
+- wb_ticker$ticker[which(wb_ticker$country == "Japan")] = "EWJ"
+- wb_ticker$ticker[which(wb_ticker$country == "Ireland")] = "EIRL"
+- wb_ticker$ticker[which(wb_ticker$country == "Korea, Rep.")] = "EWY"
+- wb_ticker$ticker[which(wb_ticker$country == "Malaysia")] = "EWM"
+- wb_ticker$ticker[which(wb_ticker$country == "Ireland")] = "EIRL"
+- wb_ticker$ticker[which(wb_ticker$country == "Meixco")] = "EWW"
+- wb_ticker$ticker[which(wb_ticker$country == "Netherlands")] = "EWN"
+- wb_ticker$ticker[which(wb_ticker$country == "New Zealand")] = "ENZL"
+- wb_ticker$ticker[which(wb_ticker$country == "Nigeria")] = "NGE"
+- wb_ticker$ticker[which(wb_ticker$country == "Netherlands")] = "EWN"
+- wb_ticker$ticker[which(wb_ticker$country == "Netherlands")] = "EWN"
+- wb_ticker$ticker[which(wb_ticker$country == "Norway")] = "ENOR"
+- wb_ticker$ticker[which(wb_ticker$country == "Peru")] = "EPU"
+- wb_ticker$ticker[which(wb_ticker$country == "Philippines")] = "EPHE"
+- wb_ticker$ticker[which(wb_ticker$country == "Poland")] = "EPOL"
+- wb_ticker$ticker[which(wb_ticker$country == "Portugal")] = "PGAL"
+- wb_ticker$ticker[which(wb_ticker$country == "Qatar")] = "QAT"
+- wb_ticker$ticker[which(wb_ticker$country == "Portugal")] = "PGAL"
+- wb_ticker$ticker[which(wb_ticker$country == "Russian Federation")] = "ERUS"
+- wb_ticker$ticker[which(wb_ticker$country == "Saudi Arabia")] = "KSA"
+- wb_ticker$ticker[which(wb_ticker$country == "Singapore")] = "EWS"
+- wb_ticker$ticker[which(wb_ticker$country == "South Africa")] = "EZA"
+- wb_ticker$ticker[which(wb_ticker$country == "Spain")] = "EWP"
+- wb_ticker$ticker[which(wb_ticker$country == "Sweden")] = "EWD"
+- wb_ticker$ticker[which(wb_ticker$country == "Switzerland")] = "EWL"
+- wb_ticker$ticker[which(wb_ticker$country == "Thailand")] = "THD"
+- wb_ticker$ticker[which(wb_ticker$country == "Turkey")] = "TUR"
+- wb_ticker$ticker[which(wb_ticker$country == "United Kingdom")] = "EWU"
+- wb_ticker$ticker[which(wb_ticker$country == "United States")] = "VTI"
+- wb_ticker$ticker[which(wb_ticker$country == "Vietnam")] = "VNM"
+- wb_ticker$ticker[which(wb_ticker$country == "World")] = "VT"
+
+```{r}
+#For each country, assign a ticker symbol from NYSE
+#Store the end 2016 price and the most updated price now. Then pluck the growth rate on the market cap 
+source("match_WB_US_ticker.R")
+
+mkt_cap_wide = merge(mkt_cap_wide,wb_ticker, by = "country", all.x = T)
+mkt_cap_wide$`2017` = mkt_cap_wide$`2016` * (1+mkt_cap_wide$returns_17)
+mkt_cap_wide$`2018` = mkt_cap_wide$`2016` * (1+mkt_cap_wide$returns)
+
+mkt_cap_wide = mkt_cap_wide[,-which(names(mkt_cap_wide) == "returns")]
+mkt_cap_wide = mkt_cap_wide[,-which(names(mkt_cap_wide) == "returns_17")]
+```
+
+## Calculating Market Cap to GDP Ratio 
+
+Here, I simply divide the countries' total market capitalization over their GDPs
+
+```{r}
+#Plot the market cap to growth rates 
+#Check if names are the same
+nrow(gdp_wide) == sum(mkt_cap_wide$country == gdp_wide$country)
+
+mkt_cap_gdp = mkt_cap_wide
+mkt_cap_gdp[,2:ncol(mkt_cap_gdp)] = mkt_cap_wide[,2:ncol(mkt_cap_wide)] / gdp_wide[,2:ncol(gdp_wide)]
+
+mkt_cap_gdp = subset(mkt_cap_gdp,!is.na(mkt_cap_gdp$`2018`))
+```
+
+## Finding current level relative to averages and all-time high
+
+To understand if the current level is high, I derive the historical average, 5-year average and 10-year averages.
+```{r}
+#Use apply function to find the average, 5 year average, 10 year average, 20 year average
+#Find historical average
+avg = apply(mkt_cap_gdp[,c(-1,-which(names(mkt_cap_gdp) == "2018"))],1,mean,na.rm = T)
+
+#Find 5-year average
+avg_5 = apply(mkt_cap_gdp[,-c(1,which(names(mkt_cap_gdp) == "2018"),
+                              which(names(mkt_cap_gdp) == "1960"):
+                              which(names(mkt_cap_gdp) == "2012"))],
+                              1,mean,na.rm = T)
+
+#Find 10-year average
+avg_10 = apply(mkt_cap_gdp[,-c(1,which(names(mkt_cap_gdp) == "2018"),
+                               which(names(mkt_cap_gdp) == "1960"):
+                               which(names(mkt_cap_gdp) == "2007"))],1,mean,na.rm = T)
+
+#Find max
+max_ratio = apply(mkt_cap_gdp[,c(-1,-which(names(mkt_cap_gdp) == "2018"))],1,max,na.rm = T)
+
+#Find min
+min_ratio = apply(mkt_cap_gdp[,c(-1,-which(names(mkt_cap_gdp) == "2018"))],1,min,na.rm = T)
+
+#Form a new data frame
+avg_ratios = data.frame(country = mkt_cap_gdp$country, avg = avg, avg_5 = avg_5, avg_10 = avg_10)
+
+
+#See if undervalued or overvalued
+mkt_cap_gdp$more_avg = ifelse(mkt_cap_gdp$`2018` > avg_ratios$avg,1,0)
+mkt_cap_gdp$more_avg_5 = ifelse(mkt_cap_gdp$`2018` > avg_ratios$avg_5,1,0)
+mkt_cap_gdp$more_avg_10 = ifelse(mkt_cap_gdp$`2018` > avg_ratios$avg_10,1,0)
+
+mkt_cap_gdp$less_avg = ifelse(mkt_cap_gdp$`2018` < avg_ratios$avg,1,0)
+mkt_cap_gdp$less_avg_5 = ifelse(mkt_cap_gdp$`2018` < avg_ratios$avg_5,1,0)
+mkt_cap_gdp$less_avg_10 = ifelse(mkt_cap_gdp$`2018` < avg_ratios$avg_10,1,0)
+
+#See if it's at all time high
+mkt_cap_gdp$all_time_high = ifelse(mkt_cap_gdp$`2018` > max_ratio,1,0)
+
+#See if it's at all time low
+mkt_cap_gdp$all_time_low = ifelse(mkt_cap_gdp$`2018` < min_ratio,1,0)
+
+```
+
+## Displaying the tabular data
+
+```{r}
+library(knitr)
+
+###################################Subset data frame to flash it out as table############################
+#Subset country and indicators
+dat = subset(mkt_cap_gdp,select = c("country","2018","all_time_high","all_time_low" ,"more_avg",     
+                                    "more_avg_5","more_avg_10","less_avg","less_avg_5","less_avg_10"))
+
+
+dat$avg = avg
+dat$avg_5 = avg_5
+dat$avg_10 = avg_10
+dat$max_ratio = max_ratio 
+dat$min_ratio = min_ratio
+
+dat = subset(dat,select = c( "country","2018","avg","avg_5", "avg_10", "max_ratio", "min_ratio", 
+                             "all_time_high", "all_time_low", "more_avg","more_avg_5","more_avg_10","less_avg","less_avg_5",   
+                             "less_avg_10"   ))
+
+kable(dat, caption = "Summarized data")
+kable(subset(dat,more_avg == 1), caption = "Countries with ratio more than average")
+kable(subset(dat,more_avg_5 == 1), caption = "Countries with ratio more than 5-year average")
+kable(subset(dat,more_avg_10 == 1), caption = "Countries with ratio more than 10-year average")
+```
+
+## Showing the Graphical Results
+
+In this section, I first plot a convoluted time-series charts displaying all the countries in the dataset. 
+
+Then, I filter the countries who are currently at all-time high (for the ratio). And the countries are,
+
+- Belgium
+- France
+- Saudi Arabia
+- Thailand
+- Vietnam 
+
+```{r}
+###################################Melt the data frame for further analysis############################
+mkt_cap_gdp_long = melt(mkt_cap_gdp, id = c("country"))
+mkt_cap_gdp_long$variable = as.numeric(as.vector(mkt_cap_gdp_long$variable))
+
+#All the countries
+ggplot(data = mkt_cap_gdp_long,
+       aes(x = variable, y = value, colour = country)) +
+       geom_line()
+
+#######################look at overvalued country#######################
+mkt_cap_gdp_max_long = melt(subset(mkt_cap_gdp,all_time_high == 1), id = c("country"))
+mkt_cap_gdp_max_long$variable = as.numeric(as.vector(mkt_cap_gdp_max_long$variable))
+
+#All the countries
+ggplot(data = mkt_cap_gdp_max_long,
+       aes(x = variable, y = value, colour = country)) +
+  geom_line()
+
+```
+
