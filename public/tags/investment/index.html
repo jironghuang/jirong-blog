@@ -13,7 +13,7 @@
   <meta name="description" content="Data analyst and Quantitative Trader">
 
   
-  <link rel="alternate" hreflang="en-us" href="/tags/momentum/">
+  <link rel="alternate" hreflang="en-us" href="/tags/investment/">
 
   
   
@@ -59,22 +59,22 @@
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="/tags/momentum/">
+  <link rel="canonical" href="/tags/investment/">
 
   <meta property="twitter:card" content="summary_large_image">
   
   <meta property="og:site_name" content="Jirong&#39;s sandbox">
-  <meta property="og:url" content="/tags/momentum/">
-  <meta property="og:title" content="Momentum | Jirong&#39;s sandbox">
+  <meta property="og:url" content="/tags/investment/">
+  <meta property="og:title" content="Investment | Jirong&#39;s sandbox">
   <meta property="og:description" content="Data analyst and Quantitative Trader">
   <meta property="og:locale" content="en-us">
   
-  <meta property="og:updated_time" content="2018-03-28T21:13:14-05:00">
+  <meta property="og:updated_time" content="2018-03-31T00:00:00&#43;00:00">
   
 
   
 
-  <title>Momentum | Jirong&#39;s sandbox</title>
+  <title>Investment | Jirong&#39;s sandbox</title>
 
 </head>
 <body id="top" data-spy="scroll" data-target="#toc" data-offset="71" class="dark">
@@ -186,20 +186,19 @@
 
 <div class="universal-wrapper">
 
-  <h1>Momentum</h1>
+  <h1>Investment</h1>
 
   
 
   
   
   <div>
-    <h2><a href="/post/elapse_strat/">Days elapsed strategy</a></h2>
+    <h2><a href="/post/perm_port/">Permanent Portfolio</a></h2>
     <div class="article-style">
       
-      I simply adapted the code in this post here (<a href="https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/" target="_blank">https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/</a>) for the following momentum strategy.
-This is a momentum based strategy: Long if current day is &lt;50 days of 200 days high. Nil position otherwise.
-Returns are pretty impressive for Singapore market. That being said, it will be useful to try it with different parameters and different markets!
-#Inspired by the blog post here&ndash;&gt;<a href="https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/" target="_blank">https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/</a> #<a href="http://etfprophet.com/days-since-200-day-highs/" target="_blank">http://etfprophet.com/days-since-200-day-highs/</a> #Simple momentum strategy rm(list = ls(all = TRUE)) library(quantmod) ## Loading required package: xts ## Loading required package: zoo ## ## Attaching package: &#39;zoo&#39; ## The following objects are masked from &#39;package:base&#39;: ## ## as.
+      An all weather portfolio Based on the literature, permanent portfolio is an investment strategy that is able to yield moderate returns and relatively low volatility. Investor is recommended to invest equally (25%) into GLD, Index, Bond and Cash and rebalance it back to this proportion on regular intervals.
+This approach is something that I’m keen to adopt for a portion of my portfolio.
+To investigate the feasibility, I simulated a portfolio starting at $300 on Nov 2004.
       
     </div>
   </div>
