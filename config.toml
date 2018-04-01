@@ -24,7 +24,7 @@ paginate = 10
 disqusShortname = "jirong"
 
 # Enable analytics by entering your Google Analytics tracking ID
-googleAnalytics = ""
+googleAnalytics = "UA-116737154-1"
 
 # Default language to use (if you setup multilingual support)
 defaultContentLanguage = "en"
