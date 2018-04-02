@@ -12,12 +12,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Analysis of Market Cap to GDP
 
-Warren Buffett, the world's greatest investor once remarked that Country's Total Market Capitalization to GDP ratio is a good indicator to measure the 'stock sentiments of the 'temperature' of the market. My wild guess is -  he draws his inspiration from P/E ratio where price correspondes to the Total Market Cap and GDP to Earnings.
+Warren Buffett, the world's greatest investor once remarked that Country's Total Market Capitalization to GDP ratio is a good indicator to measure the 'temperature' of the market. My wild guess is -  he draws his inspiration from P/E ratio where price correspondes to the Total Market Cap and GDP to Earnings.
 
 ## Key points
 
-- By historical standards, the Market Cap to GDP ratios are currently way higher than average, 5-year average and 10-year averages
-- This may spell some bad news in the near term. What goes up would eventually come down. Caveat: I noticed that there's an uptrend the ratio over the time. Perhaps I could adjust for that using a time-trend in the future.  
+- By historical standards, the Market Cap to GDP ratios are currently way above the average, 5-year and 10-year averages
+- This may spell some bad news in the near term. What goes up would eventually come down. Caveat: I noticed that the ratio is trending upwards over time. Perhaps I could account for that using a time-trend in the future.  
 - Of the countries that are 'heated', Belgium, France, Saudi Arabia, Thailand and Vietnam are at all-time high. Shorting could be an option but please conduct additional analysis before deciding on a position.
 - P/E ratios of these ETFs could be used to supplement this analysis. Unfortunately I don't have a set of readily 'analyzable' data. 
 - Alternatively, we could rely on the % from 52 week high as an indicator (wrote an article on this in my Linkedin articles section (https://www.linkedin.com/pulse/investment-compass-our-volatile-times-jirong-huang/); also developed an ugly Shiny real-time dashboard but I'll only share it when I'm pleased with my GUI design). 
@@ -25,6 +25,10 @@ Warren Buffett, the world's greatest investor once remarked that Country's Total
 ## Future developments
 
 I've plans to convert this to an interactive real-time dashboard hosted in the cloud. But this really depends on my spare capacity. 
+
+## Disclosure
+
+On 2 April 2018, I initiated a small short position on South Africa (EZA) at 67.58 because I believe it's really over-heated (based on P/E and this analysis here). 
 
 ## Setting up analysis and loading in necessary libraries
 ```{r}
@@ -77,9 +81,9 @@ gdp_wide = dcast(gdp,country ~ year,na.rm = T)
 
 ## Extracting 2017 GDP Growth Rate from Wikipedia Page
 
-Since WB's APi lack 2017 data, I had to crawl the 2017 GDP growth rate from Wikipedia to extapolate the 2017 Growth Rate.
+Since WB's APi lack 2017 data, I had to crawl the 2017 GDP growth rate from Wikipedia to extapolate the 2017 GDP.
 
-There may some issues on using real and nominal GDP growth rates but I'll choose to ignore that for now.
+There may be some issues on using real and nominal GDP growth rates but I'll choose to ignore that for now.
 
 For simplicity, I assume 2018's GDP to be same as 2017. I could have used the projected 2018 GDP from World Bank or IMF but those data are not readily available (for crawling or through API). Or maybe I'm too plain lazy!
 

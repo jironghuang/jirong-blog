@@ -18,13 +18,13 @@
       <guid>/post/mkt_cap_gdp/</guid>
       <description>&lt;div id=&#34;analysis-of-market-cap-to-gdp&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Analysis of Market Cap to GDP&lt;/h2&gt;
-&lt;p&gt;Warren Buffett, the world’s greatest investor once remarked that Country’s Total Market Capitalization to GDP ratio is a good indicator to measure the ‘stock sentiments of the ’temperature’ of the market. My wild guess is - he draws his inspiration from P/E ratio where price correspondes to the Total Market Cap and GDP to Earnings.&lt;/p&gt;
+&lt;p&gt;Warren Buffett, the world’s greatest investor once remarked that Country’s Total Market Capitalization to GDP ratio is a good indicator to measure the ‘temperature’ of the market. My wild guess is - he draws his inspiration from P/E ratio where price correspondes to the Total Market Cap and GDP to Earnings.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;key-points&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Key points&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;By historical standards, the Market Cap to GDP ratios are currently way higher than average, 5-year average and 10-year averages&lt;/li&gt;
-&lt;li&gt;This may spell some bad news in the near term. What goes up would eventually come down. Caveat: I noticed that there’s an uptrend the ratio over the time. Perhaps I could adjust for that using a time-trend in the future.&lt;br /&gt;
+&lt;li&gt;By historical standards, the Market Cap to GDP ratios are currently way above the average, 5-year and 10-year averages&lt;/li&gt;
+&lt;li&gt;This may spell some bad news in the near term. What goes up would eventually come down. Caveat: I noticed that the ratio is trending upwards over time. Perhaps I could account for that using a time-trend in the future.&lt;br /&gt;
 &lt;/li&gt;
 &lt;li&gt;Of the countries that are ‘heated’, Belgium, France, Saudi Arabia, Thailand and Vietnam are at all-time high. Shorting could be an option but please conduct additional analysis before deciding on a position.&lt;/li&gt;
 &lt;li&gt;P/E ratios of these ETFs could be used to supplement this analysis. Unfortunately I don’t have a set of readily ‘analyzable’ data.&lt;/li&gt;
@@ -34,6 +34,10 @@
 &lt;div id=&#34;future-developments&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Future developments&lt;/h2&gt;
 &lt;p&gt;I’ve plans to convert this to an interactive real-time dashboard hosted in the cloud. But this really depends on my spare capacity.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;disclosure&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Disclosure&lt;/h2&gt;
+&lt;p&gt;On 2 April 2018, I initiated a small short position on South Africa (EZA) at 67.58 because I believe it’s really over-heated (based on P/E and this analysis here).&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;setting-up-analysis-and-loading-in-necessary-libraries&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Setting up analysis and loading in necessary libraries&lt;/h2&gt;
@@ -84,8 +88,8 @@ gdp_wide = dcast(gdp,country ~ year,na.rm = T)
 &lt;/div&gt;
 &lt;div id=&#34;extracting-2017-gdp-growth-rate-from-wikipedia-page&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Extracting 2017 GDP Growth Rate from Wikipedia Page&lt;/h2&gt;
-&lt;p&gt;Since WB’s APi lack 2017 data, I had to crawl the 2017 GDP growth rate from Wikipedia to extapolate the 2017 Growth Rate.&lt;/p&gt;
-&lt;p&gt;There may some issues on using real and nominal GDP growth rates but I’ll choose to ignore that for now.&lt;/p&gt;
+&lt;p&gt;Since WB’s APi lack 2017 data, I had to crawl the 2017 GDP growth rate from Wikipedia to extapolate the 2017 GDP.&lt;/p&gt;
+&lt;p&gt;There may be some issues on using real and nominal GDP growth rates but I’ll choose to ignore that for now.&lt;/p&gt;
 &lt;p&gt;For simplicity, I assume 2018’s GDP to be same as 2017. I could have used the projected 2018 GDP from World Bank or IMF but those data are not readily available (for crawling or through API). Or maybe I’m too plain lazy!&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;url &amp;lt;- &amp;quot;https://en.wikipedia.org/wiki/List_of_countries_by_real_GDP_growth_rate#cite_note-1&amp;quot;
 
