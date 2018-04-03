@@ -262,6 +262,7 @@ mkt_cap_gdp$all_time_low = ifelse(mkt_cap_gdp$`2018` < min_ratio,1,0)
 
 ```{r}
 library(knitr)
+library(kableExtra)
 
 ###################################Subset data frame to flash it out as table############################
 #Subset country and indicators
@@ -279,10 +280,13 @@ dat = subset(dat,select = c( "country","2018","avg","avg_5", "avg_10", "max_rati
                              "all_time_high", "all_time_low", "more_avg","more_avg_5","more_avg_10","less_avg","less_avg_5",   
                              "less_avg_10"   ))
 
-kable(dat, caption = "Summarized data")
-kable(subset(dat,more_avg == 1), caption = "Countries with ratio more than average")
-kable(subset(dat,more_avg_5 == 1), caption = "Countries with ratio more than 5-year average")
-kable(subset(dat,more_avg_10 == 1), caption = "Countries with ratio more than 10-year average")
+kable(dat, caption = "Summarized data") 
+
+kable(subset(dat,more_avg == 1), caption = "Countries with ratio more than average") 
+
+kable(subset(dat,more_avg_5 == 1), caption = "Countries with ratio more than 5-year average") 
+
+kable(subset(dat,more_avg_10 == 1), caption = "Countries with ratio more than 10-year average") 
 ```
 
 ## Showing the Graphical Results

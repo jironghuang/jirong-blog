@@ -554,6 +554,7 @@ mkt_cap_gdp$all_time_low = ifelse(mkt_cap_gdp$`2018` &lt; min_ratio,1,0)</code><
 <div id="displaying-the-tabular-data" class="section level2">
 <h2>Displaying the tabular data</h2>
 <pre class="r"><code>library(knitr)
+library(kableExtra)
 
 ###################################Subset data frame to flash it out as table############################
 #Subset country and indicators
@@ -571,7 +572,7 @@ dat = subset(dat,select = c( &quot;country&quot;,&quot;2018&quot;,&quot;avg&quot
                              &quot;all_time_high&quot;, &quot;all_time_low&quot;, &quot;more_avg&quot;,&quot;more_avg_5&quot;,&quot;more_avg_10&quot;,&quot;less_avg&quot;,&quot;less_avg_5&quot;,   
                              &quot;less_avg_10&quot;   ))
 
-kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
+kable(dat, caption = &quot;Summarized data&quot;) </code></pre>
 <table>
 <caption><span id="tab:unnamed-chunk-7">Table 1: </span>Summarized data</caption>
 <thead>
@@ -598,7 +599,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>9</td>
 <td align="left">Argentina</td>
-<td align="right">0.1714592</td>
+<td align="right">0.1702098</td>
 <td align="right">0.1096417</td>
 <td align="right">0.1185503</td>
 <td align="right">0.1136155</td>
@@ -616,7 +617,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>12</td>
 <td align="left">Australia</td>
-<td align="right">1.1018001</td>
+<td align="right">1.0827862</td>
 <td align="right">0.7849408</td>
 <td align="right">0.9698462</td>
 <td align="right">0.9894222</td>
@@ -634,7 +635,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>13</td>
 <td align="left">Austria</td>
-<td align="right">0.4573739</td>
+<td align="right">0.4516026</td>
 <td align="right">0.1747203</td>
 <td align="right">0.2996147</td>
 <td align="right">0.2738809</td>
@@ -652,13 +653,13 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>20</td>
 <td align="left">Belgium</td>
-<td align="right">0.9672180</td>
+<td align="right">0.9554392</td>
 <td align="right">0.4576344</td>
 <td align="right">0.8203120</td>
 <td align="right">0.6552541</td>
 <td align="right">0.9667037</td>
 <td align="right">0.0786858</td>
-<td align="right">1</td>
+<td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -670,7 +671,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>28</td>
 <td align="left">Brazil</td>
-<td align="right">0.5459326</td>
+<td align="right">0.5376609</td>
 <td align="right">0.4864667</td>
 <td align="right">0.3885210</td>
 <td align="right">0.4761217</td>
@@ -688,7 +689,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>37</td>
 <td align="left">Canada</td>
-<td align="right">1.3253550</td>
+<td align="right">1.3066000</td>
 <td align="right">1.0294271</td>
 <td align="right">1.2141208</td>
 <td align="right">1.1505540</td>
@@ -706,7 +707,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>44</td>
 <td align="left">Chile</td>
-<td align="right">1.2079987</td>
+<td align="right">1.2000244</td>
 <td align="right">0.9780697</td>
 <td align="right">0.9359206</td>
 <td align="right">1.0560277</td>
@@ -724,7 +725,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>45</td>
 <td align="left">China</td>
-<td align="right">0.9435735</td>
+<td align="right">0.9207308</td>
 <td align="right">0.5541939</td>
 <td align="right">0.6586526</td>
 <td align="right">0.5922091</td>
@@ -742,7 +743,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>46</td>
 <td align="left">Colombia</td>
-<td align="right">0.4152542</td>
+<td align="right">0.4135887</td>
 <td align="right">0.4740204</td>
 <td align="right">0.3968742</td>
 <td align="right">0.4980473</td>
@@ -760,13 +761,13 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>81</td>
 <td align="left">France</td>
-<td align="right">1.0967180</td>
+<td align="right">1.0820485</td>
 <td align="right">0.4627055</td>
 <td align="right">0.8749564</td>
 <td align="right">0.7540257</td>
 <td align="right">1.0904311</td>
 <td align="right">0.0505182</td>
-<td align="right">1</td>
+<td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -778,7 +779,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>86</td>
 <td align="left">Germany</td>
-<td align="right">0.5845979</td>
+<td align="right">0.5758399</td>
 <td align="right">0.3124133</td>
 <td align="right">0.5134009</td>
 <td align="right">0.4394087</td>
@@ -796,7 +797,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>89</td>
 <td align="left">Greece</td>
-<td align="right">0.2286706</td>
+<td align="right">0.2239557</td>
 <td align="right">0.3887054</td>
 <td align="right">0.2454864</td>
 <td align="right">0.2349021</td>
@@ -814,10 +815,10 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>109</td>
 <td align="left">India</td>
-<td align="right">0.8181802</td>
-<td align="right">0.7686593</td>
-<td align="right">0.7322429</td>
-<td align="right">0.7422071</td>
+<td align="right">0.8106731</td>
+<td align="right">0.7686539</td>
+<td align="right">0.7322268</td>
+<td align="right">0.7421990</td>
 <td align="right">1.5145139</td>
 <td align="right">0.4654705</td>
 <td align="right">0</td>
@@ -832,7 +833,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>110</td>
 <td align="left">Indonesia</td>
-<td align="right">0.4816789</td>
+<td align="right">0.4807856</td>
 <td align="right">0.3316202</td>
 <td align="right">0.4457203</td>
 <td align="right">0.4165210</td>
@@ -850,7 +851,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>113</td>
 <td align="left">Ireland</td>
-<td align="right">0.4707651</td>
+<td align="right">0.4646186</td>
 <td align="right">0.5310842</td>
 <td align="right">0.5167314</td>
 <td align="right">0.4231623</td>
@@ -868,7 +869,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>115</td>
 <td align="left">Israel</td>
-<td align="right">0.6852565</td>
+<td align="right">0.6740500</td>
 <td align="right">0.4967924</td>
 <td align="right">0.7087535</td>
 <td align="right">0.7155942</td>
@@ -886,7 +887,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>118</td>
 <td align="left">Japan</td>
-<td align="right">1.2171904</td>
+<td align="right">1.1927182</td>
 <td align="right">0.6833536</td>
 <td align="right">1.0212187</td>
 <td align="right">0.8128934</td>
@@ -904,10 +905,10 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>149</td>
 <td align="left">Malaysia</td>
-<td align="right">1.3760923</td>
-<td align="right">1.3314568</td>
-<td align="right">1.3332500</td>
-<td align="right">1.3330347</td>
+<td align="right">1.4283382</td>
+<td align="right">1.3330994</td>
+<td align="right">1.3454048</td>
+<td align="right">1.3391121</td>
 <td align="right">3.2099345</td>
 <td align="right">0.5177362</td>
 <td align="right">0</td>
@@ -922,7 +923,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>172</td>
 <td align="left">Netherlands</td>
-<td align="right">1.4113213</td>
+<td align="right">1.3932218</td>
 <td align="right">0.6765263</td>
 <td align="right">1.0597736</td>
 <td align="right">0.8606709</td>
@@ -940,7 +941,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>174</td>
 <td align="left">New Zealand</td>
-<td align="right">0.5118832</td>
+<td align="right">0.5073727</td>
 <td align="right">0.3930220</td>
 <td align="right">0.4142401</td>
 <td align="right">0.3556930</td>
@@ -958,7 +959,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>177</td>
 <td align="left">Nigeria</td>
-<td align="right">0.4144800</td>
+<td align="right">0.4043494</td>
 <td align="right">0.2020160</td>
 <td align="right">0.1647290</td>
 <td align="right">0.1598451</td>
@@ -976,7 +977,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>180</td>
 <td align="left">Norway</td>
-<td align="right">0.7590142</td>
+<td align="right">0.7422157</td>
 <td align="right">0.3889078</td>
 <td align="right">0.5586501</td>
 <td align="right">0.5303237</td>
@@ -994,7 +995,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>191</td>
 <td align="left">Peru</td>
-<td align="right">0.5283250</td>
+<td align="right">0.5272081</td>
 <td align="right">0.3748111</td>
 <td align="right">0.4047909</td>
 <td align="right">0.4641154</td>
@@ -1012,7 +1013,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>192</td>
 <td align="left">Philippines</td>
-<td align="right">0.7951673</td>
+<td align="right">0.7806021</td>
 <td align="right">0.5843383</td>
 <td align="right">0.8409973</td>
 <td align="right">0.7458218</td>
@@ -1030,7 +1031,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>193</td>
 <td align="left">Poland</td>
-<td align="right">0.3877869</td>
+<td align="right">0.3819160</td>
 <td align="right">0.2530704</td>
 <td align="right">0.3402953</td>
 <td align="right">0.3228428</td>
@@ -1048,7 +1049,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>194</td>
 <td align="left">Portugal</td>
-<td align="right">0.3560969</td>
+<td align="right">0.3529019</td>
 <td align="right">0.3711296</td>
 <td align="right">0.3052927</td>
 <td align="right">0.3091215</td>
@@ -1066,7 +1067,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>198</td>
 <td align="left">Qatar</td>
-<td align="right">0.8496087</td>
+<td align="right">0.8431582</td>
 <td align="right">0.8916907</td>
 <td align="right">0.8759542</td>
 <td align="right">0.8406159</td>
@@ -1084,7 +1085,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>205</td>
 <td align="left">Saudi Arabia</td>
-<td align="right">0.8024435</td>
+<td align="right">0.7881973</td>
 <td align="right">0.6384813</td>
 <td align="right">0.6644581</td>
 <td align="right">0.6384813</td>
@@ -1102,7 +1103,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>210</td>
 <td align="left">Singapore</td>
-<td align="right">2.7866995</td>
+<td align="right">2.7396797</td>
 <td align="right">1.6826933</td>
 <td align="right">2.3851348</td>
 <td align="right">2.3359542</td>
@@ -1120,7 +1121,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>217</td>
 <td align="left">South Africa</td>
-<td align="right">4.1558066</td>
+<td align="right">4.0559950</td>
 <td align="right">1.6135703</td>
 <td align="right">3.0001952</td>
 <td align="right">2.6018387</td>
@@ -1138,7 +1139,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>221</td>
 <td align="left">Spain</td>
-<td align="right">0.6689242</td>
+<td align="right">0.6611054</td>
 <td align="right">0.4772077</td>
 <td align="right">0.6883850</td>
 <td align="right">0.7234932</td>
@@ -1156,7 +1157,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>234</td>
 <td align="left">Switzerland</td>
-<td align="right">2.4144076</td>
+<td align="right">2.3820938</td>
 <td align="right">1.5197636</td>
 <td align="right">2.2360912</td>
 <td align="right">2.0244203</td>
@@ -1174,7 +1175,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>238</td>
 <td align="left">Thailand</td>
-<td align="right">1.4134030</td>
+<td align="right">1.3996519</td>
 <td align="right">0.6409642</td>
 <td align="right">1.0300358</td>
 <td align="right">0.8650881</td>
@@ -1192,7 +1193,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>244</td>
 <td align="left">Turkey</td>
-<td align="right">0.2530878</td>
+<td align="right">0.2486728</td>
 <td align="right">0.2522192</td>
 <td align="right">0.2237978</td>
 <td align="right">0.2621403</td>
@@ -1200,17 +1201,17 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <td align="right">0.1220066</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">1</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">0</td>
-<td align="right">0</td>
+<td align="right">1</td>
 <td align="right">0</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
 <td>252</td>
 <td align="left">United States</td>
-<td align="right">1.6787106</td>
+<td align="right">1.6404906</td>
 <td align="right">0.9202279</td>
 <td align="right">1.5006823</td>
 <td align="right">1.2654987</td>
@@ -1228,7 +1229,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>258</td>
 <td align="left">Vietnam</td>
-<td align="right">0.4430073</td>
+<td align="right">0.4423279</td>
 <td align="right">0.2451936</td>
 <td align="right">0.2956463</td>
 <td align="right">0.2451936</td>
@@ -1245,7 +1246,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>kable(subset(dat,more_avg == 1), caption = &quot;Countries with ratio more than average&quot;)</code></pre>
+<pre class="r"><code>kable(subset(dat,more_avg == 1), caption = &quot;Countries with ratio more than average&quot;) </code></pre>
 <table>
 <caption><span id="tab:unnamed-chunk-7">Table 1: </span>Countries with ratio more than average</caption>
 <thead>
@@ -1272,7 +1273,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>9</td>
 <td align="left">Argentina</td>
-<td align="right">0.1714592</td>
+<td align="right">0.1702098</td>
 <td align="right">0.1096417</td>
 <td align="right">0.1185503</td>
 <td align="right">0.1136155</td>
@@ -1290,7 +1291,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>12</td>
 <td align="left">Australia</td>
-<td align="right">1.1018001</td>
+<td align="right">1.0827862</td>
 <td align="right">0.7849408</td>
 <td align="right">0.9698462</td>
 <td align="right">0.9894222</td>
@@ -1308,7 +1309,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>13</td>
 <td align="left">Austria</td>
-<td align="right">0.4573739</td>
+<td align="right">0.4516026</td>
 <td align="right">0.1747203</td>
 <td align="right">0.2996147</td>
 <td align="right">0.2738809</td>
@@ -1326,13 +1327,13 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>20</td>
 <td align="left">Belgium</td>
-<td align="right">0.9672180</td>
+<td align="right">0.9554392</td>
 <td align="right">0.4576344</td>
 <td align="right">0.8203120</td>
 <td align="right">0.6552541</td>
 <td align="right">0.9667037</td>
 <td align="right">0.0786858</td>
-<td align="right">1</td>
+<td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1344,7 +1345,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>28</td>
 <td align="left">Brazil</td>
-<td align="right">0.5459326</td>
+<td align="right">0.5376609</td>
 <td align="right">0.4864667</td>
 <td align="right">0.3885210</td>
 <td align="right">0.4761217</td>
@@ -1362,7 +1363,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>37</td>
 <td align="left">Canada</td>
-<td align="right">1.3253550</td>
+<td align="right">1.3066000</td>
 <td align="right">1.0294271</td>
 <td align="right">1.2141208</td>
 <td align="right">1.1505540</td>
@@ -1380,7 +1381,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>44</td>
 <td align="left">Chile</td>
-<td align="right">1.2079987</td>
+<td align="right">1.2000244</td>
 <td align="right">0.9780697</td>
 <td align="right">0.9359206</td>
 <td align="right">1.0560277</td>
@@ -1398,7 +1399,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>45</td>
 <td align="left">China</td>
-<td align="right">0.9435735</td>
+<td align="right">0.9207308</td>
 <td align="right">0.5541939</td>
 <td align="right">0.6586526</td>
 <td align="right">0.5922091</td>
@@ -1416,13 +1417,13 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>81</td>
 <td align="left">France</td>
-<td align="right">1.0967180</td>
+<td align="right">1.0820485</td>
 <td align="right">0.4627055</td>
 <td align="right">0.8749564</td>
 <td align="right">0.7540257</td>
 <td align="right">1.0904311</td>
 <td align="right">0.0505182</td>
-<td align="right">1</td>
+<td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1434,7 +1435,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>86</td>
 <td align="left">Germany</td>
-<td align="right">0.5845979</td>
+<td align="right">0.5758399</td>
 <td align="right">0.3124133</td>
 <td align="right">0.5134009</td>
 <td align="right">0.4394087</td>
@@ -1452,10 +1453,10 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>109</td>
 <td align="left">India</td>
-<td align="right">0.8181802</td>
-<td align="right">0.7686593</td>
-<td align="right">0.7322429</td>
-<td align="right">0.7422071</td>
+<td align="right">0.8106731</td>
+<td align="right">0.7686539</td>
+<td align="right">0.7322268</td>
+<td align="right">0.7421990</td>
 <td align="right">1.5145139</td>
 <td align="right">0.4654705</td>
 <td align="right">0</td>
@@ -1470,7 +1471,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>110</td>
 <td align="left">Indonesia</td>
-<td align="right">0.4816789</td>
+<td align="right">0.4807856</td>
 <td align="right">0.3316202</td>
 <td align="right">0.4457203</td>
 <td align="right">0.4165210</td>
@@ -1488,7 +1489,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>115</td>
 <td align="left">Israel</td>
-<td align="right">0.6852565</td>
+<td align="right">0.6740500</td>
 <td align="right">0.4967924</td>
 <td align="right">0.7087535</td>
 <td align="right">0.7155942</td>
@@ -1506,7 +1507,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>118</td>
 <td align="left">Japan</td>
-<td align="right">1.2171904</td>
+<td align="right">1.1927182</td>
 <td align="right">0.6833536</td>
 <td align="right">1.0212187</td>
 <td align="right">0.8128934</td>
@@ -1524,10 +1525,10 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>149</td>
 <td align="left">Malaysia</td>
-<td align="right">1.3760923</td>
-<td align="right">1.3314568</td>
-<td align="right">1.3332500</td>
-<td align="right">1.3330347</td>
+<td align="right">1.4283382</td>
+<td align="right">1.3330994</td>
+<td align="right">1.3454048</td>
+<td align="right">1.3391121</td>
 <td align="right">3.2099345</td>
 <td align="right">0.5177362</td>
 <td align="right">0</td>
@@ -1542,7 +1543,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>172</td>
 <td align="left">Netherlands</td>
-<td align="right">1.4113213</td>
+<td align="right">1.3932218</td>
 <td align="right">0.6765263</td>
 <td align="right">1.0597736</td>
 <td align="right">0.8606709</td>
@@ -1560,7 +1561,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>174</td>
 <td align="left">New Zealand</td>
-<td align="right">0.5118832</td>
+<td align="right">0.5073727</td>
 <td align="right">0.3930220</td>
 <td align="right">0.4142401</td>
 <td align="right">0.3556930</td>
@@ -1578,7 +1579,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>177</td>
 <td align="left">Nigeria</td>
-<td align="right">0.4144800</td>
+<td align="right">0.4043494</td>
 <td align="right">0.2020160</td>
 <td align="right">0.1647290</td>
 <td align="right">0.1598451</td>
@@ -1596,7 +1597,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>180</td>
 <td align="left">Norway</td>
-<td align="right">0.7590142</td>
+<td align="right">0.7422157</td>
 <td align="right">0.3889078</td>
 <td align="right">0.5586501</td>
 <td align="right">0.5303237</td>
@@ -1614,7 +1615,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>191</td>
 <td align="left">Peru</td>
-<td align="right">0.5283250</td>
+<td align="right">0.5272081</td>
 <td align="right">0.3748111</td>
 <td align="right">0.4047909</td>
 <td align="right">0.4641154</td>
@@ -1632,7 +1633,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>192</td>
 <td align="left">Philippines</td>
-<td align="right">0.7951673</td>
+<td align="right">0.7806021</td>
 <td align="right">0.5843383</td>
 <td align="right">0.8409973</td>
 <td align="right">0.7458218</td>
@@ -1650,7 +1651,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>193</td>
 <td align="left">Poland</td>
-<td align="right">0.3877869</td>
+<td align="right">0.3819160</td>
 <td align="right">0.2530704</td>
 <td align="right">0.3402953</td>
 <td align="right">0.3228428</td>
@@ -1668,7 +1669,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>205</td>
 <td align="left">Saudi Arabia</td>
-<td align="right">0.8024435</td>
+<td align="right">0.7881973</td>
 <td align="right">0.6384813</td>
 <td align="right">0.6644581</td>
 <td align="right">0.6384813</td>
@@ -1686,7 +1687,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>210</td>
 <td align="left">Singapore</td>
-<td align="right">2.7866995</td>
+<td align="right">2.7396797</td>
 <td align="right">1.6826933</td>
 <td align="right">2.3851348</td>
 <td align="right">2.3359542</td>
@@ -1704,7 +1705,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>217</td>
 <td align="left">South Africa</td>
-<td align="right">4.1558066</td>
+<td align="right">4.0559950</td>
 <td align="right">1.6135703</td>
 <td align="right">3.0001952</td>
 <td align="right">2.6018387</td>
@@ -1722,7 +1723,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>221</td>
 <td align="left">Spain</td>
-<td align="right">0.6689242</td>
+<td align="right">0.6611054</td>
 <td align="right">0.4772077</td>
 <td align="right">0.6883850</td>
 <td align="right">0.7234932</td>
@@ -1740,7 +1741,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>234</td>
 <td align="left">Switzerland</td>
-<td align="right">2.4144076</td>
+<td align="right">2.3820938</td>
 <td align="right">1.5197636</td>
 <td align="right">2.2360912</td>
 <td align="right">2.0244203</td>
@@ -1758,7 +1759,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>238</td>
 <td align="left">Thailand</td>
-<td align="right">1.4134030</td>
+<td align="right">1.3996519</td>
 <td align="right">0.6409642</td>
 <td align="right">1.0300358</td>
 <td align="right">0.8650881</td>
@@ -1774,27 +1775,9 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td>244</td>
-<td align="left">Turkey</td>
-<td align="right">0.2530878</td>
-<td align="right">0.2522192</td>
-<td align="right">0.2237978</td>
-<td align="right">0.2621403</td>
-<td align="right">0.4404953</td>
-<td align="right">0.1220066</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
 <td>252</td>
 <td align="left">United States</td>
-<td align="right">1.6787106</td>
+<td align="right">1.6404906</td>
 <td align="right">0.9202279</td>
 <td align="right">1.5006823</td>
 <td align="right">1.2654987</td>
@@ -1809,10 +1792,10 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <td align="right">0</td>
 <td align="right">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>258</td>
 <td align="left">Vietnam</td>
-<td align="right">0.4430073</td>
+<td align="right">0.4423279</td>
 <td align="right">0.2451936</td>
 <td align="right">0.2956463</td>
 <td align="right">0.2451936</td>
@@ -1829,7 +1812,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>kable(subset(dat,more_avg_5 == 1), caption = &quot;Countries with ratio more than 5-year average&quot;)</code></pre>
+<pre class="r"><code>kable(subset(dat,more_avg_5 == 1), caption = &quot;Countries with ratio more than 5-year average&quot;) </code></pre>
 <table>
 <caption><span id="tab:unnamed-chunk-7">Table 1: </span>Countries with ratio more than 5-year average</caption>
 <thead>
@@ -1856,7 +1839,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>9</td>
 <td align="left">Argentina</td>
-<td align="right">0.1714592</td>
+<td align="right">0.1702098</td>
 <td align="right">0.1096417</td>
 <td align="right">0.1185503</td>
 <td align="right">0.1136155</td>
@@ -1874,7 +1857,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>12</td>
 <td align="left">Australia</td>
-<td align="right">1.1018001</td>
+<td align="right">1.0827862</td>
 <td align="right">0.7849408</td>
 <td align="right">0.9698462</td>
 <td align="right">0.9894222</td>
@@ -1892,7 +1875,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>13</td>
 <td align="left">Austria</td>
-<td align="right">0.4573739</td>
+<td align="right">0.4516026</td>
 <td align="right">0.1747203</td>
 <td align="right">0.2996147</td>
 <td align="right">0.2738809</td>
@@ -1910,13 +1893,13 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>20</td>
 <td align="left">Belgium</td>
-<td align="right">0.9672180</td>
+<td align="right">0.9554392</td>
 <td align="right">0.4576344</td>
 <td align="right">0.8203120</td>
 <td align="right">0.6552541</td>
 <td align="right">0.9667037</td>
 <td align="right">0.0786858</td>
-<td align="right">1</td>
+<td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -1928,7 +1911,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>28</td>
 <td align="left">Brazil</td>
-<td align="right">0.5459326</td>
+<td align="right">0.5376609</td>
 <td align="right">0.4864667</td>
 <td align="right">0.3885210</td>
 <td align="right">0.4761217</td>
@@ -1946,7 +1929,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>37</td>
 <td align="left">Canada</td>
-<td align="right">1.3253550</td>
+<td align="right">1.3066000</td>
 <td align="right">1.0294271</td>
 <td align="right">1.2141208</td>
 <td align="right">1.1505540</td>
@@ -1964,7 +1947,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>44</td>
 <td align="left">Chile</td>
-<td align="right">1.2079987</td>
+<td align="right">1.2000244</td>
 <td align="right">0.9780697</td>
 <td align="right">0.9359206</td>
 <td align="right">1.0560277</td>
@@ -1982,7 +1965,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>45</td>
 <td align="left">China</td>
-<td align="right">0.9435735</td>
+<td align="right">0.9207308</td>
 <td align="right">0.5541939</td>
 <td align="right">0.6586526</td>
 <td align="right">0.5922091</td>
@@ -2000,7 +1983,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>46</td>
 <td align="left">Colombia</td>
-<td align="right">0.4152542</td>
+<td align="right">0.4135887</td>
 <td align="right">0.4740204</td>
 <td align="right">0.3968742</td>
 <td align="right">0.4980473</td>
@@ -2018,13 +2001,13 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>81</td>
 <td align="left">France</td>
-<td align="right">1.0967180</td>
+<td align="right">1.0820485</td>
 <td align="right">0.4627055</td>
 <td align="right">0.8749564</td>
 <td align="right">0.7540257</td>
 <td align="right">1.0904311</td>
 <td align="right">0.0505182</td>
-<td align="right">1</td>
+<td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -2036,7 +2019,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>86</td>
 <td align="left">Germany</td>
-<td align="right">0.5845979</td>
+<td align="right">0.5758399</td>
 <td align="right">0.3124133</td>
 <td align="right">0.5134009</td>
 <td align="right">0.4394087</td>
@@ -2054,10 +2037,10 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>109</td>
 <td align="left">India</td>
-<td align="right">0.8181802</td>
-<td align="right">0.7686593</td>
-<td align="right">0.7322429</td>
-<td align="right">0.7422071</td>
+<td align="right">0.8106731</td>
+<td align="right">0.7686539</td>
+<td align="right">0.7322268</td>
+<td align="right">0.7421990</td>
 <td align="right">1.5145139</td>
 <td align="right">0.4654705</td>
 <td align="right">0</td>
@@ -2072,7 +2055,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>110</td>
 <td align="left">Indonesia</td>
-<td align="right">0.4816789</td>
+<td align="right">0.4807856</td>
 <td align="right">0.3316202</td>
 <td align="right">0.4457203</td>
 <td align="right">0.4165210</td>
@@ -2090,7 +2073,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>118</td>
 <td align="left">Japan</td>
-<td align="right">1.2171904</td>
+<td align="right">1.1927182</td>
 <td align="right">0.6833536</td>
 <td align="right">1.0212187</td>
 <td align="right">0.8128934</td>
@@ -2108,10 +2091,10 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>149</td>
 <td align="left">Malaysia</td>
-<td align="right">1.3760923</td>
-<td align="right">1.3314568</td>
-<td align="right">1.3332500</td>
-<td align="right">1.3330347</td>
+<td align="right">1.4283382</td>
+<td align="right">1.3330994</td>
+<td align="right">1.3454048</td>
+<td align="right">1.3391121</td>
 <td align="right">3.2099345</td>
 <td align="right">0.5177362</td>
 <td align="right">0</td>
@@ -2126,7 +2109,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>172</td>
 <td align="left">Netherlands</td>
-<td align="right">1.4113213</td>
+<td align="right">1.3932218</td>
 <td align="right">0.6765263</td>
 <td align="right">1.0597736</td>
 <td align="right">0.8606709</td>
@@ -2144,7 +2127,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>174</td>
 <td align="left">New Zealand</td>
-<td align="right">0.5118832</td>
+<td align="right">0.5073727</td>
 <td align="right">0.3930220</td>
 <td align="right">0.4142401</td>
 <td align="right">0.3556930</td>
@@ -2162,7 +2145,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>177</td>
 <td align="left">Nigeria</td>
-<td align="right">0.4144800</td>
+<td align="right">0.4043494</td>
 <td align="right">0.2020160</td>
 <td align="right">0.1647290</td>
 <td align="right">0.1598451</td>
@@ -2180,7 +2163,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>180</td>
 <td align="left">Norway</td>
-<td align="right">0.7590142</td>
+<td align="right">0.7422157</td>
 <td align="right">0.3889078</td>
 <td align="right">0.5586501</td>
 <td align="right">0.5303237</td>
@@ -2198,7 +2181,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>191</td>
 <td align="left">Peru</td>
-<td align="right">0.5283250</td>
+<td align="right">0.5272081</td>
 <td align="right">0.3748111</td>
 <td align="right">0.4047909</td>
 <td align="right">0.4641154</td>
@@ -2216,7 +2199,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>193</td>
 <td align="left">Poland</td>
-<td align="right">0.3877869</td>
+<td align="right">0.3819160</td>
 <td align="right">0.2530704</td>
 <td align="right">0.3402953</td>
 <td align="right">0.3228428</td>
@@ -2234,7 +2217,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>194</td>
 <td align="left">Portugal</td>
-<td align="right">0.3560969</td>
+<td align="right">0.3529019</td>
 <td align="right">0.3711296</td>
 <td align="right">0.3052927</td>
 <td align="right">0.3091215</td>
@@ -2252,7 +2235,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>205</td>
 <td align="left">Saudi Arabia</td>
-<td align="right">0.8024435</td>
+<td align="right">0.7881973</td>
 <td align="right">0.6384813</td>
 <td align="right">0.6644581</td>
 <td align="right">0.6384813</td>
@@ -2270,7 +2253,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>210</td>
 <td align="left">Singapore</td>
-<td align="right">2.7866995</td>
+<td align="right">2.7396797</td>
 <td align="right">1.6826933</td>
 <td align="right">2.3851348</td>
 <td align="right">2.3359542</td>
@@ -2288,7 +2271,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>217</td>
 <td align="left">South Africa</td>
-<td align="right">4.1558066</td>
+<td align="right">4.0559950</td>
 <td align="right">1.6135703</td>
 <td align="right">3.0001952</td>
 <td align="right">2.6018387</td>
@@ -2306,7 +2289,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>234</td>
 <td align="left">Switzerland</td>
-<td align="right">2.4144076</td>
+<td align="right">2.3820938</td>
 <td align="right">1.5197636</td>
 <td align="right">2.2360912</td>
 <td align="right">2.0244203</td>
@@ -2324,7 +2307,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>238</td>
 <td align="left">Thailand</td>
-<td align="right">1.4134030</td>
+<td align="right">1.3996519</td>
 <td align="right">0.6409642</td>
 <td align="right">1.0300358</td>
 <td align="right">0.8650881</td>
@@ -2342,7 +2325,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>244</td>
 <td align="left">Turkey</td>
-<td align="right">0.2530878</td>
+<td align="right">0.2486728</td>
 <td align="right">0.2522192</td>
 <td align="right">0.2237978</td>
 <td align="right">0.2621403</td>
@@ -2350,17 +2333,17 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <td align="right">0.1220066</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">1</td>
+<td align="right">0</td>
 <td align="right">1</td>
 <td align="right">0</td>
-<td align="right">0</td>
+<td align="right">1</td>
 <td align="right">0</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
 <td>252</td>
 <td align="left">United States</td>
-<td align="right">1.6787106</td>
+<td align="right">1.6404906</td>
 <td align="right">0.9202279</td>
 <td align="right">1.5006823</td>
 <td align="right">1.2654987</td>
@@ -2378,7 +2361,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>258</td>
 <td align="left">Vietnam</td>
-<td align="right">0.4430073</td>
+<td align="right">0.4423279</td>
 <td align="right">0.2451936</td>
 <td align="right">0.2956463</td>
 <td align="right">0.2451936</td>
@@ -2395,7 +2378,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>kable(subset(dat,more_avg_10 == 1), caption = &quot;Countries with ratio more than 10-year average&quot;)</code></pre>
+<pre class="r"><code>kable(subset(dat,more_avg_10 == 1), caption = &quot;Countries with ratio more than 10-year average&quot;) </code></pre>
 <table>
 <caption><span id="tab:unnamed-chunk-7">Table 1: </span>Countries with ratio more than 10-year average</caption>
 <thead>
@@ -2422,7 +2405,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>9</td>
 <td align="left">Argentina</td>
-<td align="right">0.1714592</td>
+<td align="right">0.1702098</td>
 <td align="right">0.1096417</td>
 <td align="right">0.1185503</td>
 <td align="right">0.1136155</td>
@@ -2440,7 +2423,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>12</td>
 <td align="left">Australia</td>
-<td align="right">1.1018001</td>
+<td align="right">1.0827862</td>
 <td align="right">0.7849408</td>
 <td align="right">0.9698462</td>
 <td align="right">0.9894222</td>
@@ -2458,7 +2441,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>13</td>
 <td align="left">Austria</td>
-<td align="right">0.4573739</td>
+<td align="right">0.4516026</td>
 <td align="right">0.1747203</td>
 <td align="right">0.2996147</td>
 <td align="right">0.2738809</td>
@@ -2476,13 +2459,13 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>20</td>
 <td align="left">Belgium</td>
-<td align="right">0.9672180</td>
+<td align="right">0.9554392</td>
 <td align="right">0.4576344</td>
 <td align="right">0.8203120</td>
 <td align="right">0.6552541</td>
 <td align="right">0.9667037</td>
 <td align="right">0.0786858</td>
-<td align="right">1</td>
+<td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -2494,7 +2477,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>28</td>
 <td align="left">Brazil</td>
-<td align="right">0.5459326</td>
+<td align="right">0.5376609</td>
 <td align="right">0.4864667</td>
 <td align="right">0.3885210</td>
 <td align="right">0.4761217</td>
@@ -2512,7 +2495,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>37</td>
 <td align="left">Canada</td>
-<td align="right">1.3253550</td>
+<td align="right">1.3066000</td>
 <td align="right">1.0294271</td>
 <td align="right">1.2141208</td>
 <td align="right">1.1505540</td>
@@ -2530,7 +2513,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>44</td>
 <td align="left">Chile</td>
-<td align="right">1.2079987</td>
+<td align="right">1.2000244</td>
 <td align="right">0.9780697</td>
 <td align="right">0.9359206</td>
 <td align="right">1.0560277</td>
@@ -2548,7 +2531,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>45</td>
 <td align="left">China</td>
-<td align="right">0.9435735</td>
+<td align="right">0.9207308</td>
 <td align="right">0.5541939</td>
 <td align="right">0.6586526</td>
 <td align="right">0.5922091</td>
@@ -2566,13 +2549,13 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>81</td>
 <td align="left">France</td>
-<td align="right">1.0967180</td>
+<td align="right">1.0820485</td>
 <td align="right">0.4627055</td>
 <td align="right">0.8749564</td>
 <td align="right">0.7540257</td>
 <td align="right">1.0904311</td>
 <td align="right">0.0505182</td>
-<td align="right">1</td>
+<td align="right">0</td>
 <td align="right">0</td>
 <td align="right">1</td>
 <td align="right">1</td>
@@ -2584,7 +2567,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>86</td>
 <td align="left">Germany</td>
-<td align="right">0.5845979</td>
+<td align="right">0.5758399</td>
 <td align="right">0.3124133</td>
 <td align="right">0.5134009</td>
 <td align="right">0.4394087</td>
@@ -2602,10 +2585,10 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>109</td>
 <td align="left">India</td>
-<td align="right">0.8181802</td>
-<td align="right">0.7686593</td>
-<td align="right">0.7322429</td>
-<td align="right">0.7422071</td>
+<td align="right">0.8106731</td>
+<td align="right">0.7686539</td>
+<td align="right">0.7322268</td>
+<td align="right">0.7421990</td>
 <td align="right">1.5145139</td>
 <td align="right">0.4654705</td>
 <td align="right">0</td>
@@ -2620,7 +2603,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>110</td>
 <td align="left">Indonesia</td>
-<td align="right">0.4816789</td>
+<td align="right">0.4807856</td>
 <td align="right">0.3316202</td>
 <td align="right">0.4457203</td>
 <td align="right">0.4165210</td>
@@ -2638,7 +2621,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>113</td>
 <td align="left">Ireland</td>
-<td align="right">0.4707651</td>
+<td align="right">0.4646186</td>
 <td align="right">0.5310842</td>
 <td align="right">0.5167314</td>
 <td align="right">0.4231623</td>
@@ -2656,7 +2639,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>118</td>
 <td align="left">Japan</td>
-<td align="right">1.2171904</td>
+<td align="right">1.1927182</td>
 <td align="right">0.6833536</td>
 <td align="right">1.0212187</td>
 <td align="right">0.8128934</td>
@@ -2674,10 +2657,10 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>149</td>
 <td align="left">Malaysia</td>
-<td align="right">1.3760923</td>
-<td align="right">1.3314568</td>
-<td align="right">1.3332500</td>
-<td align="right">1.3330347</td>
+<td align="right">1.4283382</td>
+<td align="right">1.3330994</td>
+<td align="right">1.3454048</td>
+<td align="right">1.3391121</td>
 <td align="right">3.2099345</td>
 <td align="right">0.5177362</td>
 <td align="right">0</td>
@@ -2692,7 +2675,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>172</td>
 <td align="left">Netherlands</td>
-<td align="right">1.4113213</td>
+<td align="right">1.3932218</td>
 <td align="right">0.6765263</td>
 <td align="right">1.0597736</td>
 <td align="right">0.8606709</td>
@@ -2710,7 +2693,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>174</td>
 <td align="left">New Zealand</td>
-<td align="right">0.5118832</td>
+<td align="right">0.5073727</td>
 <td align="right">0.3930220</td>
 <td align="right">0.4142401</td>
 <td align="right">0.3556930</td>
@@ -2728,7 +2711,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>177</td>
 <td align="left">Nigeria</td>
-<td align="right">0.4144800</td>
+<td align="right">0.4043494</td>
 <td align="right">0.2020160</td>
 <td align="right">0.1647290</td>
 <td align="right">0.1598451</td>
@@ -2746,7 +2729,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>180</td>
 <td align="left">Norway</td>
-<td align="right">0.7590142</td>
+<td align="right">0.7422157</td>
 <td align="right">0.3889078</td>
 <td align="right">0.5586501</td>
 <td align="right">0.5303237</td>
@@ -2764,7 +2747,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>191</td>
 <td align="left">Peru</td>
-<td align="right">0.5283250</td>
+<td align="right">0.5272081</td>
 <td align="right">0.3748111</td>
 <td align="right">0.4047909</td>
 <td align="right">0.4641154</td>
@@ -2782,7 +2765,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>192</td>
 <td align="left">Philippines</td>
-<td align="right">0.7951673</td>
+<td align="right">0.7806021</td>
 <td align="right">0.5843383</td>
 <td align="right">0.8409973</td>
 <td align="right">0.7458218</td>
@@ -2800,7 +2783,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>193</td>
 <td align="left">Poland</td>
-<td align="right">0.3877869</td>
+<td align="right">0.3819160</td>
 <td align="right">0.2530704</td>
 <td align="right">0.3402953</td>
 <td align="right">0.3228428</td>
@@ -2818,7 +2801,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>194</td>
 <td align="left">Portugal</td>
-<td align="right">0.3560969</td>
+<td align="right">0.3529019</td>
 <td align="right">0.3711296</td>
 <td align="right">0.3052927</td>
 <td align="right">0.3091215</td>
@@ -2836,7 +2819,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>198</td>
 <td align="left">Qatar</td>
-<td align="right">0.8496087</td>
+<td align="right">0.8431582</td>
 <td align="right">0.8916907</td>
 <td align="right">0.8759542</td>
 <td align="right">0.8406159</td>
@@ -2854,7 +2837,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>205</td>
 <td align="left">Saudi Arabia</td>
-<td align="right">0.8024435</td>
+<td align="right">0.7881973</td>
 <td align="right">0.6384813</td>
 <td align="right">0.6644581</td>
 <td align="right">0.6384813</td>
@@ -2872,7 +2855,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>210</td>
 <td align="left">Singapore</td>
-<td align="right">2.7866995</td>
+<td align="right">2.7396797</td>
 <td align="right">1.6826933</td>
 <td align="right">2.3851348</td>
 <td align="right">2.3359542</td>
@@ -2890,7 +2873,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>217</td>
 <td align="left">South Africa</td>
-<td align="right">4.1558066</td>
+<td align="right">4.0559950</td>
 <td align="right">1.6135703</td>
 <td align="right">3.0001952</td>
 <td align="right">2.6018387</td>
@@ -2908,7 +2891,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>234</td>
 <td align="left">Switzerland</td>
-<td align="right">2.4144076</td>
+<td align="right">2.3820938</td>
 <td align="right">1.5197636</td>
 <td align="right">2.2360912</td>
 <td align="right">2.0244203</td>
@@ -2926,7 +2909,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>238</td>
 <td align="left">Thailand</td>
-<td align="right">1.4134030</td>
+<td align="right">1.3996519</td>
 <td align="right">0.6409642</td>
 <td align="right">1.0300358</td>
 <td align="right">0.8650881</td>
@@ -2944,7 +2927,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="even">
 <td>252</td>
 <td align="left">United States</td>
-<td align="right">1.6787106</td>
+<td align="right">1.6404906</td>
 <td align="right">0.9202279</td>
 <td align="right">1.5006823</td>
 <td align="right">1.2654987</td>
@@ -2962,7 +2945,7 @@ kable(dat, caption = &quot;Summarized data&quot;)</code></pre>
 <tr class="odd">
 <td>258</td>
 <td align="left">Vietnam</td>
-<td align="right">0.4430073</td>
+<td align="right">0.4423279</td>
 <td align="right">0.2451936</td>
 <td align="right">0.2956463</td>
 <td align="right">0.2451936</td>
@@ -3009,7 +2992,7 @@ mkt_cap_gdp_max_long$variable = as.numeric(as.vector(mkt_cap_gdp_max_long$variab
 ggplot(data = mkt_cap_gdp_max_long,
        aes(x = variable, y = value, colour = country)) +
   geom_line()</code></pre>
-<pre><code>## Warning: Removed 196 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 150 rows containing missing values (geom_path).</code></pre>
 <p><img src="/post/mkt_cap_gdp_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
 </div>
 

@@ -7,13 +7,13 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Sun, 01 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 03 Apr 2018 00:00:00 +0000</lastBuildDate>
     <atom:link href="/post/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Investigating Faber Sector Rotation Strategy</title>
       <link>/post/sector_rotation/</link>
-      <pubDate>Sun, 01 Apr 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/sector_rotation/</guid>
       <description>&lt;div id=&#34;does-sector-rotation---momentum-strategy-work&#34; class=&#34;section level2&#34;&gt;
@@ -152,7 +152,7 @@ portfolio_sim$tot_portfolio = 0; portfolio_sim$tot_portfolio[200] = 300&lt;/code
 &lt;/div&gt;
 &lt;div id=&#34;start-simulation&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Start simulation&lt;/h2&gt;
-&lt;p&gt;Momemnt of truth…I started my simulation - Picking 3 sectors with highest momentum; stick to it for the month. Rinse and repeat this process every month.&lt;/p&gt;
+&lt;p&gt;Moment of truth…I started my simulation - Picking 3 sectors with highest momentum; stick to it for the month. Rinse and repeat this process monthly.&lt;/p&gt;
 &lt;p&gt;If SnP 500 dips below the 200 day average, I will liquidate any position for the month.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# start = 252/2 + 1
 start = 200+ 1
@@ -493,6 +493,7 @@ mkt_cap_gdp$all_time_low = ifelse(mkt_cap_gdp$`2018` &amp;lt; min_ratio,1,0)&lt;
 &lt;div id=&#34;displaying-the-tabular-data&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Displaying the tabular data&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(knitr)
+library(kableExtra)
 
 ###################################Subset data frame to flash it out as table############################
 #Subset country and indicators
@@ -510,7 +511,7 @@ dat = subset(dat,select = c( &amp;quot;country&amp;quot;,&amp;quot;2018&amp;quot
                              &amp;quot;all_time_high&amp;quot;, &amp;quot;all_time_low&amp;quot;, &amp;quot;more_avg&amp;quot;,&amp;quot;more_avg_5&amp;quot;,&amp;quot;more_avg_10&amp;quot;,&amp;quot;less_avg&amp;quot;,&amp;quot;less_avg_5&amp;quot;,   
                              &amp;quot;less_avg_10&amp;quot;   ))
 
-kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+kable(dat, caption = &amp;quot;Summarized data&amp;quot;) &lt;/code&gt;&lt;/pre&gt;
 &lt;table&gt;
 &lt;caption&gt;&lt;span id=&#34;tab:unnamed-chunk-7&#34;&gt;Table 1: &lt;/span&gt;Summarized data&lt;/caption&gt;
 &lt;thead&gt;
@@ -537,7 +538,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;9&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Argentina&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.1714592&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.1702098&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1096417&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1185503&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1136155&lt;/td&gt;
@@ -555,7 +556,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;12&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Australia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.1018001&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.0827862&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7849408&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9698462&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9894222&lt;/td&gt;
@@ -573,7 +574,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;13&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Austria&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4573739&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4516026&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1747203&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2996147&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2738809&lt;/td&gt;
@@ -591,13 +592,13 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;20&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Belgium&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.9672180&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.9554392&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4576344&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8203120&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6552541&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9667037&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.0786858&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
@@ -609,7 +610,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;28&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Brazil&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5459326&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5376609&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4864667&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3885210&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4761217&lt;/td&gt;
@@ -627,7 +628,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;37&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Canada&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3253550&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3066000&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0294271&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.2141208&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.1505540&lt;/td&gt;
@@ -645,7 +646,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;44&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Chile&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.2079987&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.2000244&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9780697&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9359206&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0560277&lt;/td&gt;
@@ -663,7 +664,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;45&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;China&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.9435735&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.9207308&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5541939&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6586526&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5922091&lt;/td&gt;
@@ -681,7 +682,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;46&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Colombia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4152542&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4135887&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4740204&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3968742&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4980473&lt;/td&gt;
@@ -699,13 +700,13 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;81&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;France&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.0967180&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.0820485&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4627055&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8749564&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7540257&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0904311&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.0505182&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
@@ -717,7 +718,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;86&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Germany&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5845979&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5758399&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3124133&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5134009&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4394087&lt;/td&gt;
@@ -735,7 +736,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;89&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Greece&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.2286706&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.2239557&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3887054&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2454864&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2349021&lt;/td&gt;
@@ -753,10 +754,10 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;109&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;India&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.8181802&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7686593&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7322429&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7422071&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.8106731&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7686539&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7322268&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7421990&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.5145139&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4654705&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
@@ -771,7 +772,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;110&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Indonesia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4816789&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4807856&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3316202&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4457203&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4165210&lt;/td&gt;
@@ -789,7 +790,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;113&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Ireland&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4707651&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4646186&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5310842&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5167314&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4231623&lt;/td&gt;
@@ -807,7 +808,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;115&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Israel&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.6852565&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.6740500&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4967924&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7087535&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7155942&lt;/td&gt;
@@ -825,7 +826,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;118&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Japan&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.2171904&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.1927182&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6833536&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0212187&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8128934&lt;/td&gt;
@@ -843,10 +844,10 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;149&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Malaysia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3760923&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3314568&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3332500&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3330347&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.4283382&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3330994&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3454048&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3391121&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;3.2099345&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5177362&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
@@ -861,7 +862,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;172&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Netherlands&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.4113213&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3932218&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6765263&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0597736&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8606709&lt;/td&gt;
@@ -879,7 +880,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;174&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;New Zealand&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5118832&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5073727&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3930220&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4142401&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3556930&lt;/td&gt;
@@ -897,7 +898,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;177&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Nigeria&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4144800&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4043494&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2020160&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1647290&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1598451&lt;/td&gt;
@@ -915,7 +916,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;180&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Norway&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7590142&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7422157&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3889078&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5586501&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5303237&lt;/td&gt;
@@ -933,7 +934,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;191&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Peru&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5283250&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5272081&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3748111&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4047909&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4641154&lt;/td&gt;
@@ -951,7 +952,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;192&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Philippines&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7951673&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7806021&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5843383&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8409973&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7458218&lt;/td&gt;
@@ -969,7 +970,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;193&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Poland&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.3877869&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.3819160&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2530704&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3402953&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3228428&lt;/td&gt;
@@ -987,7 +988,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;194&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Portugal&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.3560969&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.3529019&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3711296&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3052927&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3091215&lt;/td&gt;
@@ -1005,7 +1006,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;198&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Qatar&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.8496087&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.8431582&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8916907&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8759542&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8406159&lt;/td&gt;
@@ -1023,7 +1024,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;205&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Saudi Arabia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.8024435&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7881973&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6384813&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6644581&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6384813&lt;/td&gt;
@@ -1041,7 +1042,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;210&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Singapore&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2.7866995&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.7396797&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.6826933&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.3851348&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.3359542&lt;/td&gt;
@@ -1059,7 +1060,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;217&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;South Africa&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;4.1558066&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4.0559950&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.6135703&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;3.0001952&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.6018387&lt;/td&gt;
@@ -1077,7 +1078,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;221&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Spain&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.6689242&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.6611054&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4772077&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6883850&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7234932&lt;/td&gt;
@@ -1095,7 +1096,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;234&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Switzerland&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2.4144076&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.3820938&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.5197636&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.2360912&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.0244203&lt;/td&gt;
@@ -1113,7 +1114,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;238&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Thailand&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.4134030&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3996519&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6409642&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0300358&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8650881&lt;/td&gt;
@@ -1131,7 +1132,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;244&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Turkey&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.2530878&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.2486728&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2522192&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2237978&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2621403&lt;/td&gt;
@@ -1139,17 +1140,17 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;td align=&#34;right&#34;&gt;0.1220066&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;252&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;United States&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.6787106&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.6404906&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9202279&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.5006823&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.2654987&lt;/td&gt;
@@ -1167,7 +1168,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;258&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Vietnam&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4430073&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4423279&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2451936&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2956463&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2451936&lt;/td&gt;
@@ -1184,7 +1185,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kable(subset(dat,more_avg == 1), caption = &amp;quot;Countries with ratio more than average&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kable(subset(dat,more_avg == 1), caption = &amp;quot;Countries with ratio more than average&amp;quot;) &lt;/code&gt;&lt;/pre&gt;
 &lt;table&gt;
 &lt;caption&gt;&lt;span id=&#34;tab:unnamed-chunk-7&#34;&gt;Table 1: &lt;/span&gt;Countries with ratio more than average&lt;/caption&gt;
 &lt;thead&gt;
@@ -1211,7 +1212,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;9&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Argentina&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.1714592&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.1702098&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1096417&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1185503&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1136155&lt;/td&gt;
@@ -1229,7 +1230,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;12&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Australia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.1018001&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.0827862&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7849408&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9698462&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9894222&lt;/td&gt;
@@ -1247,7 +1248,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;13&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Austria&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4573739&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4516026&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1747203&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2996147&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2738809&lt;/td&gt;
@@ -1265,13 +1266,13 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;20&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Belgium&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.9672180&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.9554392&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4576344&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8203120&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6552541&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9667037&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.0786858&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
@@ -1283,7 +1284,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;28&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Brazil&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5459326&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5376609&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4864667&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3885210&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4761217&lt;/td&gt;
@@ -1301,7 +1302,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;37&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Canada&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3253550&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3066000&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0294271&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.2141208&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.1505540&lt;/td&gt;
@@ -1319,7 +1320,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;44&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Chile&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.2079987&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.2000244&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9780697&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9359206&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0560277&lt;/td&gt;
@@ -1337,7 +1338,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;45&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;China&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.9435735&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.9207308&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5541939&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6586526&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5922091&lt;/td&gt;
@@ -1355,13 +1356,13 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;81&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;France&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.0967180&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.0820485&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4627055&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8749564&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7540257&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0904311&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.0505182&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
@@ -1373,7 +1374,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;86&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Germany&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5845979&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5758399&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3124133&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5134009&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4394087&lt;/td&gt;
@@ -1391,10 +1392,10 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;109&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;India&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.8181802&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7686593&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7322429&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7422071&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.8106731&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7686539&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7322268&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7421990&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.5145139&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4654705&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
@@ -1409,7 +1410,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;110&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Indonesia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4816789&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4807856&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3316202&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4457203&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4165210&lt;/td&gt;
@@ -1427,7 +1428,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;115&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Israel&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.6852565&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.6740500&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4967924&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7087535&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7155942&lt;/td&gt;
@@ -1445,7 +1446,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;118&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Japan&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.2171904&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.1927182&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6833536&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0212187&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8128934&lt;/td&gt;
@@ -1463,10 +1464,10 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;149&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Malaysia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3760923&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3314568&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3332500&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3330347&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.4283382&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3330994&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3454048&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3391121&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;3.2099345&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5177362&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
@@ -1481,7 +1482,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;172&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Netherlands&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.4113213&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3932218&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6765263&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0597736&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8606709&lt;/td&gt;
@@ -1499,7 +1500,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;174&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;New Zealand&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5118832&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5073727&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3930220&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4142401&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3556930&lt;/td&gt;
@@ -1517,7 +1518,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;177&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Nigeria&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4144800&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4043494&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2020160&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1647290&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1598451&lt;/td&gt;
@@ -1535,7 +1536,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;180&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Norway&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7590142&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7422157&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3889078&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5586501&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5303237&lt;/td&gt;
@@ -1553,7 +1554,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;191&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Peru&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5283250&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5272081&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3748111&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4047909&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4641154&lt;/td&gt;
@@ -1571,7 +1572,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;192&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Philippines&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7951673&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7806021&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5843383&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8409973&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7458218&lt;/td&gt;
@@ -1589,7 +1590,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;193&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Poland&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.3877869&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.3819160&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2530704&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3402953&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3228428&lt;/td&gt;
@@ -1607,7 +1608,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;205&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Saudi Arabia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.8024435&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7881973&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6384813&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6644581&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6384813&lt;/td&gt;
@@ -1625,7 +1626,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;210&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Singapore&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2.7866995&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.7396797&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.6826933&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.3851348&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.3359542&lt;/td&gt;
@@ -1643,7 +1644,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;217&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;South Africa&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;4.1558066&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4.0559950&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.6135703&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;3.0001952&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.6018387&lt;/td&gt;
@@ -1661,7 +1662,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;221&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Spain&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.6689242&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.6611054&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4772077&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6883850&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7234932&lt;/td&gt;
@@ -1679,7 +1680,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;234&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Switzerland&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2.4144076&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.3820938&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.5197636&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.2360912&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.0244203&lt;/td&gt;
@@ -1697,7 +1698,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;238&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Thailand&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.4134030&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3996519&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6409642&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0300358&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8650881&lt;/td&gt;
@@ -1713,27 +1714,9 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr class=&#34;odd&#34;&gt;
-&lt;td&gt;244&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Turkey&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.2530878&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.2522192&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.2237978&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.2621403&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4404953&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.1220066&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;252&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;United States&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.6787106&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.6404906&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9202279&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.5006823&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.2654987&lt;/td&gt;
@@ -1748,10 +1731,10 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr class=&#34;odd&#34;&gt;
+&lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;258&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Vietnam&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4430073&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4423279&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2451936&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2956463&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2451936&lt;/td&gt;
@@ -1768,7 +1751,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kable(subset(dat,more_avg_5 == 1), caption = &amp;quot;Countries with ratio more than 5-year average&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kable(subset(dat,more_avg_5 == 1), caption = &amp;quot;Countries with ratio more than 5-year average&amp;quot;) &lt;/code&gt;&lt;/pre&gt;
 &lt;table&gt;
 &lt;caption&gt;&lt;span id=&#34;tab:unnamed-chunk-7&#34;&gt;Table 1: &lt;/span&gt;Countries with ratio more than 5-year average&lt;/caption&gt;
 &lt;thead&gt;
@@ -1795,7 +1778,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;9&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Argentina&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.1714592&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.1702098&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1096417&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1185503&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1136155&lt;/td&gt;
@@ -1813,7 +1796,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;12&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Australia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.1018001&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.0827862&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7849408&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9698462&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9894222&lt;/td&gt;
@@ -1831,7 +1814,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;13&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Austria&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4573739&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4516026&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1747203&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2996147&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2738809&lt;/td&gt;
@@ -1849,13 +1832,13 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;20&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Belgium&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.9672180&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.9554392&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4576344&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8203120&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6552541&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9667037&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.0786858&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
@@ -1867,7 +1850,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;28&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Brazil&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5459326&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5376609&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4864667&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3885210&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4761217&lt;/td&gt;
@@ -1885,7 +1868,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;37&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Canada&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3253550&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3066000&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0294271&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.2141208&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.1505540&lt;/td&gt;
@@ -1903,7 +1886,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;44&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Chile&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.2079987&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.2000244&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9780697&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9359206&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0560277&lt;/td&gt;
@@ -1921,7 +1904,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;45&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;China&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.9435735&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.9207308&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5541939&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6586526&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5922091&lt;/td&gt;
@@ -1939,7 +1922,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;46&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Colombia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4152542&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4135887&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4740204&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3968742&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4980473&lt;/td&gt;
@@ -1957,13 +1940,13 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;81&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;France&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.0967180&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.0820485&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4627055&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8749564&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7540257&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0904311&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.0505182&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
@@ -1975,7 +1958,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;86&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Germany&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5845979&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5758399&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3124133&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5134009&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4394087&lt;/td&gt;
@@ -1993,10 +1976,10 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;109&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;India&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.8181802&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7686593&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7322429&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7422071&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.8106731&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7686539&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7322268&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7421990&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.5145139&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4654705&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
@@ -2011,7 +1994,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;110&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Indonesia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4816789&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4807856&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3316202&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4457203&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4165210&lt;/td&gt;
@@ -2029,7 +2012,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;118&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Japan&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.2171904&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.1927182&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6833536&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0212187&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8128934&lt;/td&gt;
@@ -2047,10 +2030,10 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;149&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Malaysia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3760923&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3314568&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3332500&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3330347&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.4283382&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3330994&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3454048&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3391121&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;3.2099345&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5177362&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
@@ -2065,7 +2048,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;172&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Netherlands&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.4113213&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3932218&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6765263&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0597736&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8606709&lt;/td&gt;
@@ -2083,7 +2066,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;174&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;New Zealand&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5118832&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5073727&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3930220&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4142401&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3556930&lt;/td&gt;
@@ -2101,7 +2084,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;177&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Nigeria&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4144800&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4043494&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2020160&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1647290&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1598451&lt;/td&gt;
@@ -2119,7 +2102,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;180&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Norway&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7590142&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7422157&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3889078&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5586501&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5303237&lt;/td&gt;
@@ -2137,7 +2120,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;191&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Peru&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5283250&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5272081&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3748111&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4047909&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4641154&lt;/td&gt;
@@ -2155,7 +2138,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;193&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Poland&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.3877869&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.3819160&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2530704&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3402953&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3228428&lt;/td&gt;
@@ -2173,7 +2156,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;194&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Portugal&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.3560969&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.3529019&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3711296&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3052927&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3091215&lt;/td&gt;
@@ -2191,7 +2174,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;205&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Saudi Arabia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.8024435&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7881973&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6384813&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6644581&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6384813&lt;/td&gt;
@@ -2209,7 +2192,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;210&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Singapore&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2.7866995&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.7396797&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.6826933&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.3851348&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.3359542&lt;/td&gt;
@@ -2227,7 +2210,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;217&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;South Africa&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;4.1558066&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4.0559950&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.6135703&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;3.0001952&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.6018387&lt;/td&gt;
@@ -2245,7 +2228,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;234&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Switzerland&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2.4144076&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.3820938&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.5197636&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.2360912&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.0244203&lt;/td&gt;
@@ -2263,7 +2246,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;238&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Thailand&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.4134030&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3996519&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6409642&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0300358&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8650881&lt;/td&gt;
@@ -2281,7 +2264,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;244&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Turkey&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.2530878&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.2486728&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2522192&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2237978&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2621403&lt;/td&gt;
@@ -2289,17 +2272,17 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;td align=&#34;right&#34;&gt;0.1220066&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;252&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;United States&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.6787106&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.6404906&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9202279&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.5006823&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.2654987&lt;/td&gt;
@@ -2317,7 +2300,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;258&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Vietnam&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4430073&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4423279&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2451936&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2956463&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2451936&lt;/td&gt;
@@ -2334,7 +2317,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kable(subset(dat,more_avg_10 == 1), caption = &amp;quot;Countries with ratio more than 10-year average&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kable(subset(dat,more_avg_10 == 1), caption = &amp;quot;Countries with ratio more than 10-year average&amp;quot;) &lt;/code&gt;&lt;/pre&gt;
 &lt;table&gt;
 &lt;caption&gt;&lt;span id=&#34;tab:unnamed-chunk-7&#34;&gt;Table 1: &lt;/span&gt;Countries with ratio more than 10-year average&lt;/caption&gt;
 &lt;thead&gt;
@@ -2361,7 +2344,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;9&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Argentina&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.1714592&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.1702098&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1096417&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1185503&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1136155&lt;/td&gt;
@@ -2379,7 +2362,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;12&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Australia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.1018001&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.0827862&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7849408&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9698462&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9894222&lt;/td&gt;
@@ -2397,7 +2380,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;13&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Austria&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4573739&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4516026&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1747203&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2996147&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2738809&lt;/td&gt;
@@ -2415,13 +2398,13 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;20&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Belgium&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.9672180&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.9554392&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4576344&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8203120&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6552541&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9667037&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.0786858&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
@@ -2433,7 +2416,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;28&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Brazil&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5459326&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5376609&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4864667&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3885210&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4761217&lt;/td&gt;
@@ -2451,7 +2434,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;37&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Canada&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3253550&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3066000&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0294271&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.2141208&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.1505540&lt;/td&gt;
@@ -2469,7 +2452,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;44&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Chile&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.2079987&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.2000244&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9780697&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9359206&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0560277&lt;/td&gt;
@@ -2487,7 +2470,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;45&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;China&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.9435735&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.9207308&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5541939&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6586526&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5922091&lt;/td&gt;
@@ -2505,13 +2488,13 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;81&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;France&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.0967180&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.0820485&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4627055&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8749564&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7540257&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0904311&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.0505182&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
@@ -2523,7 +2506,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;86&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Germany&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5845979&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5758399&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3124133&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5134009&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4394087&lt;/td&gt;
@@ -2541,10 +2524,10 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;109&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;India&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.8181802&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7686593&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7322429&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7422071&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.8106731&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7686539&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7322268&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7421990&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.5145139&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4654705&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
@@ -2559,7 +2542,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;110&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Indonesia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4816789&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4807856&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3316202&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4457203&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4165210&lt;/td&gt;
@@ -2577,7 +2560,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;113&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Ireland&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4707651&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4646186&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5310842&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5167314&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4231623&lt;/td&gt;
@@ -2595,7 +2578,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;118&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Japan&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.2171904&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.1927182&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6833536&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0212187&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8128934&lt;/td&gt;
@@ -2613,10 +2596,10 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;149&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Malaysia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3760923&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3314568&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3332500&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.3330347&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.4283382&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3330994&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3454048&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3391121&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;3.2099345&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5177362&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
@@ -2631,7 +2614,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;172&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Netherlands&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.4113213&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3932218&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6765263&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0597736&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8606709&lt;/td&gt;
@@ -2649,7 +2632,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;174&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;New Zealand&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5118832&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5073727&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3930220&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4142401&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3556930&lt;/td&gt;
@@ -2667,7 +2650,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;177&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Nigeria&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4144800&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4043494&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2020160&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1647290&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.1598451&lt;/td&gt;
@@ -2685,7 +2668,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;180&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Norway&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7590142&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7422157&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3889078&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5586501&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5303237&lt;/td&gt;
@@ -2703,7 +2686,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;191&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Peru&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.5283250&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5272081&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3748111&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4047909&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.4641154&lt;/td&gt;
@@ -2721,7 +2704,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;192&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Philippines&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.7951673&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7806021&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.5843383&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8409973&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.7458218&lt;/td&gt;
@@ -2739,7 +2722,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;193&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Poland&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.3877869&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.3819160&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2530704&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3402953&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3228428&lt;/td&gt;
@@ -2757,7 +2740,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;194&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Portugal&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.3560969&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.3529019&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3711296&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3052927&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.3091215&lt;/td&gt;
@@ -2775,7 +2758,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;198&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Qatar&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.8496087&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.8431582&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8916907&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8759542&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8406159&lt;/td&gt;
@@ -2793,7 +2776,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;205&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Saudi Arabia&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.8024435&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.7881973&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6384813&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6644581&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6384813&lt;/td&gt;
@@ -2811,7 +2794,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;210&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Singapore&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2.7866995&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.7396797&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.6826933&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.3851348&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.3359542&lt;/td&gt;
@@ -2829,7 +2812,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;217&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;South Africa&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;4.1558066&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4.0559950&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.6135703&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;3.0001952&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.6018387&lt;/td&gt;
@@ -2847,7 +2830,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;234&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Switzerland&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2.4144076&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.3820938&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.5197636&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.2360912&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;2.0244203&lt;/td&gt;
@@ -2865,7 +2848,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;238&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Thailand&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.4134030&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.3996519&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.6409642&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.0300358&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.8650881&lt;/td&gt;
@@ -2883,7 +2866,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;even&#34;&gt;
 &lt;td&gt;252&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;United States&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1.6787106&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.6404906&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.9202279&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.5006823&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;1.2654987&lt;/td&gt;
@@ -2901,7 +2884,7 @@ kable(dat, caption = &amp;quot;Summarized data&amp;quot;)&lt;/code&gt;&lt;/pre&g
 &lt;tr class=&#34;odd&#34;&gt;
 &lt;td&gt;258&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Vietnam&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;0.4430073&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4423279&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2451936&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2956463&lt;/td&gt;
 &lt;td align=&#34;right&#34;&gt;0.2451936&lt;/td&gt;
@@ -2948,7 +2931,7 @@ mkt_cap_gdp_max_long$variable = as.numeric(as.vector(mkt_cap_gdp_max_long$variab
 ggplot(data = mkt_cap_gdp_max_long,
        aes(x = variable, y = value, colour = country)) +
   geom_line()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Warning: Removed 196 rows containing missing values (geom_path).&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: Removed 150 rows containing missing values (geom_path).&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/mkt_cap_gdp_files/figure-html/unnamed-chunk-8-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
