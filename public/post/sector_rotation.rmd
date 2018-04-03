@@ -27,6 +27,9 @@ I'm unsure why - but I can't seem to replicate the performance in various articl
 
 There may be some careless mistakes in my computation. But allow me to lay out my full analysis.
 
+Updates: There're indeed careless mistakes; will update the analysis and assess the performance in a more robust manner.
+
+
 ## Setting up the analysis by loading in packages and downloading data
 
 I first download 9 sectors' + Snp 500 worth of data
@@ -67,7 +70,7 @@ for(i in 1:ncol(dat)){
 
 
 #And find the price change over 6 months
-price_change = (lag_dat - dat)/lag_dat
+price_change = (dat - lag_dat)/lag_dat
 
 #Rate of returns
 ret = ROC(dat) 
