@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.32.4" />
+  <meta name="author" content="Huang Jirong">
+  <meta name="description" content="Data analyst and Quantitative Trader">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/sector_rotation/">
+
+  
+  
+
+
+  
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-116737154-1', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Jirong&#39;s sandbox">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Jirong&#39;s sandbox">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/sector_rotation/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="Jirong&#39;s sandbox">
+  <meta property="og:url" content="/post/sector_rotation/">
+  <meta property="og:title" content="Investigating Faber Sector Rotation Strategy | Jirong&#39;s sandbox">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-04-01T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-04-01T00:00:00&#43;00:00">
+  
+
+  
+
+  <title>Investigating Faber Sector Rotation Strategy | Jirong&#39;s sandbox</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" class="dark">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">Jirong&#39;s sandbox</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Investigating Faber Sector Rotation Strategy</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-04-01 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      Apr 1, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Huang Jirong">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    5 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/sector_rotation/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/investment">investment</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Investigating%20Faber%20Sector%20Rotation%20Strategy&amp;url=%2fpost%2fsector_rotation%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fsector_rotation%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fsector_rotation%2f&amp;title=Investigating%20Faber%20Sector%20Rotation%20Strategy"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fsector_rotation%2f&amp;title=Investigating%20Faber%20Sector%20Rotation%20Strategy"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Investigating%20Faber%20Sector%20Rotation%20Strategy&amp;body=%2fpost%2fsector_rotation%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <div id="does-sector-rotation---momentum-strategy-work" class="section level2">
+<h2>Does sector rotation - momentum strategy work?</h2>
+<p>Faber sector rotation strategy is touted as a superior Tactical Asset Allocation strategy that could generate positive Alpha. This is evident in the post here <a href="http://stockcharts.com/school/doku.php?id=chart_school:trading_strategies:sector_rotation_roc" class="uri">http://stockcharts.com/school/doku.php?id=chart_school:trading_strategies:sector_rotation_roc</a>.</p>
+<p>The strategy is pretty simple. Here is how it works,</p>
+<ul>
+<li>First, you choose 9 sectors</li>
+<li>Second, compute the 6 month returns</li>
+<li>Third, you only ‘trade’ once a month. For simiplicity I choose end of the month</li>
+<li>Fourth, you invest in 3 sectors with the highest past 6 month returns. If SnP 500 falls below its 200 day moving average, you do not invest at all.</li>
+</ul>
+<p>I was really interested to adopt this strategy! But my hopes were crushed when I did my independent investigation. The returns were bad. And that’s even before adding in commission fees!</p>
+<p>I’m unsure why - but I can’t seem to replicate the performance in various articles and the original academic paper.</p>
+<p>There may be some careless mistakes in my computation. But allow me to lay out my full analysis.</p>
+</div>
+<div id="setting-up-the-analysis-by-loading-in-packages-and-downloading-data" class="section level2">
+<h2>Setting up the analysis by loading in packages and downloading data</h2>
+<p>I first download 9 sectors’ + Snp 500 worth of data</p>
+<pre class="r"><code>#Looking into Faber Investment Strategy
+
+library(quantmod)</code></pre>
+<pre><code>## Loading required package: xts</code></pre>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre><code>## Loading required package: TTR</code></pre>
+<pre><code>## Version 0.4-0 included new data defaults. See ?getSymbols.</code></pre>
+<pre class="r"><code>library(TTR)
+
+## ------------------------------------------------------------------------
+symbols = c(&quot;XLF&quot;, &quot;XLP&quot;, &quot;XLE&quot;, &quot;XLY&quot;, &quot;XLV&quot;, &quot;XLI&quot;, &quot;XLB&quot;, &quot;XLK&quot;, &quot;XLU&quot;)
+
+startDate &lt;- &#39;1998-01-01&#39;
+endDate &lt;-  &#39;2018-04-03&#39;
+getSymbols(symbols, src=&#39;yahoo&#39;, index.class=c(&quot;POSIXt&quot;,&quot;POSIXct&quot;), from=startDate, to=endDate, adjust=T)</code></pre>
+<pre><code>## &#39;getSymbols&#39; currently uses auto.assign=TRUE by default, but will
+## use auto.assign=FALSE in 0.5-0. You will still be able to use
+## &#39;loadSymbols&#39; to automatically load data. getOption(&quot;getSymbols.env&quot;)
+## and getOption(&quot;getSymbols.auto.assign&quot;) will still be checked for
+## alternate defaults.
+## 
+## This message is shown once per session and may be disabled by setting 
+## options(&quot;getSymbols.warning4.0&quot;=FALSE). See ?getSymbols for details.</code></pre>
+<pre><code>## 
+## WARNING: There have been significant changes to Yahoo Finance data.
+## Please see the Warning section of &#39;?getSymbols.yahoo&#39; for details.
+## 
+## This message is shown once per session and may be disabled by setting
+## options(&quot;getSymbols.yahoo.warning&quot;=FALSE).</code></pre>
+<pre><code>## pausing 1 second between requests for more than 5 symbols
+## pausing 1 second between requests for more than 5 symbols
+## pausing 1 second between requests for more than 5 symbols
+## pausing 1 second between requests for more than 5 symbols
+## pausing 1 second between requests for more than 5 symbols</code></pre>
+<pre><code>## [1] &quot;XLF&quot; &quot;XLP&quot; &quot;XLE&quot; &quot;XLY&quot; &quot;XLV&quot; &quot;XLI&quot; &quot;XLB&quot; &quot;XLK&quot; &quot;XLU&quot;</code></pre>
+<pre class="r"><code>dat = merge(XLF[,6],XLP[,6],XLE[,6],XLY[,6],XLV[,6],XLI[,6],XLB[,6],XLK[,6],XLU[,6])
+names(dat) = c(&quot;XLF&quot;, &quot;XLP&quot;, &quot;XLE&quot;, &quot;XLY&quot;, &quot;XLV&quot;, &quot;XLI&quot;, &quot;XLB&quot;, &quot;XLK&quot;, &quot;XLU&quot;) 
+
+getSymbols(&quot;^GSPC&quot;, src=&#39;yahoo&#39;, index.class=c(&quot;POSIXt&quot;,&quot;POSIXct&quot;), from=startDate, to=endDate, adjust=T)</code></pre>
+<pre><code>## [1] &quot;GSPC&quot;</code></pre>
+<pre class="r"><code>GSPC = GSPC[,6]</code></pre>
+</div>
+<div id="pre-processing-data" class="section level2">
+<h2>Pre-processing data</h2>
+<p>Here’s the workhorse of the program. I find the daily 6-month price change and also noted the monthly rebalancing index.</p>
+<p>For each day, I also looked at the 3 highest 6 month price-change so that on the end of the month rebalancing, I could easily pick these 3 sectors and place it in my simulation.</p>
+<pre class="r"><code>GSPC$MA = SMA(GSPC[,1],200)
+GSPC$more_MA = ifelse(GSPC[,1] &gt; GSPC$MA,1,0)
+
+#Lag all series by 6 months
+lag_dat = dat
+for(i in 1:ncol(dat)){
+  lag_dat[,i] = Lag(dat[,i],252/2)
+}
+
+
+#And find the price change over 6 months
+price_change = (lag_dat - dat)/lag_dat
+
+#Rate of returns
+ret = ROC(dat) 
+
+#Denote if this month is a rebalancing month
+rebal_index = data.frame(index = endpoints(dat,on=&quot;months&quot;)[-1])
+
+#If yes, pick the 3 stocks--&gt;Use DSI code to pick the highest returns column
+#Function for positions of minimum and maximum
+maxn &lt;- function(n) function(x) order(x, decreasing = TRUE)[n]
+minn &lt;- function(n) function(x) order(x, decreasing = FALSE)[n]
+
+#Super-imposed in column the return for that 3 stocks till next re-bal date
+max_index = data.frame(max_1 = apply(price_change,1,maxn(1)),
+                       max_2 = apply(price_change,1,maxn(2)),
+                       max_3 = apply(price_change,1,maxn(3)))
+
+# max_index[1:(252/2),] = NA
+max_index[1:(200),] = NA
+
+#add in 200 day-MA as filter--&gt;Could be an option at the end to change all return values to 0
+
+#Construct a data frame for portfolio simulation
+portfolio_sim = dat
+
+portfolio_sim$rebal = 0
+portfolio_sim$rebal[1] = 1
+portfolio_sim$rebal[2] = 1
+# portfolio_sim$rebal[252/2 + 1] = 1
+portfolio_sim$rebal[200 + 1] = 1
+
+for(i in 1:nrow(rebal_index)){
+  portfolio_sim$rebal[rebal_index$index[i]] = 1
+}
+
+#Portfolio simulation
+portfolio_sim$max1_ticker = NA
+portfolio_sim$max2_ticker = NA
+portfolio_sim$max3_ticker = NA
+
+portfolio_sim$max1_ret = 0
+portfolio_sim$max2_ret = 0
+portfolio_sim$max3_ret = 0
+
+# portfolio_sim$max1_portfolio = 0; portfolio_sim$max1_portfolio[252/2] = 100
+# portfolio_sim$max2_portfolio = 0; portfolio_sim$max2_portfolio[252/2] = 100
+# portfolio_sim$max3_portfolio = 0; portfolio_sim$max3_portfolio[252/2] = 100
+# portfolio_sim$tot_portfolio = 0; portfolio_sim$tot_portfolio[252/2] = 300
+
+portfolio_sim$max1_portfolio = 0; portfolio_sim$max1_portfolio[200] = 100
+portfolio_sim$max2_portfolio = 0; portfolio_sim$max2_portfolio[200] = 100
+portfolio_sim$max3_portfolio = 0; portfolio_sim$max3_portfolio[200] = 100
+portfolio_sim$tot_portfolio = 0; portfolio_sim$tot_portfolio[200] = 300</code></pre>
+</div>
+<div id="start-simulation" class="section level2">
+<h2>Start simulation</h2>
+<p>Momemnt of truth…I started my simulation - Picking 3 sectors with highest momentum; stick to it for the month. Rinse and repeat this process every month.</p>
+<p>If SnP 500 dips below the 200 day average, I will liquidate any position for the month.</p>
+<pre class="r"><code># start = 252/2 + 1
+start = 200+ 1
+for(i in start:nrow(portfolio_sim)){
+  
+  if(as.numeric(portfolio_sim$rebal[i]) == 1){
+    
+    #Include the ticker index
+    portfolio_sim$max1_ticker[i] = max_index$max_1[i]
+    portfolio_sim$max2_ticker[i] = max_index$max_2[i]
+    portfolio_sim$max3_ticker[i] = max_index$max_3[i]
+    
+    #Include the returns
+    portfolio_sim$max1_ret[i] = ret[i,portfolio_sim$max1_ticker[i]]
+    portfolio_sim$max2_ret[i] = ret[i,portfolio_sim$max2_ticker[i]]
+    portfolio_sim$max3_ret[i] = ret[i,portfolio_sim$max3_ticker[i]]
+
+    #Calculate the portfolio
+    portfolio_sim$max1_portfolio[i] = portfolio_sim$tot_portfolio[i-1]/3
+    portfolio_sim$max2_portfolio[i] = portfolio_sim$tot_portfolio[i-1]/3 
+    portfolio_sim$max3_portfolio[i] = portfolio_sim$tot_portfolio[i-1]/3
+    portfolio_sim$tot_portfolio[i] = portfolio_sim$max1_portfolio[i] + portfolio_sim$max2_portfolio[i] + portfolio_sim$max3_portfolio[i] 
+    
+    #if less than 200 day-MA, change max1_ticker to 999
+    if(as.numeric(GSPC$more_MA[i]) == 0){
+      portfolio_sim$max1_ticker[i] = 999
+      portfolio_sim$max2_ticker[i] = 999
+      portfolio_sim$max3_ticker[i] = 999
+    }
+    
+    # print(portfolio_sim$tot_portfolio[i])
+    
+  }else{
+    portfolio_sim$max1_ticker[i] = portfolio_sim$max1_ticker[i-1]
+    portfolio_sim$max2_ticker[i] = portfolio_sim$max2_ticker[i-1]
+    portfolio_sim$max3_ticker[i] = portfolio_sim$max3_ticker[i-1]
+    
+    #if ticker == 999--&gt;change returns to 0, else use the normal returns
+    if(as.numeric(portfolio_sim$max1_ticker[i]) == 999){
+      portfolio_sim$max1_ret[i] = 0
+      portfolio_sim$max2_ret[i] = 0
+      portfolio_sim$max3_ret[i] = 0         
+    }else{
+      #Include the returns based on above index 
+      portfolio_sim$max1_ret[i] = ret[i,portfolio_sim$max1_ticker[i]]
+      portfolio_sim$max2_ret[i] = ret[i,portfolio_sim$max2_ticker[i]]
+      portfolio_sim$max3_ret[i] = ret[i,portfolio_sim$max3_ticker[i]]      
+    }
+    
+    #Calculate the portfolio
+    portfolio_sim$max1_portfolio[i] = as.numeric(portfolio_sim$max1_portfolio[i-1]) * (1+portfolio_sim$max1_ret[i]) 
+    portfolio_sim$max2_portfolio[i] = as.numeric(portfolio_sim$max2_portfolio[i-1]) * (1+portfolio_sim$max2_ret[i]) 
+    portfolio_sim$max3_portfolio[i] = as.numeric(portfolio_sim$max3_portfolio[i-1]) * (1+portfolio_sim$max3_ret[i]) 
+    
+    portfolio_sim$tot_portfolio[i] = portfolio_sim$max1_portfolio[i] + portfolio_sim$max2_portfolio[i] + portfolio_sim$max3_portfolio[i] 
+  }
+  
+}</code></pre>
+</div>
+<div id="performance-analysis" class="section level2">
+<h2>Performance analysis</h2>
+<p>Presto! The performance is real bad. Just by looking at the equity curve, I don’t think there’s any incentive to do further performance anlaysis.</p>
+<pre class="r"><code>#############################################Carry out performance metrics#############################################
+#Subset out NAs
+portfolio_sim = subset(portfolio_sim,!is.na(portfolio_sim$max1_ticker))
+plot(portfolio_sim$tot_portfolio)</code></pre>
+<p><img src="/post/sector_rotation_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>#Find ROC returns</code></pre>
+</div>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/investment">investment</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/finance">finance</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/asset_allocation">asset_allocation</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/perm_port/">Permanent Portfolio</a></li>
+    
+    <li><a href="/post/elapse_strat/">Days elapsed strategy</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "jirong" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+<div id="disqus_thread"></div>
+<script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://jironghuang.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2018 &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//jirong.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

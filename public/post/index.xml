@@ -11,6 +11,221 @@
     <atom:link href="/post/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Investigating Faber Sector Rotation Strategy</title>
+      <link>/post/sector_rotation/</link>
+      <pubDate>Sun, 01 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/sector_rotation/</guid>
+      <description>&lt;div id=&#34;does-sector-rotation---momentum-strategy-work&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Does sector rotation - momentum strategy work?&lt;/h2&gt;
+&lt;p&gt;Faber sector rotation strategy is touted as a superior Tactical Asset Allocation strategy that could generate positive Alpha. This is evident in the post here &lt;a href=&#34;http://stockcharts.com/school/doku.php?id=chart_school:trading_strategies:sector_rotation_roc&#34; class=&#34;uri&#34;&gt;http://stockcharts.com/school/doku.php?id=chart_school:trading_strategies:sector_rotation_roc&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The strategy is pretty simple. Here is how it works,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;First, you choose 9 sectors&lt;/li&gt;
+&lt;li&gt;Second, compute the 6 month returns&lt;/li&gt;
+&lt;li&gt;Third, you only ‘trade’ once a month. For simiplicity I choose end of the month&lt;/li&gt;
+&lt;li&gt;Fourth, you invest in 3 sectors with the highest past 6 month returns. If SnP 500 falls below its 200 day moving average, you do not invest at all.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I was really interested to adopt this strategy! But my hopes were crushed when I did my independent investigation. The returns were bad. And that’s even before adding in commission fees!&lt;/p&gt;
+&lt;p&gt;I’m unsure why - but I can’t seem to replicate the performance in various articles and the original academic paper.&lt;/p&gt;
+&lt;p&gt;There may be some careless mistakes in my computation. But allow me to lay out my full analysis.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;setting-up-the-analysis-by-loading-in-packages-and-downloading-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Setting up the analysis by loading in packages and downloading data&lt;/h2&gt;
+&lt;p&gt;I first download 9 sectors’ + Snp 500 worth of data&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Looking into Faber Investment Strategy
+
+library(quantmod)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package: xts&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package: zoo&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Attaching package: &amp;#39;zoo&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:base&amp;#39;:
+## 
+##     as.Date, as.Date.numeric&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package: TTR&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Version 0.4-0 included new data defaults. See ?getSymbols.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(TTR)
+
+## ------------------------------------------------------------------------
+symbols = c(&amp;quot;XLF&amp;quot;, &amp;quot;XLP&amp;quot;, &amp;quot;XLE&amp;quot;, &amp;quot;XLY&amp;quot;, &amp;quot;XLV&amp;quot;, &amp;quot;XLI&amp;quot;, &amp;quot;XLB&amp;quot;, &amp;quot;XLK&amp;quot;, &amp;quot;XLU&amp;quot;)
+
+startDate &amp;lt;- &amp;#39;1998-01-01&amp;#39;
+endDate &amp;lt;-  &amp;#39;2018-04-03&amp;#39;
+getSymbols(symbols, src=&amp;#39;yahoo&amp;#39;, index.class=c(&amp;quot;POSIXt&amp;quot;,&amp;quot;POSIXct&amp;quot;), from=startDate, to=endDate, adjust=T)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## &amp;#39;getSymbols&amp;#39; currently uses auto.assign=TRUE by default, but will
+## use auto.assign=FALSE in 0.5-0. You will still be able to use
+## &amp;#39;loadSymbols&amp;#39; to automatically load data. getOption(&amp;quot;getSymbols.env&amp;quot;)
+## and getOption(&amp;quot;getSymbols.auto.assign&amp;quot;) will still be checked for
+## alternate defaults.
+## 
+## This message is shown once per session and may be disabled by setting 
+## options(&amp;quot;getSymbols.warning4.0&amp;quot;=FALSE). See ?getSymbols for details.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## WARNING: There have been significant changes to Yahoo Finance data.
+## Please see the Warning section of &amp;#39;?getSymbols.yahoo&amp;#39; for details.
+## 
+## This message is shown once per session and may be disabled by setting
+## options(&amp;quot;getSymbols.yahoo.warning&amp;quot;=FALSE).&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## pausing 1 second between requests for more than 5 symbols
+## pausing 1 second between requests for more than 5 symbols
+## pausing 1 second between requests for more than 5 symbols
+## pausing 1 second between requests for more than 5 symbols
+## pausing 1 second between requests for more than 5 symbols&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;XLF&amp;quot; &amp;quot;XLP&amp;quot; &amp;quot;XLE&amp;quot; &amp;quot;XLY&amp;quot; &amp;quot;XLV&amp;quot; &amp;quot;XLI&amp;quot; &amp;quot;XLB&amp;quot; &amp;quot;XLK&amp;quot; &amp;quot;XLU&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat = merge(XLF[,6],XLP[,6],XLE[,6],XLY[,6],XLV[,6],XLI[,6],XLB[,6],XLK[,6],XLU[,6])
+names(dat) = c(&amp;quot;XLF&amp;quot;, &amp;quot;XLP&amp;quot;, &amp;quot;XLE&amp;quot;, &amp;quot;XLY&amp;quot;, &amp;quot;XLV&amp;quot;, &amp;quot;XLI&amp;quot;, &amp;quot;XLB&amp;quot;, &amp;quot;XLK&amp;quot;, &amp;quot;XLU&amp;quot;) 
+
+getSymbols(&amp;quot;^GSPC&amp;quot;, src=&amp;#39;yahoo&amp;#39;, index.class=c(&amp;quot;POSIXt&amp;quot;,&amp;quot;POSIXct&amp;quot;), from=startDate, to=endDate, adjust=T)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;GSPC&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;GSPC = GSPC[,6]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;pre-processing-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Pre-processing data&lt;/h2&gt;
+&lt;p&gt;Here’s the workhorse of the program. I find the daily 6-month price change and also noted the monthly rebalancing index.&lt;/p&gt;
+&lt;p&gt;For each day, I also looked at the 3 highest 6 month price-change so that on the end of the month rebalancing, I could easily pick these 3 sectors and place it in my simulation.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;GSPC$MA = SMA(GSPC[,1],200)
+GSPC$more_MA = ifelse(GSPC[,1] &amp;gt; GSPC$MA,1,0)
+
+#Lag all series by 6 months
+lag_dat = dat
+for(i in 1:ncol(dat)){
+  lag_dat[,i] = Lag(dat[,i],252/2)
+}
+
+
+#And find the price change over 6 months
+price_change = (lag_dat - dat)/lag_dat
+
+#Rate of returns
+ret = ROC(dat) 
+
+#Denote if this month is a rebalancing month
+rebal_index = data.frame(index = endpoints(dat,on=&amp;quot;months&amp;quot;)[-1])
+
+#If yes, pick the 3 stocks--&amp;gt;Use DSI code to pick the highest returns column
+#Function for positions of minimum and maximum
+maxn &amp;lt;- function(n) function(x) order(x, decreasing = TRUE)[n]
+minn &amp;lt;- function(n) function(x) order(x, decreasing = FALSE)[n]
+
+#Super-imposed in column the return for that 3 stocks till next re-bal date
+max_index = data.frame(max_1 = apply(price_change,1,maxn(1)),
+                       max_2 = apply(price_change,1,maxn(2)),
+                       max_3 = apply(price_change,1,maxn(3)))
+
+# max_index[1:(252/2),] = NA
+max_index[1:(200),] = NA
+
+#add in 200 day-MA as filter--&amp;gt;Could be an option at the end to change all return values to 0
+
+#Construct a data frame for portfolio simulation
+portfolio_sim = dat
+
+portfolio_sim$rebal = 0
+portfolio_sim$rebal[1] = 1
+portfolio_sim$rebal[2] = 1
+# portfolio_sim$rebal[252/2 + 1] = 1
+portfolio_sim$rebal[200 + 1] = 1
+
+for(i in 1:nrow(rebal_index)){
+  portfolio_sim$rebal[rebal_index$index[i]] = 1
+}
+
+#Portfolio simulation
+portfolio_sim$max1_ticker = NA
+portfolio_sim$max2_ticker = NA
+portfolio_sim$max3_ticker = NA
+
+portfolio_sim$max1_ret = 0
+portfolio_sim$max2_ret = 0
+portfolio_sim$max3_ret = 0
+
+# portfolio_sim$max1_portfolio = 0; portfolio_sim$max1_portfolio[252/2] = 100
+# portfolio_sim$max2_portfolio = 0; portfolio_sim$max2_portfolio[252/2] = 100
+# portfolio_sim$max3_portfolio = 0; portfolio_sim$max3_portfolio[252/2] = 100
+# portfolio_sim$tot_portfolio = 0; portfolio_sim$tot_portfolio[252/2] = 300
+
+portfolio_sim$max1_portfolio = 0; portfolio_sim$max1_portfolio[200] = 100
+portfolio_sim$max2_portfolio = 0; portfolio_sim$max2_portfolio[200] = 100
+portfolio_sim$max3_portfolio = 0; portfolio_sim$max3_portfolio[200] = 100
+portfolio_sim$tot_portfolio = 0; portfolio_sim$tot_portfolio[200] = 300&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;start-simulation&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Start simulation&lt;/h2&gt;
+&lt;p&gt;Momemnt of truth…I started my simulation - Picking 3 sectors with highest momentum; stick to it for the month. Rinse and repeat this process every month.&lt;/p&gt;
+&lt;p&gt;If SnP 500 dips below the 200 day average, I will liquidate any position for the month.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# start = 252/2 + 1
+start = 200+ 1
+for(i in start:nrow(portfolio_sim)){
+  
+  if(as.numeric(portfolio_sim$rebal[i]) == 1){
+    
+    #Include the ticker index
+    portfolio_sim$max1_ticker[i] = max_index$max_1[i]
+    portfolio_sim$max2_ticker[i] = max_index$max_2[i]
+    portfolio_sim$max3_ticker[i] = max_index$max_3[i]
+    
+    #Include the returns
+    portfolio_sim$max1_ret[i] = ret[i,portfolio_sim$max1_ticker[i]]
+    portfolio_sim$max2_ret[i] = ret[i,portfolio_sim$max2_ticker[i]]
+    portfolio_sim$max3_ret[i] = ret[i,portfolio_sim$max3_ticker[i]]
+
+    #Calculate the portfolio
+    portfolio_sim$max1_portfolio[i] = portfolio_sim$tot_portfolio[i-1]/3
+    portfolio_sim$max2_portfolio[i] = portfolio_sim$tot_portfolio[i-1]/3 
+    portfolio_sim$max3_portfolio[i] = portfolio_sim$tot_portfolio[i-1]/3
+    portfolio_sim$tot_portfolio[i] = portfolio_sim$max1_portfolio[i] + portfolio_sim$max2_portfolio[i] + portfolio_sim$max3_portfolio[i] 
+    
+    #if less than 200 day-MA, change max1_ticker to 999
+    if(as.numeric(GSPC$more_MA[i]) == 0){
+      portfolio_sim$max1_ticker[i] = 999
+      portfolio_sim$max2_ticker[i] = 999
+      portfolio_sim$max3_ticker[i] = 999
+    }
+    
+    # print(portfolio_sim$tot_portfolio[i])
+    
+  }else{
+    portfolio_sim$max1_ticker[i] = portfolio_sim$max1_ticker[i-1]
+    portfolio_sim$max2_ticker[i] = portfolio_sim$max2_ticker[i-1]
+    portfolio_sim$max3_ticker[i] = portfolio_sim$max3_ticker[i-1]
+    
+    #if ticker == 999--&amp;gt;change returns to 0, else use the normal returns
+    if(as.numeric(portfolio_sim$max1_ticker[i]) == 999){
+      portfolio_sim$max1_ret[i] = 0
+      portfolio_sim$max2_ret[i] = 0
+      portfolio_sim$max3_ret[i] = 0         
+    }else{
+      #Include the returns based on above index 
+      portfolio_sim$max1_ret[i] = ret[i,portfolio_sim$max1_ticker[i]]
+      portfolio_sim$max2_ret[i] = ret[i,portfolio_sim$max2_ticker[i]]
+      portfolio_sim$max3_ret[i] = ret[i,portfolio_sim$max3_ticker[i]]      
+    }
+    
+    #Calculate the portfolio
+    portfolio_sim$max1_portfolio[i] = as.numeric(portfolio_sim$max1_portfolio[i-1]) * (1+portfolio_sim$max1_ret[i]) 
+    portfolio_sim$max2_portfolio[i] = as.numeric(portfolio_sim$max2_portfolio[i-1]) * (1+portfolio_sim$max2_ret[i]) 
+    portfolio_sim$max3_portfolio[i] = as.numeric(portfolio_sim$max3_portfolio[i-1]) * (1+portfolio_sim$max3_ret[i]) 
+    
+    portfolio_sim$tot_portfolio[i] = portfolio_sim$max1_portfolio[i] + portfolio_sim$max2_portfolio[i] + portfolio_sim$max3_portfolio[i] 
+  }
+  
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;performance-analysis&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Performance analysis&lt;/h2&gt;
+&lt;p&gt;Presto! The performance is real bad. Just by looking at the equity curve, I don’t think there’s any incentive to do further performance anlaysis.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#############################################Carry out performance metrics#############################################
+#Subset out NAs
+portfolio_sim = subset(portfolio_sim,!is.na(portfolio_sim$max1_ticker))
+plot(portfolio_sim$tot_portfolio)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/sector_rotation_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Find ROC returns&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Macroeconomic Analysis - Country&#39;s Market Capitalization to GDP ratio</title>
       <link>/post/mkt_cap_gdp/</link>
       <pubDate>Sun, 01 Apr 2018 00:00:00 +0000</pubDate>

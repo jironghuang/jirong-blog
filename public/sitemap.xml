@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>/post/sector_rotation/</loc>
+      <lastmod>2018-04-01T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/mkt_cap_gdp/</loc>
       <lastmod>2018-04-01T00:00:00+00:00</lastmod>
     </url>
@@ -42,7 +51,7 @@
     <url>
     
       <loc>/tags/asset_allocation/</loc>
-      <lastmod>2018-03-31T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -71,16 +80,6 @@
     <url>
     
       <loc>/tags/finance/</loc>
-      <lastmod>2018-03-31T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/categories/investment/</loc>
       <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -91,7 +90,17 @@
     <url>
     
       <loc>/tags/investment/</loc>
-      <lastmod>2018-03-31T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-01T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/investment/</loc>
+      <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
