@@ -25,7 +25,7 @@
 &lt;/div&gt;
 &lt;div id=&#34;an-all-weather-portfolio&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;An all weather portfolio&lt;/h2&gt;
-&lt;p&gt;Note: I carried out a similar analysis as 1 of the posts I’ve written. The difference is that I considered 4 assets (including T-bills) instead of 3.&lt;/p&gt;
+&lt;p&gt;Note: I carried out a similar analysis as 1 of the posts I’ve written (&lt;a href=&#34;https://jirong-huang.netlify.com/post/perm_port/&#34; class=&#34;uri&#34;&gt;https://jirong-huang.netlify.com/post/perm_port/&lt;/a&gt;). The difference is that I considered 4 assets (including T-bills) instead of 3. The performance in the post is more reflective of stress-test perfromance (Sharpe, Drawdown Ratio, etc.)&lt;/p&gt;
 &lt;p&gt;Based on the literature, permanent portfolio is an investment strategy that is able to yield moderate returns and relatively low volatility. Investor is recommended to invest equally (25%) into GLD, Index, Bond and Cash and rebalance it back to this proportion on regular intervals.&lt;/p&gt;
 &lt;p&gt;This approach is something that I’m keen to adopt for a portion of my portfolio.&lt;/p&gt;
 &lt;p&gt;To investigate the feasibility, I simulated a portfolio starting at $400 on 2009 (limited by complete series). Here’s the asset allocation proportion,&lt;/p&gt;
