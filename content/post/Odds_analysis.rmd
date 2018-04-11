@@ -1,0 +1,58 @@
+---
+title: "Betting in Singapore Pools"
+author: "Jirong"
+date: 2018-04-11
+categories: ["betting"]
+tags: ["odds", "probability", "betting"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Finding value in Singapore Pools
+
+Of all places, this is the last place I expect to find value. But I found it - supposedly!
+
+I compared the Singapore Pools Odds against Fivethirtyeight blog probabilities of teams' winning various leagues.
+
+The spread in Singpore Pools is often insane. In a typical 1X2 game, the odds is around 15% - as compared to a spread of 3% in overseas betting houses - which btw is illegal in Singapore.
+
+Spread simply is summation of the inverse for all decimal odds subtracted by 1. The amount you concede to the 'house'.
+
+As much as this blog is about analytics and showcasing my skillset, it's also about having skin in the game.
+
+Disclosure: I bet 280 dollars on Barcelona to win Champions League in early March. Why $280 you may ask? I think that's the amount of cash I had in my wallet at that point of time. I just realised Barcelona lost by 3-0 today. That's like a black swan event. I was in the money - options terminology - 5 dollars odds down to 3 dollars. But poof! Oh well. It's something I have to accept in the probability game.  
+
+Here's my short analysis. Enjoy!
+
+```{r}
+#Analyzing UEFA champons league odds
+dat_cl = data.frame(team = c("real","bayern","barca","manu","mancity","jue"),
+                 sg = c(4.5,5,5,15,3.3,8),
+                 five = c(1/0.15,1/0.19,1/0.22,1/0.02,1/0.15,1/0.13))
+
+
+dat_cl$underval = ifelse(dat_cl$five < dat_cl$sg,1,0)
+
+print(dat_cl)
+
+#Championship league
+dat_champ = data.frame(team = c("wolf","cardiff","aston","fulham"),
+                       sg = c(1.03,5,15,30),
+                       five = c(1/0.85,1/0.1,1/0.03,1/0.01))
+
+dat_champ$underval = ifelse(dat_champ$five < dat_champ$sg,1,0)
+
+print(dat_champ)
+
+#europa
+dat_eur = data.frame(team = c("ath","dort","ars","lazio","mars","rb_lei","lyon","ac","cska","sport","ath_bil","rb_sal","zenit","dyn"),
+                       sg = c(2.9,5,6,9.5,17,10,12,11,40,15,17,150,40,80),
+                       five = c(1/0.26,1/0.11,1/0.09,1/0.08,1/0.06,1/0.06,1/0.05,1/0.05,1/0.04,1/0.04,1/0.04,1/0.03,1/0.03,1/0.03))
+
+dat_eur$underval = ifelse(dat_eur$five < dat_eur$sg,1,0)
+
+print(dat_eur)
+```
+

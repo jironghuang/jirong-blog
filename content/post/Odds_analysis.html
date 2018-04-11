@@ -1,0 +1,72 @@
+---
+title: "Betting in Singapore Pools"
+author: "Jirong"
+date: 2018-04-11
+categories: ["betting"]
+tags: ["odds", "probability", "betting"]
+---
+
+
+
+<div id="finding-value-in-singapore-pools" class="section level2">
+<h2>Finding value in Singapore Pools</h2>
+<p>Of all places, this is the last place I expect to find value. But I found it - supposedly!</p>
+<p>I compared the Singapore Pools Odds against Fivethirtyeight blog probabilities of teams’ winning various leagues.</p>
+<p>The spread in Singpore Pools is often insane. In a typical 1X2 game, the odds is around 15% - as compared to a spread of 3% in overseas betting houses - which btw is illegal in Singapore.</p>
+<p>Spread simply is summation of the inverse for all decimal odds subtracted by 1. The amount you concede to the ‘house’.</p>
+<p>As much as this blog is about analytics and showcasing my skillset, it’s also about having skin in the game.</p>
+<p>Disclosure: I bet 280 dollars on Barcelona to win Champions League in early March. Why $280 you may ask? I think that’s the amount of cash I had in my wallet at that point of time. I just realised Barcelona lost by 3-0 today. That’s like a black swan event. I was in the money - options terminology - 5 dollars odds down to 3 dollars. But poof! Oh well. It’s something I have to accept in the probability game.</p>
+<p>Here’s my short analysis. Enjoy!</p>
+<pre class="r"><code>#Analyzing UEFA champons league odds
+dat_cl = data.frame(team = c(&quot;real&quot;,&quot;bayern&quot;,&quot;barca&quot;,&quot;manu&quot;,&quot;mancity&quot;,&quot;jue&quot;),
+                 sg = c(4.5,5,5,15,3.3,8),
+                 five = c(1/0.15,1/0.19,1/0.22,1/0.02,1/0.15,1/0.13))
+
+
+dat_cl$underval = ifelse(dat_cl$five &lt; dat_cl$sg,1,0)
+
+print(dat_cl)</code></pre>
+<pre><code>##      team   sg      five underval
+## 1    real  4.5  6.666667        0
+## 2  bayern  5.0  5.263158        0
+## 3   barca  5.0  4.545455        1
+## 4    manu 15.0 50.000000        0
+## 5 mancity  3.3  6.666667        0
+## 6     jue  8.0  7.692308        1</code></pre>
+<pre class="r"><code>#Championship league
+dat_champ = data.frame(team = c(&quot;wolf&quot;,&quot;cardiff&quot;,&quot;aston&quot;,&quot;fulham&quot;),
+                       sg = c(1.03,5,15,30),
+                       five = c(1/0.85,1/0.1,1/0.03,1/0.01))
+
+dat_champ$underval = ifelse(dat_champ$five &lt; dat_champ$sg,1,0)
+
+print(dat_champ)</code></pre>
+<pre><code>##      team    sg       five underval
+## 1    wolf  1.03   1.176471        0
+## 2 cardiff  5.00  10.000000        0
+## 3   aston 15.00  33.333333        0
+## 4  fulham 30.00 100.000000        0</code></pre>
+<pre class="r"><code>#europa
+dat_eur = data.frame(team = c(&quot;ath&quot;,&quot;dort&quot;,&quot;ars&quot;,&quot;lazio&quot;,&quot;mars&quot;,&quot;rb_lei&quot;,&quot;lyon&quot;,&quot;ac&quot;,&quot;cska&quot;,&quot;sport&quot;,&quot;ath_bil&quot;,&quot;rb_sal&quot;,&quot;zenit&quot;,&quot;dyn&quot;),
+                       sg = c(2.9,5,6,9.5,17,10,12,11,40,15,17,150,40,80),
+                       five = c(1/0.26,1/0.11,1/0.09,1/0.08,1/0.06,1/0.06,1/0.05,1/0.05,1/0.04,1/0.04,1/0.04,1/0.03,1/0.03,1/0.03))
+
+dat_eur$underval = ifelse(dat_eur$five &lt; dat_eur$sg,1,0)
+
+print(dat_eur)</code></pre>
+<pre><code>##       team    sg      five underval
+## 1      ath   2.9  3.846154        0
+## 2     dort   5.0  9.090909        0
+## 3      ars   6.0 11.111111        0
+## 4    lazio   9.5 12.500000        0
+## 5     mars  17.0 16.666667        1
+## 6   rb_lei  10.0 16.666667        0
+## 7     lyon  12.0 20.000000        0
+## 8       ac  11.0 20.000000        0
+## 9     cska  40.0 25.000000        1
+## 10   sport  15.0 25.000000        0
+## 11 ath_bil  17.0 25.000000        0
+## 12  rb_sal 150.0 33.333333        1
+## 13   zenit  40.0 33.333333        1
+## 14     dyn  80.0 33.333333        1</code></pre>
+</div>
