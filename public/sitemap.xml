@@ -95,7 +95,7 @@
     
     <url>
     
-      <loc>/categories/betting/</loc>
+      <loc>/tags/betting/</loc>
       <lastmod>2018-04-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -105,7 +105,7 @@
     
     <url>
     
-      <loc>/tags/betting/</loc>
+      <loc>/categories/betting/</loc>
       <lastmod>2018-04-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -145,7 +145,7 @@
     
     <url>
     
-      <loc>/categories/investment/</loc>
+      <loc>/tags/investment/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -155,7 +155,7 @@
     
     <url>
     
-      <loc>/tags/investment/</loc>
+      <loc>/categories/investment/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>

@@ -17,9 +17,15 @@
       
       <guid>/post/testing-embedding-of-java-jar-files-in-websites-intranet/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;http://www.codejava.net/java-se/applet/how-to-show-java-applet-in-html-page&#34; target=&#34;_blank&#34;&gt;http://www.codejava.net/java-se/applet/how-to-show-java-applet-in-html-page&lt;/a&gt;
-&lt;a href=&#34;http://www.oxfordmathcenter.com/drupal7/node/37&#34; target=&#34;_blank&#34;&gt;http://www.oxfordmathcenter.com/drupal7/node/37&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&#34;http://www.oxfordmathcenter.com/drupal7/node/37&#34; target=&#34;_blank&#34;&gt;http://www.oxfordmathcenter.com/drupal7/node/37&lt;/a&gt;
+&lt;a href=&#34;https://stackoverflow.com/questions/8440840/java-applet-simply-not-displaying/8440896#8440896&#34; target=&#34;_blank&#34;&gt;https://stackoverflow.com/questions/8440840/java-applet-simply-not-displaying/8440896#8440896&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;applet code=&#34;HelloWorld.class&#34; width=300 height=200&gt;&lt;/applet&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;OBJECT codetype=&#34;application/java&#34;
+        classid=&#34;java:HelloWorld.class&#34;
+        width=&#34;500&#34; height=&#34;200&#34;&gt;
+&lt;/OBJECT&gt;&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;m figuring out how to embed Java applications into static pages&amp;hellip;&lt;/p&gt;
 </description>
