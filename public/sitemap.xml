@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>/post/testing-embedding-of-java-jar-files-in-websites-intranet/</loc>
+      <lastmod>2018-04-28T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/odds_analysis/</loc>
       <lastmod>2018-04-11T00:00:00+00:00</lastmod>
     </url>
@@ -68,6 +77,14 @@
     
     <url>
     
+      <loc>/post/2018-04-28-testing-embedding-of-java-jar-files-in-websites-intranet/</loc>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/tags/asset_allocation/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -78,7 +95,7 @@
     
     <url>
     
-      <loc>/tags/betting/</loc>
+      <loc>/categories/betting/</loc>
       <lastmod>2018-04-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -88,7 +105,7 @@
     
     <url>
     
-      <loc>/categories/betting/</loc>
+      <loc>/tags/betting/</loc>
       <lastmod>2018-04-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -128,6 +145,16 @@
     
     <url>
     
+      <loc>/categories/investment/</loc>
+      <lastmod>2018-04-04T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/tags/investment/</loc>
       <lastmod>2018-04-04T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -138,8 +165,8 @@
     
     <url>
     
-      <loc>/categories/investment/</loc>
-      <lastmod>2018-04-04T00:00:00+00:00</lastmod>
+      <loc>/tags/java/</loc>
+      <lastmod>2018-04-28T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -189,7 +216,7 @@
     <url>
     
       <loc>/post/</loc>
-      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-28T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -200,6 +227,16 @@
     
       <loc>/tags/probability/</loc>
       <lastmod>2018-04-11T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/programming/</loc>
+      <lastmod>2018-04-28T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
