@@ -1,0 +1,77 @@
+---
+title: "World Cup - Singapore Pools odds"
+author: "Jirong"
+date: 2018-06-15
+categories: ["betting"]
+tags: ["odds", "probability", "betting"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Hey it's the world cup season - Tapping into a Machine Learning based paper 
+
+Once again as a Singaporean citizen, there're no other choices but to place my bets in Singapore pools. Betting in SG is not my preferred way to grow my wealth because of the crazy ~15% spread in Sg pools. In international sites, the spread is usually close to 3-5%. Oh well, that's illegal.
+
+But because this is the world cup season, I decide to make some small punts! And of course with some analytical slant.
+
+I came across this academic paper (https://arxiv.org/pdf/1806.03208.pdf) written by Darmouth professors. They use a suite of features from individual players' abilities, to teams' rankings and even Countries' GDP! Looking at all the data fields used, the data collection process must have been a nightmare. 
+The authors then use Random Forest with simulations (think of Dr Strange forays' into 14 milion possibilities) to predict the results. The probabilites for each team reaches each round is listed in 1 of the pages.
+
+As the probabilities listed are accurate only for round of 16 (non-conditionally), I shall only place my bets for round of 16 should I find any undervalued opportunities. In addition, as one of the group A's game has been played, I'll ignore the analysis from Group A since the 'true probability' has already shifted.
+
+Also, if my analysis shows that 2 of the teams in the same group are undervalued, I'll only pick 1 of them because of the possible non-independence issues.  
+
+## Results
+
+- According to the table at the end of the web page, only 5 teams are undervalued now! And they are Saudi, Morocco, Iceland, Switzerland and Sweden. 
+- Since Saudi has been trashed, I shall ignore them.
+- And since these countries are in different groups, the round-of-16 probabilities used are strictly independent
+
+Disclosure: 
+- I bought into Morocoo, Icleand, Switzerland and Sweden with bet sizes of 150, 300, 300, 300. The allocation is based on 'True - SG odds difference' & 'True - SG probabilities difference'. Fingers crossed andwish me luck!
+
+
+```{r}
+#Analyzing UEFA champons league odds
+dat = data.frame(team = c("uru","rus","egy","sau",
+                          "spa","por","mor","ira",
+                          "fra","den","per","aus",
+                          "arg","cro","nig","ice",
+                          "bra","swi","ser","coa",
+                          "ger","mex","swe","kor",
+                          "bel","eng","tun","pan",
+                          "col","pol","sen","jap"),
+                 sg = c(1.15,1.16,2.1,11,
+                        1.05,1.12,3.5,6,
+                        1.03,1.53,2.3,4.2,
+                        1.02,1.45,3.15,3.2,
+                        1.02,1.85,1.9,4,
+                        1.07,1.80,2,3.25,
+                        1.03,1.05,4,8,
+                        1.25,1.5,2,3),
+                 ml_prop = c(86.6,50.4,45.5,17.5,
+                             88.4,67.5,30.3,13.8,
+                             85.5,59.0,39.2,16.2,
+                             81.6,65.9,15.8,36.6,
+                             83.5,58.9,36.2,21.4,
+                             86.5,41.5,54,17.9,
+                             86.3,79.8,22.8,11.1,
+                             79.2,60.6,39.7,20.5))
+
+dat$ml = 1/(dat$ml_prop/100)
+
+dat$underval = ifelse(dat$ml < dat$sg,1,0)
+
+library(dplyr)
+dat = arrange(dat,desc(dat$underval))
+dat$sg_prob = 100*1/dat$sg
+
+print(dat)
+
+```
+
+
+
+

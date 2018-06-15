@@ -7,8 +7,110 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Sun, 06 May 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 15 Jun 2018 00:00:00 +0000</lastBuildDate>
     <atom:link href="/post/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>World Cup - Singapore Pools odds</title>
+      <link>/post/odds_analysis_worldcup/</link>
+      <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/odds_analysis_worldcup/</guid>
+      <description>&lt;div id=&#34;hey-its-the-world-cup-season---tapping-into-a-machine-learning-based-paper&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Hey it’s the world cup season - Tapping into a Machine Learning based paper&lt;/h2&gt;
+&lt;p&gt;Once again as a Singaporean citizen, there’re no other choices but to place my bets in Singapore pools. Betting in SG is not my preferred way to grow my wealth because of the crazy ~15% spread in Sg pools. In international sites, the spread is usually close to 3-5%. Oh well, that’s illegal.&lt;/p&gt;
+&lt;p&gt;But because this is the world cup season, I decide to make some small punts! And of course with some analytical slant.&lt;/p&gt;
+&lt;p&gt;I came across this academic paper (&lt;a href=&#34;https://arxiv.org/pdf/1806.03208.pdf&#34; class=&#34;uri&#34;&gt;https://arxiv.org/pdf/1806.03208.pdf&lt;/a&gt;) written by Darmouth professors. They use a suite of features from individual players’ abilities, to teams’ rankings and even Countries’ GDP! Looking at all the data fields used, the data collection process must have been a nightmare. The authors then use Random Forest with simulations (think of Dr Strange forays’ into 14 milion possibilities) to predict the results. The probabilites for each team reaches each round is listed in 1 of the pages.&lt;/p&gt;
+&lt;p&gt;As the probabilities listed are accurate only for round of 16 (non-conditionally), I shall only place my bets for round of 16 should I find any undervalued opportunities. In addition, as one of the group A’s game has been played, I’ll ignore the analysis from Group A since the ‘true probability’ has already shifted.&lt;/p&gt;
+&lt;p&gt;Also, if my analysis shows that 2 of the teams in the same group are undervalued, I’ll only pick 1 of them because of the possible non-independence issues.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;results&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Results&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;According to the table at the end of the web page, only 5 teams are undervalued now! And they are Saudi, Morocco, Iceland, Switzerland and Sweden.&lt;/li&gt;
+&lt;li&gt;Since Saudi has been trashed, I shall ignore them.&lt;/li&gt;
+&lt;li&gt;And since these countries are in different groups, the round-of-16 probabilities used are strictly independent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Disclosure: - I bought into Morocoo, Icleand, Switzerland and Sweden with bet sizes of 150, 300, 300, 300. The allocation is based on ‘True - SG odds difference’ &amp;amp; ‘True - SG probabilities difference’. Fingers crossed andwish me luck!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Analyzing UEFA champons league odds
+dat = data.frame(team = c(&amp;quot;uru&amp;quot;,&amp;quot;rus&amp;quot;,&amp;quot;egy&amp;quot;,&amp;quot;sau&amp;quot;,
+                          &amp;quot;spa&amp;quot;,&amp;quot;por&amp;quot;,&amp;quot;mor&amp;quot;,&amp;quot;ira&amp;quot;,
+                          &amp;quot;fra&amp;quot;,&amp;quot;den&amp;quot;,&amp;quot;per&amp;quot;,&amp;quot;aus&amp;quot;,
+                          &amp;quot;arg&amp;quot;,&amp;quot;cro&amp;quot;,&amp;quot;nig&amp;quot;,&amp;quot;ice&amp;quot;,
+                          &amp;quot;bra&amp;quot;,&amp;quot;swi&amp;quot;,&amp;quot;ser&amp;quot;,&amp;quot;coa&amp;quot;,
+                          &amp;quot;ger&amp;quot;,&amp;quot;mex&amp;quot;,&amp;quot;swe&amp;quot;,&amp;quot;kor&amp;quot;,
+                          &amp;quot;bel&amp;quot;,&amp;quot;eng&amp;quot;,&amp;quot;tun&amp;quot;,&amp;quot;pan&amp;quot;,
+                          &amp;quot;col&amp;quot;,&amp;quot;pol&amp;quot;,&amp;quot;sen&amp;quot;,&amp;quot;jap&amp;quot;),
+                 sg = c(1.15,1.16,2.1,11,
+                        1.05,1.12,3.5,6,
+                        1.03,1.53,2.3,4.2,
+                        1.02,1.45,3.15,3.2,
+                        1.02,1.85,1.9,4,
+                        1.07,1.80,2,3.25,
+                        1.03,1.05,4,8,
+                        1.25,1.5,2,3),
+                 ml_prop = c(86.6,50.4,45.5,17.5,
+                             88.4,67.5,30.3,13.8,
+                             85.5,59.0,39.2,16.2,
+                             81.6,65.9,15.8,36.6,
+                             83.5,58.9,36.2,21.4,
+                             86.5,41.5,54,17.9,
+                             86.3,79.8,22.8,11.1,
+                             79.2,60.6,39.7,20.5))
+
+dat$ml = 1/(dat$ml_prop/100)
+
+dat$underval = ifelse(dat$ml &amp;lt; dat$sg,1,0)
+
+library(dplyr)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Attaching package: &amp;#39;dplyr&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:stats&amp;#39;:
+## 
+##     filter, lag&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:base&amp;#39;:
+## 
+##     intersect, setdiff, setequal, union&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat = arrange(dat,desc(dat$underval))
+dat$sg_prob = 100*1/dat$sg
+
+print(dat)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    team    sg ml_prop       ml underval   sg_prob
+## 1   sau 11.00    17.5 5.714286        1  9.090909
+## 2   mor  3.50    30.3 3.300330        1 28.571429
+## 3   ice  3.20    36.6 2.732240        1 31.250000
+## 4   swi  1.85    58.9 1.697793        1 54.054054
+## 5   swe  2.00    54.0 1.851852        1 50.000000
+## 6   uru  1.15    86.6 1.154734        0 86.956522
+## 7   rus  1.16    50.4 1.984127        0 86.206897
+## 8   egy  2.10    45.5 2.197802        0 47.619048
+## 9   spa  1.05    88.4 1.131222        0 95.238095
+## 10  por  1.12    67.5 1.481481        0 89.285714
+## 11  ira  6.00    13.8 7.246377        0 16.666667
+## 12  fra  1.03    85.5 1.169591        0 97.087379
+## 13  den  1.53    59.0 1.694915        0 65.359477
+## 14  per  2.30    39.2 2.551020        0 43.478261
+## 15  aus  4.20    16.2 6.172840        0 23.809524
+## 16  arg  1.02    81.6 1.225490        0 98.039216
+## 17  cro  1.45    65.9 1.517451        0 68.965517
+## 18  nig  3.15    15.8 6.329114        0 31.746032
+## 19  bra  1.02    83.5 1.197605        0 98.039216
+## 20  ser  1.90    36.2 2.762431        0 52.631579
+## 21  coa  4.00    21.4 4.672897        0 25.000000
+## 22  ger  1.07    86.5 1.156069        0 93.457944
+## 23  mex  1.80    41.5 2.409639        0 55.555556
+## 24  kor  3.25    17.9 5.586592        0 30.769231
+## 25  bel  1.03    86.3 1.158749        0 97.087379
+## 26  eng  1.05    79.8 1.253133        0 95.238095
+## 27  tun  4.00    22.8 4.385965        0 25.000000
+## 28  pan  8.00    11.1 9.009009        0 12.500000
+## 29  col  1.25    79.2 1.262626        0 80.000000
+## 30  pol  1.50    60.6 1.650165        0 66.666667
+## 31  sen  2.00    39.7 2.518892        0 50.000000
+## 32  jap  3.00    20.5 4.878049        0 33.333333&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Journey of a non coder to a budding computer scientist</title>
