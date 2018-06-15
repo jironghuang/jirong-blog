@@ -30,7 +30,7 @@ Also, if my analysis shows that 2 of the teams in the same group are undervalued
 - And since these countries are in different groups, the round-of-16 probabilities used are strictly independent
 
 Disclosure: 
-- I bought into Morocoo, Icleand, Switzerland and Sweden with bet sizes of 150, 300, 300, 300. The allocation is based on 'True - SG odds difference' & 'True - SG probabilities difference'. Fingers crossed andwish me luck!
+- I bought into Morocoo, Icleand, Switzerland and Sweden with bet sizes of 200, 350, 350, 350. The allocation is based on 'True - SG odds difference' & 'True - SG probabilities difference'. Fingers crossed and wish me luck!
 
 
 ```{r}
