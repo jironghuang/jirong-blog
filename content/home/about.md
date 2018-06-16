@@ -12,6 +12,7 @@ weight = 5
   interests = [
     "Data Analytics",
     "Quantitative Trading",
+    "R package development"
   ]
 
 # List your qualifications (such as academic degrees).
@@ -19,6 +20,11 @@ weight = 5
   course = "Msc in Computer Science"
   institution = "Georgia Institute of Technology"
   year = 2021
+  
+[[education.courses]]
+  course = "Dip in Full Stack Web Development"
+  institution = "Singapore Polytechnic"
+  year = 2019
 
 [[education.courses]]
   course = "Gdip in Computer Science"
@@ -34,7 +40,7 @@ weight = 5
   course = "Bsc in Economics and Finance"
   institution = "Singapore Management University"
   year = 2013
- 
+  
 +++
 
 # Biography
