@@ -82,7 +82,7 @@
   <meta property="og:description" content="Data analyst and Quantitative Trader">
   <meta property="og:locale" content="en-us">
   
-  <meta property="og:updated_time" content="2018-04-04T00:00:00&#43;00:00">
+  <meta property="og:updated_time" content="2018-06-17T00:00:00&#43;00:00">
   
 
   
@@ -206,6 +206,16 @@
   
   
   <div>
+    <h2><a href="/project/watch_list/">ETFs watchlist</a></h2>
+    <div class="article-style">
+      
+      ETFs watchlist In my Ubunutu - Linux laptop, I wrote some R scripts to crawl the yahoo financial data. When the clock strikes midnight, my cronjob task scheduler will execute these scripts in a parallel fashion to extract the data.
+Then my script will log into my google account via SSH and paste into 1 of the googlesheet tabs. And this is linked to my portfolio allocation, computation and milestones.
+      
+    </div>
+  </div>
+  
+  <div>
     <h2><a href="/project/perm_port_proj/">Permanent Portfolio that I Implemented</a></h2>
     <div class="article-style">
       
@@ -245,16 +255,6 @@ To investigate the feasibility, I simulated a portfolio starting at $300 on Nov 
 This is a momentum based strategy: Long if current day is &lt;50 days of 200 days high. Nil position otherwise.
 Returns are pretty impressive for Singapore market. That being said, it will be useful to try it with different parameters and different markets!
 #Inspired by the blog post here&ndash;&gt;<a href="https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/" target="_blank">https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/</a> #<a href="http://etfprophet.com/days-since-200-day-highs/" target="_blank">http://etfprophet.com/days-since-200-day-highs/</a> #Simple momentum strategy rm(list = ls(all = TRUE)) library(quantmod) ## Loading required package: xts ## Loading required package: zoo ## ## Attaching package: &#39;zoo&#39; ## The following objects are masked from &#39;package:base&#39;: ## ## as.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/project/watch_list/">ETFs watchlist</a></h2>
-    <div class="article-style">
-      
-      ETFs watchlist In my Ubunutu - Linux laptop, I wrote some R scripts to crawl the yahoo financial data. When the clock strikes midnight, my cronjob task scheduler will execute these scripts in a parallel fashion to extract the data.
-Then my script will log into my google account via SSH and paste into 1 of the googlesheet tabs. And this is linked to my portfolio allocation, computation and milestones.
       
     </div>
   </div>

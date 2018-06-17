@@ -1,7 +1,7 @@
 ---
 title: "ETFs watchlist"
 author: "Jirong"
-date: 2018-17-06
+date: 2018-06-17
 categories: ["investment"]
 tags: ["investment", "finance"]
 image_preview: "boards.jpg"

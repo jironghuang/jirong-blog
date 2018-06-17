@@ -11,6 +11,25 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>ETFs watchlist</title>
+      <link>/project/watch_list/</link>
+      <pubDate>Sun, 17 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/project/watch_list/</guid>
+      <description>&lt;div id=&#34;etfs-watchlist&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;ETFs watchlist&lt;/h2&gt;
+&lt;p&gt;In my Ubunutu - Linux laptop, I wrote some R scripts to crawl the yahoo financial data. When the clock strikes midnight, my cronjob task scheduler will execute these scripts in a parallel fashion to extract the data.&lt;/p&gt;
+&lt;p&gt;Then my script will log into my google account via SSH and paste into 1 of the googlesheet tabs. And this is linked to my portfolio allocation, computation and milestones.&lt;/p&gt;
+&lt;p&gt;It also serves as a watchlist for me to monitor which of these ETFs are undervalued via % fall from 52 week high. See my linkedin article &lt;a href=&#34;https://www.linkedin.com/pulse/investment-compass-our-volatile-times-jirong-huang/&#34;&gt;here&lt;/a&gt; for further explanation on why I think this is a good indicator.&lt;/p&gt;
+&lt;p&gt;You may find my R scripts &lt;a href=&#34;https://github.com/jironghuang/personal-finance&#34;&gt;here&lt;/a&gt;. I didn’t really document this repo well so do approach me if you’ve any questions.&lt;/p&gt;
+&lt;p&gt;And here’s the googlsheet (updated daily) opened to the public. Hope you find it useful!&lt;/p&gt;
+&lt;iframe src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubhtml?gid=0&amp;amp;single=true&#34; width=&#34;900&#34; height=&#34;780&#34; style=&#34;border: none;&#34;&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>World Cup - Singapore Pools odds</title>
       <link>/post/odds_analysis_worldcup/</link>
       <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
@@ -3795,25 +3814,6 @@ cbind(Me=Performance(myReturns),stock = Performance(bmkReturns))&lt;/code&gt;&lt
 ## Annualized Volatility      0.1453810  2.954450e-01
 ## Maximum Drawdown          -0.3448359 -7.584541e-01
 ## Max Length Drawdown     1522.0000000  2.775000e+03&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>ETFs watchlist</title>
-      <link>/project/watch_list/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/project/watch_list/</guid>
-      <description>&lt;div id=&#34;etfs-watchlist&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;ETFs watchlist&lt;/h2&gt;
-&lt;p&gt;In my Ubunutu - Linux laptop, I wrote some R scripts to crawl the yahoo financial data. When the clock strikes midnight, my cronjob task scheduler will execute these scripts in a parallel fashion to extract the data.&lt;/p&gt;
-&lt;p&gt;Then my script will log into my google account via SSH and paste into 1 of the googlesheet tabs. And this is linked to my portfolio allocation, computation and milestones.&lt;/p&gt;
-&lt;p&gt;It also serves as a watchlist for me to monitor which of these ETFs are undervalued via % fall from 52 week high. See my linkedin article &lt;a href=&#34;https://www.linkedin.com/pulse/investment-compass-our-volatile-times-jirong-huang/&#34;&gt;here&lt;/a&gt; for further explanation on why I think this is a good indicator.&lt;/p&gt;
-&lt;p&gt;You may find my R scripts &lt;a href=&#34;https://github.com/jironghuang/personal-finance&#34;&gt;here&lt;/a&gt;. I didn’t really document this repo well so do approach me if you’ve any questions.&lt;/p&gt;
-&lt;p&gt;And here’s the googlsheet (updated daily) opened to the public. Hope you find it useful!&lt;/p&gt;
-&lt;iframe src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubhtml?gid=0&amp;amp;single=true&#34; width=&#34;900&#34; height=&#34;780&#34; style=&#34;border: none;&#34;&gt;
-&lt;/iframe&gt;
-&lt;/div&gt;
 </description>
     </item>
     
