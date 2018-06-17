@@ -1,0 +1,26 @@
+---
+title: "ETFs watchlist"
+author: "Jirong"
+date: 2018-17-06
+categories: ["investment"]
+tags: ["investment", "finance"]
+image_preview: "boards.jpg"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In my Ubunutu - Linux laptop, I wrote some R scripts to crawl the yahoo financial data. When the clock strikes midnight, my cronjob task scheduler will execute these scripts in a parallel fashion to extract the data.
+
+Then my script will log into my google account via SSH and paste into 1 of the googlesheet tabs. And this is linked to my portfolio allocation, computation and milestones.
+
+It also serves as a watchlist for me to monitor which of these ETFs are undervalued via % fall from 52 week high. See my linkedin article <a href="https://www.linkedin.com/pulse/investment-compass-our-volatile-times-jirong-huang/">here</a> for further explanation on why I think this is a good indicator.
+
+You may find my R scripts <a href="https://github.com/jironghuang/personal-finance">here</a>. I didn't really document this repo well so do approach me if you've any questions.
+
+And here's the googlsheet (updated daily) opened to the public. Hope you find it useful!
+
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubhtml?gid=0&single=true" width="900" height="780" style="border: none;"></iframe>
+
+
