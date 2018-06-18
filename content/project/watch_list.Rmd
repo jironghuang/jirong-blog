@@ -20,7 +20,7 @@ It also serves as a watchlist for me to monitor which of these ETFs are underval
 
 You may find my R scripts <a href="https://github.com/jironghuang/personal-finance">here</a>. I didn't really document this repo well so do approach me if you've any questions.
 
-And here's the googlsheet (updated daily) opened to the public. Hope you find it useful!
+And here's the googlesheet (updated daily) opened to the public. Hope you find it useful!
 
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubhtml?gid=0&single=true" width="900" height="780" style="border: none;"></iframe>
 
