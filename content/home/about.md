@@ -53,7 +53,7 @@ I am currently pursuing a Computer Science Masters in Georgia Institute of Techn
 
 Given that that issues are increasingly complex, I embrace a multidisciplinary approach in analysing and understanding issues; I'm passionate about data analytics, economics, finance, organisational behaviour and programming.
 
-Over the course of my career, I hope to think, learn, experiment, code and write more!
+Over the course of my career, I hope to stay insatiably curious by thinking, learning, experimenting, coding and writing more! My goal of being a polymath is distant but I hope to move closer to it every single day. 
 
 Through this blog, I hope to share my thoughts on analytics and quantitative trading. The latter is something I hope to work on - hopefully with some skin in the game - over the next few years.
 
