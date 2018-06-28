@@ -32,6 +32,7 @@
 &lt;li&gt;And since these countries are in different groups, the round-of-16 probabilities used are strictly independent&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Disclosure: - I bought into Morocoo, Icleand, Switzerland and Sweden with bet sizes of 200, 350, 350, 350. The allocation is based on ‘True - SG odds difference’ &amp;amp; ‘True - SG probabilities difference’. Fingers crossed and wish me luck!&lt;/p&gt;
+&lt;p&gt;Update: - Switzerland and Sweden won but the rest lost. So, I won 97 (got back 1347) while risking 1250. A return of 8% in a space of 1 month. May not seem much - but that’s the return in 1 month! Ok, that’s not a lot. - Earning a profit doesn’t mean I’m right. I believe I had a sound framework; that’s why I went with my decision. I think that’s the most important.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Analyzing UEFA champons league odds
 dat = data.frame(team = c(&amp;quot;uru&amp;quot;,&amp;quot;rus&amp;quot;,&amp;quot;egy&amp;quot;,&amp;quot;sau&amp;quot;,
                           &amp;quot;spa&amp;quot;,&amp;quot;por&amp;quot;,&amp;quot;mor&amp;quot;,&amp;quot;ira&amp;quot;,

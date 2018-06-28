@@ -32,6 +32,10 @@ Also, if my analysis shows that 2 of the teams in the same group are undervalued
 Disclosure: 
 - I bought into Morocoo, Icleand, Switzerland and Sweden with bet sizes of 200, 350, 350, 350. The allocation is based on 'True - SG odds difference' & 'True - SG probabilities difference'. Fingers crossed and wish me luck!
 
+Update:
+- Switzerland and Sweden won but the rest lost. So, I won 97 (got back 1347) while risking 1250. A return of 8% in a space of 1 month. May not seem much - but that's the return in 1 month! Ok, that's not a lot.
+- Earning a profit doesn't mean I'm right. I believe I had a sound framework; that's why I went with my decision. I think that's the most important.
+
 
 ```{r}
 #Analyzing UEFA champons league odds
