@@ -1,13 +1,15 @@
 ---
-title: "Buffett"
+title: "Analyzing Warren Buffett Cash Level"
 author: "Jirong"
-date: 2018-04-01
+date: 2018-07-04
 categories: ["investment"]
-tags: ["investment"]
+tags: ["finance", "investment"]
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(reshape2)
 ```
 
 ## Warren Buffett the sage
