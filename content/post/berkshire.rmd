@@ -5,6 +5,9 @@ date: 2018-07-04
 categories: ["investment"]
 tags: ["investment","finance"]
 ---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 ## Warren Buffett the sage
 
