@@ -5,8 +5,17 @@
     
     <url>
     
-      <loc>/post/updated_etf_watchlist_project/</loc>
+      <loc>/post/etf_watchlist_project/</loc>
       <lastmod>2018-07-07T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/content/post/etf_watchlist_codes/</loc>
+      <lastmod>2018-07-07T01:10:44+08:00</lastmod>
     </url>
     
   
@@ -145,6 +154,16 @@
     
       <loc>/categories/</loc>
       <lastmod>2018-06-15T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/content/</loc>
+      <lastmod>2018-07-07T01:10:44+08:00</lastmod>
       <priority>0</priority>
     </url>
     

@@ -11,11 +11,11 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Updated ETF project</title>
-      <link>/post/updated_etf_watchlist_project/</link>
+      <title>Updated ETF project codes</title>
+      <link>/post/etf_watchlist_project/</link>
       <pubDate>Sat, 07 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/updated_etf_watchlist_project/</guid>
+      <guid>/post/etf_watchlist_project/</guid>
       <description>&lt;div id=&#34;updated-etf-watchlist-project&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Updated ETF watchlist project&lt;/h2&gt;
 &lt;p&gt;While watching a world cup match today, I updated my ETF watchlist project (you may click &lt;a href=&#34;/project/watch_list&#34;&gt;here&lt;/a&gt; if you haven’t seen it yet)&lt;/p&gt;
@@ -33,6 +33,15 @@
 &lt;/iframe&gt;
 &lt;/div&gt;
 </description>
+    </item>
+    
+    <item>
+      <title>Etf_watchlist_codes</title>
+      <link>/content/post/etf_watchlist_codes/</link>
+      <pubDate>Sat, 07 Jul 2018 01:10:44 +0800</pubDate>
+      
+      <guid>/content/post/etf_watchlist_codes/</guid>
+      <description></description>
     </item>
     
     <item>
