@@ -11,6 +11,32 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Updated ETF watchlist codes</title>
+      <link>/post/updated-etf-watchlist-codes/</link>
+      <pubDate>Sat, 07 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/updated-etf-watchlist-codes/</guid>
+      <description>&lt;p&gt;While watching a world cup match, I updated my ETF watchlist project (you may click &lt;a href=&#34;/project/watch_list&#34;&gt;here&lt;/a&gt; if you haven&amp;rsquo;t seen it yet)&lt;/p&gt;
+
+&lt;p&gt;You may find the github code &lt;a href=&#34;/project/watch_list&#34;&gt;https://github.com/jironghuang/ETF_watchlist&lt;/a&gt;. In the revision, I parallelized the crawling - essentially tapping on all the cores in my machines.&lt;/p&gt;
+
+&lt;p&gt;To create your own watchlist. Follow these steps,&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Install R and R studio.&lt;/li&gt;
+&lt;li&gt;In Mac or Linux, type the following in command line git clone &lt;a href=&#34;https://github.com/jironghuang/ETF_watchlist&#34; target=&#34;_blank&#34;&gt;https://github.com/jironghuang/ETF_watchlist&lt;/a&gt; . In windows, you may visit the link and download it as zipped folder&lt;/li&gt;
+&lt;li&gt;Open the .Rproj&lt;/li&gt;
+&lt;li&gt;Tweak the input file to change your watchlist. Ticker symbol should follow yahoo ticker naming convention (e.g. VWRD.L for the ETF listed on stock exchange)&lt;/li&gt;
+&lt;li&gt;Ctrl + A and Ctrl + Enter. Or just click the run button in the top right hand of Rstudio&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Note: For the auth.r section, you may comment it out if you do not wish to upload the crawled data in googlesheet.&lt;/p&gt;
+
+&lt;iframe src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubhtml?gid=0&amp;single=true&#34; width=&#34;900&#34; height=&#34;780&#34; style=&#34;border: none;&#34;&gt;&lt;/iframe&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Updated my etf project</title>
       <link>/post/updated-etf-project/</link>
       <pubDate>Sat, 07 Jul 2018 00:00:00 +0000</pubDate>
