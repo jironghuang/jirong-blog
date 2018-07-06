@@ -1,7 +1,7 @@
 ---
 title: Updated my ETF watchlist project
 author: ~
-date: '2018-07-07'
+date: 2018-07-07
 slug: updated-my-etf-watchlist-project
 categories: ["investment"]
 tags: ["investment", "finance"]
