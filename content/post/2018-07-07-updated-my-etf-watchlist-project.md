@@ -1,10 +1,10 @@
 ---
-title: Updated my ETF watchlist project
+title: Updated my etf project
 author: ~
-date: 2018-07-07
-slug: updated-my-etf-watchlist-project
-categories: ["investment"]
-tags: ["investment", "finance"]
+date: '2018-07-07'
+slug: updated-etf-project
+categories: [investment]
+tags: [investment]
 header:
   caption: ''
   image: ''
