@@ -18,7 +18,7 @@ Then my script will log into my google account via SSH and paste the crawled dat
 
 It also serves as a watchlist for me to monitor which of these ETFs are undervalued via % fall from 52 week high. See my linkedin article <a href="https://www.linkedin.com/pulse/investment-compass-our-volatile-times-jirong-huang/">here</a> for further explanation on why I think this is a good indicator.
 
-You may find my R scripts <a href="https://github.com/jironghuang/personal-finance">here</a>. I didn't really document this repo well so do approach me if you've any questions.
+You may find my R scripts <a href="https://github.com/jironghuang/ETF_watchlist">here</a>. I didn't really document this repo well so do approach me if you've any questions.
 
 And here's the googlesheet (updated daily) opened to the public. Hope you find it useful!
 
