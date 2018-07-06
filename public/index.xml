@@ -16,7 +16,7 @@
       <pubDate>Sat, 07 Jul 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/updated-my-etf-watchlist-project/</guid>
-      <description>&lt;p&gt;While watching a world cup match, I updated my ETF watchlist project (you may click &lt;a href=&#34;/project/watch_list&#34;&gt;here&lt;/a&gt; if you haven&amp;rsquo;t seen the project)&lt;/p&gt;
+      <description>&lt;p&gt;While watching a world cup match, I updated my ETF watchlist project (you may click &lt;a href=&#34;/project/watch_list&#34;&gt;here&lt;/a&gt; if you haven&amp;rsquo;t seen it yet)&lt;/p&gt;
 
 &lt;p&gt;You may find the github code &lt;a href=&#34;/project/watch_list&#34;&gt;https://github.com/jironghuang/ETF_watchlist&lt;/a&gt;. In the revision, I parallelized the crawling - essentially tapping on all the cores in my machines.&lt;/p&gt;
 

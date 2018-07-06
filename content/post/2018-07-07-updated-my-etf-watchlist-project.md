@@ -10,7 +10,7 @@ header:
   image: ''
 ---
 
-While watching a world cup match, I updated my ETF watchlist project (you may click <a href="/project/watch_list">here</a> if you haven't seen the project)
+While watching a world cup match, I updated my ETF watchlist project (you may click <a href="/project/watch_list">here</a> if you haven't seen it yet)
 
 You may find the github code <a href="/project/watch_list">https://github.com/jironghuang/ETF_watchlist</a>. In the revision, I parallelized the crawling - essentially tapping on all the cores in my machines.
 
