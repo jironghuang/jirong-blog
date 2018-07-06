@@ -17,7 +17,7 @@ You may find the github code <a href="/project/watch_list">https://github.com/ji
 To create your own watchlist. Follow these steps,
 
 - Install R and R studio.
-- In Mac or Linux, type git clone https://github.com/jironghuang/ETF_watchlist . In windows, you may visit the link and download it as zipped folder
+- In Mac or Linux, type the following in command line git clone https://github.com/jironghuang/ETF_watchlist . In windows, you may visit the link and download it as zipped folder
 - Open the .Rproj
 - Tweak the input file to change your watchlist. Ticker symbol should follow yahoo ticker naming convention (e.g. VWRD.L for the ETF listed on stock exchange)
 - Ctrl + A and Ctrl + Enter. Or just click the run button in the top right hand of Rstudio

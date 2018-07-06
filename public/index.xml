@@ -24,7 +24,7 @@
 
 &lt;ul&gt;
 &lt;li&gt;Install R and R studio.&lt;/li&gt;
-&lt;li&gt;In Mac or Linux, type git clone &lt;a href=&#34;https://github.com/jironghuang/ETF_watchlist&#34; target=&#34;_blank&#34;&gt;https://github.com/jironghuang/ETF_watchlist&lt;/a&gt; . In windows, you may visit the link and download it as zipped folder&lt;/li&gt;
+&lt;li&gt;In Mac or Linux, type the following in command line git clone &lt;a href=&#34;https://github.com/jironghuang/ETF_watchlist&#34; target=&#34;_blank&#34;&gt;https://github.com/jironghuang/ETF_watchlist&lt;/a&gt; . In windows, you may visit the link and download it as zipped folder&lt;/li&gt;
 &lt;li&gt;Open the .Rproj&lt;/li&gt;
 &lt;li&gt;Tweak the input file to change your watchlist. Ticker symbol should follow yahoo ticker naming convention (e.g. VWRD.L for the ETF listed on stock exchange)&lt;/li&gt;
 &lt;li&gt;Ctrl + A and Ctrl + Enter. Or just click the run button in the top right hand of Rstudio&lt;/li&gt;
