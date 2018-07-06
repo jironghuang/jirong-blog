@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 While watching a world cup match today, I updated my ETF watchlist project (you may click <a href="/project/watch_list">here</a> if you haven't seen it yet)
 
-You may find the github code <a href="/project/watch_list">https://github.com/jironghuang/ETF_watchlist</a>. In the revision, I parallelized the crawling - essentially tapping on all the cores in my machines.
+You may find the github code <a href="https://github.com/jironghuang/ETF_watchlist">here</a>. In the revision, I parallelized the crawling - essentially tapping on all the cores in my machines.
 
 To create your own watchlist. Follow these steps,
 

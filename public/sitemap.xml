@@ -14,8 +14,8 @@
     
     <url>
     
-      <loc>/content/post/etf_watchlist_codes/</loc>
-      <lastmod>2018-07-07T01:10:44+08:00</lastmod>
+      <loc>/post/updated-etf-watchlist-codes/</loc>
+      <lastmod>2018-07-07T01:37:53+08:00</lastmod>
     </url>
     
   
@@ -132,7 +132,7 @@
     
     <url>
     
-      <loc>/categories/betting/</loc>
+      <loc>/tags/betting/</loc>
       <lastmod>2018-06-15T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -142,7 +142,7 @@
     
     <url>
     
-      <loc>/tags/betting/</loc>
+      <loc>/categories/betting/</loc>
       <lastmod>2018-06-15T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -154,16 +154,6 @@
     
       <loc>/categories/</loc>
       <lastmod>2018-06-15T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/content/</loc>
-      <lastmod>2018-07-07T01:10:44+08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -192,7 +182,7 @@
     
     <url>
     
-      <loc>/categories/investment/</loc>
+      <loc>/tags/investment/</loc>
       <lastmod>2018-07-07T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -202,7 +192,7 @@
     
     <url>
     
-      <loc>/tags/investment/</loc>
+      <loc>/categories/investment/</loc>
       <lastmod>2018-07-07T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
