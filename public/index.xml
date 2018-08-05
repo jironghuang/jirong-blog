@@ -11,6 +11,28 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Rolling out the Investment Compass interactive app that I promised eons ago</title>
+      <link>/post/rolling-out-the-investment-compass-interactive-app-that-i-promised-to-myself-eons-ago/</link>
+      <pubDate>Sun, 05 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/rolling-out-the-investment-compass-interactive-app-that-i-promised-to-myself-eons-ago/</guid>
+      <description>&lt;p&gt;Finally I had some time to sit down to work on the interactive app. From what was an hideous app to a somewhat Minimum Viable Product (MVP) version of an app. (Shhh&amp;hellip;I&amp;rsquo;m not really a User Interface, UI person).&lt;/p&gt;
+
+&lt;p&gt;This serves as a compass for me to visualize the potential returns given the % fall from 52 week high. See my linkedin article &lt;a href=&#34;https://www.linkedin.com/pulse/investment-compass-our-volatile-times-jirong-huang/&#34;&gt;here&lt;/a&gt; for further explanation on why I think this is a good indicator.&lt;/p&gt;
+
+&lt;p&gt;The app consists of 3 tabs. The &amp;lsquo;Visualize&amp;rsquo; tab contains 3 graphs plotting % fall from 52 week high against the expected returns 1 to 3 years later. And the value boxes are simply the fitted values from the best fit lines.&lt;/p&gt;
+
+&lt;p&gt;The second tab contains the description of the indexes. For eg. ^STI refers to Straits Times Index. It will be useful for selection of the Index under Visualization tab.&lt;/p&gt;
+
+&lt;p&gt;The third tab is just a summary of the Linkedin article.&lt;/p&gt;
+
+&lt;p&gt;If you&amp;rsquo;re interested in reading the codes, pls visit my github &lt;a href=&#34;https://github.com/jironghuang/investment_compass&#34;&gt;link&lt;/a&gt;. At the moment, the lagging of indicators are done in a grossly inefficient way because I was just cobbling together some codes I did in the past. Will optimize it by using parallelized functions like mclapply in the future (used for crawling the stock process but not the computation).&lt;/p&gt;
+
+&lt;iframe src=&#34;https://sef88.shinyapps.io/investment_compass/&#34; width=&#34;1200&#34; height=&#34;1500&#34; style=&#34;border: none;&#34;&gt;&lt;/iframe&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Updated ETF project codes</title>
       <link>/post/etf_watchlist_project/</link>
       <pubDate>Sat, 07 Jul 2018 00:00:00 +0000</pubDate>
