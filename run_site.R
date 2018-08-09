@@ -9,7 +9,7 @@ setwd("/home/jirong/Desktop/github/jirong-blog")
 
 blogdown::new_post("Rolling out the Investment Compass interactive app that I promised to myself eons ago")
 
-# hugo_server(host="192.168.1.238", port=3339)    #Need to hard code ip address for it work across computers
+# hugo_server(host="192.168.0.184", port=3339)    #Need to hard code ip address for it work across computers
 
 # hugo server -t hugo-academic --disableFastRender
 
