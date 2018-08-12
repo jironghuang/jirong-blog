@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>/subscribe/subscribe/</loc>
+      <lastmod>2018-08-12T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/project/investment_compass_guidance/</loc>
       <lastmod>2018-08-09T21:30:46+08:00</lastmod>
     </url>
@@ -301,6 +310,16 @@
     <url>
     
       <loc>/publication_types/</loc>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/subscribe/</loc>
+      <lastmod>2018-08-12T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     

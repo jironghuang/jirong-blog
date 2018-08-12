@@ -11,6 +11,18 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>If you&#39;re interested in the content, please subscribe here</title>
+      <link>/subscribe/subscribe/</link>
+      <pubDate>Sun, 12 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/subscribe/subscribe/</guid>
+      <description>&lt;iframe src=&#34;https://docs.google.com/forms/d/e/1FAIpQLSddfEPQE7LHMi7MdfzPx6tJL_KPDKsEpLOloPHY9R04-n48sQ/viewform?embedded=true&#34; width=&#34;1000&#34; height=&#34;1000&#34; frameborder=&#34;0&#34; marginheight=&#34;0&#34; marginwidth=&#34;0&#34;&gt;
+Loading…
+&lt;/iframe&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Investment compass</title>
       <link>/project/investment_compass_guidance/</link>
       <pubDate>Thu, 09 Aug 2018 21:30:46 +0800</pubDate>

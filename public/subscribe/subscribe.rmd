@@ -1,0 +1,12 @@
+---
+title: "If you're interested in the content, please subscribe here"
+author: "Jirong"
+date: 2018-08-12
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSddfEPQE7LHMi7MdfzPx6tJL_KPDKsEpLOloPHY9R04-n48sQ/viewform?embedded=true" width="1000" height="1000" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>

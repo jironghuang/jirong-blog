@@ -279,11 +279,19 @@ defaultContentLanguageInSubdir = false
   url = "#contact"
   weight = 6
 
+#Subscribe
+[[menu.main]]
+  name = "Subscribe Here"
+  url = "subscribe/subscribe"
+  weight = 6
+
 # Taxonomies.
 [taxonomies]
   tag = "tags"
   category = "categories"
   publication_type = "publication_types"
+
+
 
 # Languages
 #   Create a [languages.X] block for each language you want, where X is the language ID.
