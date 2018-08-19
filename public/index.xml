@@ -11,6 +11,22 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Skin in the Game</title>
+      <link>/skin/skin-in-the-game/</link>
+      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/skin/skin-in-the-game/</guid>
+      <description>&lt;p&gt;In this section, I&amp;rsquo;ll note all the quantitative decisions I have made in the areas of investing, trading and betting.&lt;/p&gt;
+
+&lt;p&gt;Skin in the game or put in another way - putting where your mouth aligns with my core belief. Any serious analysis that I feel strongly about should have a stake in the game.&lt;/p&gt;
+
+&lt;p&gt;Also, I&amp;rsquo;m of the view that if you make enough calculated bets with positive expected returns in your life, eventually it will be a net positive in the long run.&lt;/p&gt;
+
+&lt;iframe src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubhtml?gid=606546538&amp;amp;single=true&amp;amp;widget=true&amp;amp;headers=false&#34; width=&#34;1000&#34; height=&#34;1000&#34; frameborder=&#34;0&#34; marginheight=&#34;0&#34; marginwidth=&#34;0&#34;&gt;Loading...&lt;/iframe&gt;
+</description>
+    </item>
+    
+    <item>
       <title>If you&#39;re interested in the content, please subscribe here</title>
       <link>/subscribe/subscribe/</link>
       <pubDate>Sun, 12 Aug 2018 00:00:00 +0000</pubDate>
@@ -3868,106 +3884,6 @@ yearly_ret&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(yearly_ret$Sharpe)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/perm_port_files/figure-html/unnamed-chunk-4-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Days elapsed strategy</title>
-      <link>/post/elapse_strat/</link>
-      <pubDate>Wed, 28 Mar 2018 21:13:14 -0500</pubDate>
-      
-      <guid>/post/elapse_strat/</guid>
-      <description>&lt;p&gt;I simply adapted the code in this post here (&lt;a href=&#34;https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/&#34; class=&#34;uri&#34;&gt;https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/&lt;/a&gt;) for the following momentum strategy.&lt;/p&gt;
-&lt;p&gt;This is a momentum based strategy: Long if current day is &amp;lt;50 days of 200 days high. Nil position otherwise.&lt;/p&gt;
-&lt;p&gt;Returns are pretty impressive for Singapore market. That being said, it will be useful to try it with different parameters and different markets!&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Inspired by the blog post here--&amp;gt;https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/
-#http://etfprophet.com/days-since-200-day-highs/
-#Simple momentum strategy
-
-rm(list = ls(all = TRUE))
-
-library(quantmod)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Loading required package: xts&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Loading required package: zoo&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Attaching package: &amp;#39;zoo&amp;#39;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:base&amp;#39;:
-## 
-##     as.Date, as.Date.numeric&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Loading required package: TTR&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Version 0.4-0 included new data defaults. See ?getSymbols.&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(PerformanceAnalytics)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Attaching package: &amp;#39;PerformanceAnalytics&amp;#39;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following object is masked from &amp;#39;package:graphics&amp;#39;:
-## 
-##     legend&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ticker = &amp;quot;EWS&amp;quot;
-stock = getSymbols(ticker,from=&amp;quot;1900-01-01&amp;quot;,auto.assign=F)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## &amp;#39;getSymbols&amp;#39; currently uses auto.assign=TRUE by default, but will
-## use auto.assign=FALSE in 0.5-0. You will still be able to use
-## &amp;#39;loadSymbols&amp;#39; to automatically load data. getOption(&amp;quot;getSymbols.env&amp;quot;)
-## and getOption(&amp;quot;getSymbols.auto.assign&amp;quot;) will still be checked for
-## alternate defaults.
-## 
-## This message is shown once per session and may be disabled by setting 
-## options(&amp;quot;getSymbols.warning4.0&amp;quot;=FALSE). See ?getSymbols for details.&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## WARNING: There have been significant changes to Yahoo Finance data.
-## Please see the Warning section of &amp;#39;?getSymbols.yahoo&amp;#39; for details.
-## 
-## This message is shown once per session and may be disabled by setting
-## options(&amp;quot;getSymbols.yahoo.warning&amp;quot;=FALSE).&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stock = subset(stock,!is.na(stock[,6]))
-
-daysSinceHigh &amp;lt;- function(x, n){
-  apply(embed(x, n), 1, which.max)-1
-}
-
-myStrat &amp;lt;- function(x, nHold=100, nHigh=200) {
-  position &amp;lt;- ifelse(daysSinceHigh(x, nHigh)&amp;lt;=nHold,1,0)
-  c(rep(0,nHigh-1),position)
-}
-
-myStock &amp;lt;- Cl(stock)
-myPosition &amp;lt;- myStrat(myStock,50,200)
-bmkReturns &amp;lt;- dailyReturn(myStock, type = &amp;quot;arithmetic&amp;quot;)
-myReturns &amp;lt;- bmkReturns*Lag(myPosition,1)
-myReturns[1] &amp;lt;- 0
-
-names(bmkReturns) &amp;lt;- &amp;#39;stock&amp;#39;
-names(myReturns) &amp;lt;- &amp;#39;Me&amp;#39;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;######################################Performance analysis################################
-
-charts.PerformanceSummary(cbind(bmkReturns,myReturns))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/elapse_strat_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;Performance &amp;lt;- function(x) {
-  
-  cumRetx = Return.cumulative(x)
-  annRetx = Return.annualized(x, scale=252)
-  sharpex = SharpeRatio.annualized(x, scale=252)
-  winpctx = length(x[x &amp;gt; 0])/length(x[x != 0])
-  annSDx = sd.annualized(x, scale=252)
-  
-  DDs &amp;lt;- findDrawdowns(x)
-  maxDDx = min(DDs$return)
-  maxLx = max(DDs$length)
-  
-  Perf = c(cumRetx, annRetx, sharpex, winpctx, annSDx, maxDDx, maxLx)
-  names(Perf) = c(&amp;quot;Cumulative Return&amp;quot;, &amp;quot;Annual Return&amp;quot;,&amp;quot;Annualized Sharpe Ratio&amp;quot;,
-                  &amp;quot;Win %&amp;quot;, &amp;quot;Annualized Volatility&amp;quot;, &amp;quot;Maximum Drawdown&amp;quot;, &amp;quot;Max Length Drawdown&amp;quot;)
-  return(Perf)
-}
-
-cbind(Me=Performance(myReturns),stock = Performance(bmkReturns))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##                                   Me         stock
-## Cumulative Return          1.3858788  6.680000e-02
-## Annual Return              0.0402951  2.941980e-03
-## Annualized Sharpe Ratio    0.2771689  9.957791e-03
-## Win %                      0.5343203  5.154799e-01
-## Annualized Volatility      0.1453810  2.954450e-01
-## Maximum Drawdown          -0.3448359 -7.584541e-01
-## Max Length Drawdown     1522.0000000  2.775000e+03&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     
