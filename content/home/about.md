@@ -11,7 +11,7 @@ weight = 5
 [interests]
   interests = [
     "Data Analytics",
-    "Quantitative Trading",
+    "Quantitative Investing",
     "R package development"
   ]
 
@@ -55,7 +55,7 @@ Given that that issues are increasingly complex, I embrace a multidisciplinary a
 
 Over the course of my career, I hope to stay insatiably curious by thinking, learning, experimenting, coding and writing more! My goal of being a polymath is distant but I hope to move closer to it every single day. 
 
-Through this blog, I hope to share my thoughts on analytics and quantitative trading. The latter is something I hope to work on - hopefully with some skin in the game - over the next few years.
+Through this blog, I hope to share my thoughts on analytics and quantitative investment. The latter is something I'm keeping track of - with skin in the game. It aligns with my belief that I should put my money where my mouth is - literally!
 
 You may contact me at jironghuang88@gmail.com if we share common interests!
 

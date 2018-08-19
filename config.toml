@@ -52,11 +52,11 @@ defaultContentLanguageInSubdir = false
 
   # Your details.
   name = "Huang Jirong"
-  role = "Data analyst and Quantitative Trader"
+  role = "Data analyst and Quantitative Investor"
 
   # Organizations/Affiliations.
   #   Separate multiple entries with a comma, using the form: `[ {name="Org1", url=""}, {name="Org2", url=""} ]`.
-  organizations = [ { name = "School of Experimenting", url = "" } ]
+  organizations = [ { name = "School of Knocls & Experimenting", url = "" } ]
 
   gravatar = false  # Get your avatar from Gravatar.com? (true/false)
   avatar = "portrait.jpg"  # Specify an avatar image (in `static/img/` folder) or delete value to disable avatar.
@@ -283,6 +283,12 @@ defaultContentLanguageInSubdir = false
 [[menu.main]]
   name = "Subscribe Here"
   url = "subscribe/subscribe"
+  weight = 6
+
+#Skin in the game
+[[menu.main]]
+  name = "Skin in the game"
+  url = "skin/skin-in-the-game"
   weight = 6
 
 # Taxonomies.
