@@ -21,7 +21,7 @@ preview = true
 +++
 ## Naming Conventions in R. Let's call it JR Notations.
 
-'Naming conventions' is a huge thing in many programming languages and community. But it's noticeably absent in the R programming community.
+'Naming conventions' is a huge thing in many programming languages/ paradigms/ communities. But it's noticeably absent in the R programming community.
 
 With some inspiration from the Hungarian Notation, here's a blue-print that I came up with while working on a major R project over the last 2 months. Drumroll please...
 
