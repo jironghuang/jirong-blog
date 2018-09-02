@@ -291,6 +291,12 @@ defaultContentLanguageInSubdir = false
   url = "skin/skin-in-the-game"
   weight = 6
 
+#Asset allocation
+[[menu.main]]
+  name = "Asset allocation"
+  url = "asset_allocation/asset_allocation"
+  weight = 6
+
 # Taxonomies.
 [taxonomies]
   tag = "tags"

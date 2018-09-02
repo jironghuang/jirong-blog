@@ -5,7 +5,7 @@ date: 2018-08-19
 output: html_document
 ---
 
-In this section, I'll note all the quantitative decisions I have made in the areas of investing, trading and betting.
+In this section, I'll note all the quantitative decisions I have made in the areas of investing, trading and betting. Money allocated here excludes the portion that I placed in conservative asset allocation.
 
 Skin in the game or put in another way - putting where your mouth aligns with my core belief. Any serious analysis that I feel strongly about should have a stake in the game.
 
