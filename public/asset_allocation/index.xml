@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Asset_allocations on Jirong&#39;s sandbox</title>
+    <link>/asset_allocation/</link>
+    <description>Recent content in Asset_allocations on Jirong&#39;s sandbox</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Sun, 02 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/asset_allocation/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Asset Alllocation</title>
+      <link>/asset_allocation/asset_allocation/</link>
+      <pubDate>Sun, 02 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/asset_allocation/asset_allocation/</guid>
+      <description>&lt;p&gt;This section indicates my overall current asset allocation, not based on any quantitative analysis but based on rule-of-thumb from wealth management community.&lt;/p&gt;
+
+&lt;iframe src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubchart?oid=963907902&amp;amp;format=interactive&#34; width=&#34;1000&#34; height=&#34;1000&#34; frameborder=&#34;0&#34; marginheight=&#34;0&#34; marginwidth=&#34;0&#34;&gt;Loading...&lt;/iframe&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

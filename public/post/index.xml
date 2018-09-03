@@ -7,8 +7,131 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Sun, 05 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 04 Sep 2018 01:37:53 +0800</lastBuildDate>
     <atom:link href="/post/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Automated Email Notification of my ETF watchlist</title>
+      <link>/post/automated_email_notification/</link>
+      <pubDate>Tue, 04 Sep 2018 01:37:53 +0800</pubDate>
+      
+      <guid>/post/automated_email_notification/</guid>
+      <description>&lt;p&gt;I wrote an automated email notification code to send out my daily ETF watchlist in csv - an extension of my ETF watchlist project &lt;a href=&#34;http://jirong-huang.netlify.com/project/watch_list/&#34;&gt;here&lt;/a&gt;. I figured out that people will not visit my site. So why not blast out the watchlist instead:)&lt;/p&gt;
+
+&lt;p&gt;And if you are interested in the code. Here you go.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#Steps for sending watchlist
+library(&amp;quot;rJava&amp;quot;)
+library(&#39;mailR&#39;)
+
+source(&amp;quot;./R/emails.R&amp;quot;)
+
+# Write the content of your email
+msg &amp;lt;- paste(&amp;quot;Hey there, I&#39;m sending this ETF watchlist that is updated as of &amp;quot;, 
+             &amp;quot;\n&amp;quot;,
+             as.character(date()),
+             &amp;quot;\n&amp;quot;,
+             &amp;quot;This is part of my daily automated ETF dashboard + Email notification and I thought you may be interested in it. See the following link for more details: http://jirong-huang.netlify.com/project/watch_list/&amp;quot;,
+             &amp;quot;\n&amp;quot;,
+             &amp;quot;If this irritates you too much, let me know and I can take you out of this mailing list:)&amp;quot;,&amp;quot;&amp;quot;,&amp;quot;Best,&amp;quot;,&amp;quot;Jirong&amp;quot;, sep = &amp;quot;\n&amp;quot;)
+
+# Define who the sender is
+sender &amp;lt;- &amp;quot;jironghuang88@gmail.com&amp;quot;
+# Define who should get your email
+recipients &amp;lt;- emails
+              # Send your email with the send.mail function
+              send.mail(from = sender,
+                        to = recipients,
+                        subject = &amp;quot;ETF Watchlist&amp;quot;,
+                        body = msg,
+                        attach.files = &amp;quot;./Output/yahoo_crawled_data.csv&amp;quot;,
+                        smtp = list(host.name = &amp;quot;smtp.gmail.com&amp;quot;, port = 587,
+                                    user.name = &amp;quot;jironghuang88@gmail.com&amp;quot;,
+                                    passwd = Sys.getenv(&amp;quot;mail&amp;quot;), ssl = TRUE),
+                        authenticate = TRUE,
+                        send = TRUE)
+              
+              # JAVA_HOME /usr/lib/jvm/java-8-oracle             
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Naming Conventions in R. Let&#39;s call it JR Notations</title>
+      <link>/post/jr-naming-conventions-in-r/</link>
+      <pubDate>Sun, 26 Aug 2018 14:09:02 +0800</pubDate>
+      
+      <guid>/post/jr-naming-conventions-in-r/</guid>
+      <description>
+
+&lt;h2 id=&#34;naming-conventions-in-r-let-s-call-it-jr-notations&#34;&gt;Naming Conventions in R. Let&amp;rsquo;s call it JR Notations.&lt;/h2&gt;
+
+&lt;p&gt;&amp;lsquo;Naming conventions&amp;rsquo; is a huge thing in many programming languages/ paradigms/ communities. But it&amp;rsquo;s noticeably absent in the R programming community.&lt;/p&gt;
+
+&lt;p&gt;With some inspiration from the Hungarian Notation, here&amp;rsquo;s a blue-print that I came up with while working on a major R project over the last 2 months. Drumroll please&amp;hellip;&lt;/p&gt;
+
+&lt;h3 id=&#34;1-naming-conventions-for-r-scripts&#34;&gt;1. Naming conventions for R scripts&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;F_ for R scripts that contains functions.&lt;/li&gt;
+&lt;li&gt;O_ for R scripts that contains classes.&lt;/li&gt;
+&lt;li&gt;P_ for R scripts that runs the procedures.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;2-naming-conventions-for-r-functions-at-the-start-of-the-function-name&#34;&gt;2. Naming conventions for R functions. At the start of the function name,&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;bf stands for a return in boolean value&lt;/li&gt;
+&lt;li&gt;sf stands for a return in string value&lt;/li&gt;
+&lt;li&gt;nf stands for a return in numeric value&lt;/li&gt;
+&lt;li&gt;mf stands for a return in matrix values&lt;/li&gt;
+&lt;li&gt;lf stands for a return in list values&lt;/li&gt;
+&lt;li&gt;af stands for a return in array values&lt;/li&gt;
+&lt;li&gt;df stands for a return in data frame&lt;/li&gt;
+&lt;li&gt;vf stands for a void function. i.e. executing a function without returning a variable.&lt;/li&gt;
+&lt;li&gt;gf stands for a return in graph value&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;3-naming-conventions-for-parameters-in-functions&#34;&gt;3. Naming conventions for parameters in functions&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;bp stands for boolean parameter&lt;/li&gt;
+&lt;li&gt;sp stands for string parameter&lt;/li&gt;
+&lt;li&gt;np stands for numeric parameter&lt;/li&gt;
+&lt;li&gt;mp stands for matrix parameter&lt;/li&gt;
+&lt;li&gt;lp stands for list parameter&lt;/li&gt;
+&lt;li&gt;ap stands for array parameter&lt;/li&gt;
+&lt;li&gt;dp stands for data frame parameter&lt;/li&gt;
+&lt;li&gt;gp stands for a return in graph parameter&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;4-naming-conventions-for-r-variables&#34;&gt;4. Naming conventions for R variables&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;b stands for boolean variable&lt;/li&gt;
+&lt;li&gt;s stands for string variable&lt;/li&gt;
+&lt;li&gt;n stands for numeric variable&lt;/li&gt;
+&lt;li&gt;m stands for matrix variable&lt;/li&gt;
+&lt;li&gt;l stands for list variable&lt;/li&gt;
+&lt;li&gt;a stands for array variable&lt;/li&gt;
+&lt;li&gt;d stands for data frame variable&lt;/li&gt;
+&lt;li&gt;g stands for graph variable&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;5-naming-conventions-for-r-global-variables&#34;&gt;5. Naming conventions for R global variables&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;bg stands for boolean global variable&lt;/li&gt;
+&lt;li&gt;sg stands for string global variable&lt;/li&gt;
+&lt;li&gt;ng stands for numeric global variable&lt;/li&gt;
+&lt;li&gt;mg stands for matrix global variable&lt;/li&gt;
+&lt;li&gt;lg stands for list global variable&lt;/li&gt;
+&lt;li&gt;ag stands for array global variable&lt;/li&gt;
+&lt;li&gt;dg stands for data frame global variable&lt;/li&gt;
+&lt;li&gt;gg stands for global graph variable&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>Rolling out the Investment Compass interactive app that I promised eons ago</title>
