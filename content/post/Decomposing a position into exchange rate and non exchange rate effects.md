@@ -46,7 +46,7 @@ library(RemoveExchangeRateEffects)
 
 sp_exch_rate_pair = "USDSGD=X"  #exchange rate pair. e.g "USDSGD=X". "<Foreign_currency><local_currency>=X"
 
-ap_start_date <- as.Date("1950-01-01")  #starting date of portfolio e.g. 2017-10-01
+ap_start_date <- as.Date("2017-10-01")  #starting date of portfolio e.g. 2017-10-01
 ap_end_date <- as.Date("2020-10-01") #ending date of portfolio e.g. 2020-10-01. If you include a date beyond current date, the function will use the current date instead
 np_mthly_yearly = "monthly"  #alternatively this could be "yearly""
 
@@ -73,5 +73,5 @@ Sep 2018 264.77   1.36732  193.6416           263.3719        1.3980921
 Oct 2018 260.95   1.38080  188.9847           257.0380        3.9119824
 
 o_exchRate_effect$get_diff_portfolio_value()
-[1] -3.911982
+[1] 3.911982
 ```
