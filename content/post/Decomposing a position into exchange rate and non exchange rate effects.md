@@ -1,5 +1,5 @@
 +++
-title = "Decomposing a Position Into Exchange Rate and Non Exchange Rate Effects"
+title = "R package: Decomposing a Position Into Exchange Rate and Non Exchange Rate Effects"
 date = 2018-10-25T11:39:24+08:00
 draft = false
 
