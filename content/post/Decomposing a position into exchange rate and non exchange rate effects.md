@@ -27,7 +27,9 @@ If you are someone with a stake in foreign positions, this package I wrote here 
 - If you are in the treasury department, you may wish to analyze the impact of exchange rates on your bonds.
 - If you are in the finance department, you could analyze the exchange rate impact on your foreign revenue.
 
-To start using this package, you may first install the devtools package and execute the following command. install_github("jironghuang/RemoveExchangeRateEffects").
+To start using this package, you may first install the devtools package and execute the following command. install_github("jironghuang/RemoveExchangeRateEffects"). The R documentation is as follows,
+
+<img src="/post/img/R_documentation.png" alt="/post/img/R_documentation.png">
 
 You may follow the example to better understand how this package works. 
 
