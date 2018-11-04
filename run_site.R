@@ -14,5 +14,5 @@ setwd("/home/jirong/Desktop/github/jirong-blog")
 # hugo server -t hugo-academic --disableFastRender
 
 # #Run this instead in terminal
-# hugo new post/"Updated ETF Watchlist Codes.md"
+# hugo new post/"Architecture and process flow for my algorithmic trading.md"
 # hugo server --bind=192.168.1.132 --baseUrl=192.168.1.132 --port=3340
