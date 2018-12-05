@@ -1,6 +1,6 @@
 +++
 title = "Colorization"
-date = 2018-12-06
+date = '2018-12-05'
 draft = false
 
 # Tags and categories
