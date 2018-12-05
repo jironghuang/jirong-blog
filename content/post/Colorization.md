@@ -22,7 +22,7 @@ preview = true
 
 ## Colorization
 
-The following is a high level project pipeline of my Computational Photography Colorization report. The project scope involves optimize a quadratic cost function. An artist would only need to make a few colour scribble on a grey photograph and the algorithm will automatically populate the entire photograph with the associated colours.
+The following is a high level project pipeline of my Computational Photography Colorization report. The project scope involves minimizing a quadratic cost function. An artist would only need to make a few colour scribble on a grey photograph and the algorithm will automatically populate the entire photograph with the associated colours.
 
 1.Input: I first read in the image using imread function.
 
