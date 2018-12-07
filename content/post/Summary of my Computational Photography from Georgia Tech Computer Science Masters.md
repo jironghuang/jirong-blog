@@ -1,5 +1,5 @@
 +++
-title = "Summary of My Computational Photography From Georgia Tech Computer Science Masters"
+title = "Summary of My Computational Photography Module From Georgia Tech Computer Science Masters"
 date = 2018-12-08T01:11:52+08:00
 draft = false
 
