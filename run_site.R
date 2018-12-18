@@ -15,4 +15,4 @@ setwd("/home/jirong/Desktop/github/jirong-blog")
 
 # #Run this instead in terminal
 # hugo new post/"Architecture and process flow for my algorithmic trading.md"
-# hugo server --bind=192.168.1.132 --baseUrl=192.168.1.132 --port=3340
+# hugo server --bind=192.168.43.238 --baseUrl=192.168.43.238 --port=3340
