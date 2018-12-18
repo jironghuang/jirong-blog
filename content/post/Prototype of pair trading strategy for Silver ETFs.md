@@ -25,7 +25,7 @@ I modified the code below from a renowned quant trader, Ernest Chan. The basic i
 
 In the backtesting below (using a pair of silver ETFs as an example), I assumed a hypothetical amount of 10,000 dollars per trade.
 
-Results are pretty good with a healthy sharpe ratio of 2.7 in the training set and 1.6 in the testing set of data. Annuazlized return is approximately 26% for the test set.
+Results are pretty good with a healthy sharpe ratio of 2.7 in the training set and 1.6 in the testing set of data. Annualized return is approximately 26% (translates to 2600 dollars) for the test set.
 
 <img src="/post/img/equity_curve.png" alt="/post/img/equity_curve.png">
 <img src="/post/img/summary_stats.png" alt="/post/img/summary_stats.png">
