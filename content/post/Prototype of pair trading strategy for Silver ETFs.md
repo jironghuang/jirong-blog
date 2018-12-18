@@ -1,5 +1,5 @@
 +++
-title = "Prototype of Pair Trading Strategy for Silver ETFs"
+title = "Prototype Pair Trading Strategy for Silver ETFs"
 date = 2018-12-18T13:03:44+08:00
 draft = false
 
@@ -19,13 +19,13 @@ caption = ""
 preview = true
 
 +++
-In these 2 weeks, I'll deploy my pair trading algo strategy in my server.
+In these 2 weeks, I'll deploy my pair trading algo strategy into my server.
 
-I modified the code below from a renowned quant trader, Ernest Chan. The idea is to find z-scores through moving average & moving SD of spread
+I modified the code below from a renowned quant trader, Ernest Chan. The basic idea is to find z-scores through moving average & moving SD of spread. If it's more than absolute of z-score, I will either short or long the spread depending on the polarity.
 
-In the backtesting strategy below (using a pair of silver ETFs as an example), I assumed a hypothetical amount of 10,000 dollars per trade.
+In the backtesting below (using a pair of silver ETFs as an example), I assumed a hypothetical amount of 10,000 dollars per trade.
 
-Results are pretty good with a healthy sharpe ratio of 2.7 in the training set of data and 1.6 in the testing set. Annuzlized returns is approximately 26% for the test set.
+Results are pretty good with a healthy sharpe ratio of 2.7 in the training set and 1.6 in the testing set of data. Annuazlized return is approximately 26% for the test set.
 
 <img src="/post/img/equity_curve.png" alt="/post/img/equity_curve.png">
 <img src="/post/img/summary_stats.png" alt="/post/img/summary_stats.png">
