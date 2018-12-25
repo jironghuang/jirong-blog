@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>betting on Jirong&#39;s sandbox</title>
+    <link>/tags/betting/</link>
+    <description>Recent content in betting on Jirong&#39;s sandbox</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Fri, 15 Jun 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/betting/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>World Cup - Singapore Pools odds</title>
+      <link>/post/odds_analysis_worldcup/</link>
+      <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/odds_analysis_worldcup/</guid>
+      <description>Hey it’s the world cup season - Tapping into a Machine Learning based paper Once again as a Singaporean citizen, there’re no other choices but to place my bets in Singapore pools. Betting in SG is not my preferred way to grow my wealth because of the crazy ~15% spread in Sg pools. In international sites, the spread is usually close to 3-5%. Oh well, that’s illegal.
+But because this is the world cup season, I decide to make some small punts!</description>
+    </item>
+    
+    <item>
+      <title>Betting in Singapore Pools</title>
+      <link>/post/odds_analysis/</link>
+      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/odds_analysis/</guid>
+      <description>Finding value in Singapore Pools Of all places, this is the last place I expect to find value. But I found it - supposedly!
+I compared the Singapore Pools Odds against Fivethirtyeight blog probabilities of teams’ winning various leagues.
+The spread in Singpore Pools is often insane. In a typical 1X2 game, the odds is around 15% - as compared to a spread of 3% in overseas betting houses - which btw is illegal in Singapore.</description>
+    </item>
+    
+  </channel>
+</rss>

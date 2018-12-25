@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>asset_allocation on Jirong&#39;s sandbox</title>
+    <link>/tags/asset_allocation/</link>
+    <description>Recent content in asset_allocation on Jirong&#39;s sandbox</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Wed, 04 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/asset_allocation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Permanent Portfolio that I Implemented</title>
+      <link>/project/perm_port_proj/</link>
+      <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/project/perm_port_proj/</guid>
+      <description>Portfolio Performance since 2 April 18  Include Google Sheet iframe link in future.   An all weather portfolio Note: I carried out a similar analysis as 1 of the posts I’ve written (https://jirong-huang.netlify.com/post/perm_port/). The difference is that I considered 4 assets (including T-bills) instead of 3. The performance in the post is more reflective of stress-test perfromance (Sharpe, Drawdown Ratio, etc.)
+Based on the literature, permanent portfolio is an investment strategy that is able to yield moderate returns and relatively low volatility.</description>
+    </item>
+    
+    <item>
+      <title>Permanent Portfolio</title>
+      <link>/post/perm_port/</link>
+      <pubDate>Sat, 31 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/perm_port/</guid>
+      <description>An all weather portfolio Based on the literature, permanent portfolio is an investment strategy that is able to yield moderate returns and relatively low volatility. Investor is recommended to invest equally (25%) into GLD, Index, Bond and Cash and rebalance it back to this proportion on regular intervals.
+This approach is something that I’m keen to adopt for a portion of my portfolio.
+To investigate the feasibility, I simulated a portfolio starting at $300 on Nov 2004.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -8,7 +8,9 @@
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Thu, 09 Aug 2018 21:30:46 +0800</lastBuildDate>
-    <atom:link href="/project/" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="/project/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Investment compass</title>
@@ -16,22 +18,8 @@
       <pubDate>Thu, 09 Aug 2018 21:30:46 +0800</pubDate>
       
       <guid>/project/investment_compass_guidance/</guid>
-      <description>
-
-&lt;h2 id=&#34;investment-compass-kindly-wait-10-seconds-for-the-entire-app-to-load-best-viewed-in-desktop&#34;&gt;Investment Compass (Kindly wait 10 seconds for the entire app to load. Best viewed in Desktop)&lt;/h2&gt;
-
-&lt;p&gt;This serves as a compass for me to visualize the potential returns given the % fall from 52 week high. See my linkedin article &lt;a href=&#34;https://www.linkedin.com/pulse/investment-compass-our-volatile-times-jirong-huang/&#34;&gt;here&lt;/a&gt; for further explanation on why I think this is a good indicator.&lt;/p&gt;
-
-&lt;p&gt;The app consists of 3 tabs. The &amp;lsquo;Visualize&amp;rsquo; tab contains 3 graphs plotting % fall from 52 week high against the expected returns 1 to 3 years later. And the value boxes are simply the fitted values from the best fit lines.&lt;/p&gt;
-
-&lt;p&gt;The second tab contains the description of the indexes. For eg. ^STI refers to Straits Times Index. It will be useful for selection of the Index under Visualization tab.&lt;/p&gt;
-
-&lt;p&gt;The third tab is just a summary of the Linkedin article.&lt;/p&gt;
-
-&lt;p&gt;If you&amp;rsquo;re interested in reading the codes, pls visit my github &lt;a href=&#34;https://github.com/jironghuang/investment_compass&#34;&gt;link&lt;/a&gt;. At the moment, the lagging of indicators are done in a grossly inefficient way because I was just cobbling together some codes I did in the past. Will optimize it by using parallelized functions like mclapply in the future (used for crawling the stock process but not the computation).&lt;/p&gt;
-
-&lt;iframe src=&#34;https://sef88.shinyapps.io/investment_compass/&#34; width=&#34;1200&#34; height=&#34;1500&#34; style=&#34;border: none;&#34;&gt;&lt;/iframe&gt;
-</description>
+      <description>Investment Compass (Kindly wait 10 seconds for the entire app to load. Best viewed in Desktop) This serves as a compass for me to visualize the potential returns given the % fall from 52 week high. See my linkedin article here for further explanation on why I think this is a good indicator.
+The app consists of 3 tabs. The &amp;lsquo;Visualize&amp;rsquo; tab contains 3 graphs plotting % fall from 52 week high against the expected returns 1 to 3 years later.</description>
     </item>
     
     <item>
@@ -40,17 +28,8 @@
       <pubDate>Sun, 17 Jun 2018 00:00:00 +0000</pubDate>
       
       <guid>/project/watch_list/</guid>
-      <description>&lt;div id=&#34;etfs-watchlist&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;ETFs watchlist&lt;/h2&gt;
-&lt;p&gt;In my Ubunutu - Linux laptop, I wrote some R scripts to crawl the yahoo financial data. When the clock strikes midnight, my cronjob task scheduler will execute these scripts in a parallel fashion to extract the data.&lt;/p&gt;
-&lt;p&gt;Then my script will log into my google account via SSH and paste the crawled data into 1 of the googlesheet tabs. And this is linked to my portfolio allocation, computation and milestones.&lt;/p&gt;
-&lt;p&gt;It also serves as a watchlist for me to monitor which of these ETFs are undervalued via % fall from 52 week high. See my linkedin article &lt;a href=&#34;https://www.linkedin.com/pulse/investment-compass-our-volatile-times-jirong-huang/&#34;&gt;here&lt;/a&gt; for further explanation on why I think this is a good indicator.&lt;/p&gt;
-&lt;p&gt;You may find my R scripts &lt;a href=&#34;https://github.com/jironghuang/ETF_watchlist&#34;&gt;here&lt;/a&gt;. I didn’t really document this repo well so do approach me if you’ve any questions.&lt;/p&gt;
-&lt;p&gt;And here’s the googlesheet (updated daily) opened to the public. Hope you find it useful!&lt;/p&gt;
-&lt;iframe src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubhtml?gid=0&amp;amp;single=true&#34; width=&#34;900&#34; height=&#34;780&#34; style=&#34;border: none;&#34;&gt;
-&lt;/iframe&gt;
-&lt;/div&gt;
-</description>
+      <description>ETFs watchlist In my Ubunutu - Linux laptop, I wrote some R scripts to crawl the yahoo financial data. When the clock strikes midnight, my cronjob task scheduler will execute these scripts in a parallel fashion to extract the data.
+Then my script will log into my google account via SSH and paste the crawled data into 1 of the googlesheet tabs. And this is linked to my portfolio allocation, computation and milestones.</description>
     </item>
     
     <item>
@@ -59,294 +38,8 @@
       <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/project/perm_port_proj/</guid>
-      <description>&lt;!-- https://stackoverflow.com/questions/47371794/how-to-create-an-image-preview-for-a-post-in-hugo-academic-from-rmd --&gt;
-&lt;div id=&#34;portfolio-performance-since-2-april-18&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Portfolio Performance since 2 April 18&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Include Google Sheet iframe link in future.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div id=&#34;an-all-weather-portfolio&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;An all weather portfolio&lt;/h2&gt;
-&lt;p&gt;Note: I carried out a similar analysis as 1 of the posts I’ve written (&lt;a href=&#34;https://jirong-huang.netlify.com/post/perm_port/&#34; class=&#34;uri&#34;&gt;https://jirong-huang.netlify.com/post/perm_port/&lt;/a&gt;). The difference is that I considered 4 assets (including T-bills) instead of 3. The performance in the post is more reflective of stress-test perfromance (Sharpe, Drawdown Ratio, etc.)&lt;/p&gt;
-&lt;p&gt;Based on the literature, permanent portfolio is an investment strategy that is able to yield moderate returns and relatively low volatility. Investor is recommended to invest equally (25%) into GLD, Index, Bond and Cash and rebalance it back to this proportion on regular intervals.&lt;/p&gt;
-&lt;p&gt;This approach is something that I’m keen to adopt for a portion of my portfolio.&lt;/p&gt;
-&lt;p&gt;To investigate the feasibility, I simulated a portfolio starting at $400 on 2009 (limited by complete series). Here’s the asset allocation proportion,&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;GLD: Gold&lt;/li&gt;
-&lt;li&gt;TLT: 20 Years Treasury Bond&lt;/li&gt;
-&lt;li&gt;VGSH: Vanguard Short Term Bond&lt;/li&gt;
-&lt;li&gt;VTI: Total US stock&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Note:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;I admit that the code that I wrote here is very procedural. If I’ve time, I’ll try to ‘functionalize’ the codes so that I could use it for other portfolio simulation purposes.&lt;/li&gt;
-&lt;li&gt;The looping in the R vectorized setting is known to be super slow! If I really have time to spare, I’ll convert some of the loops to Rcpp (C++). But I highly doubt so since the data is not that huge at the moment (unless I venture into tick data. Oh well, who knows).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div id=&#34;key-points&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Key points&lt;/h2&gt;
-&lt;p&gt;On the annualized returns, it’s not really fantastic. But it still returns a respectable annualized performance of 5% (+ 2% dividends?)&lt;/p&gt;
-&lt;p&gt;What stands out, however, are the following performance metrics:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;In terms of draw-down, it performed remarkably well relative to a Total US Stock portfolio. It suffered a loss of only 9% as compared to a huge loss of 20 + % in other assets; could be more if full Great Financial Crisis is included.&lt;/li&gt;
-&lt;li&gt;On the Sharpe Ratio (annualized returns in excess of risk-free rate per unit of volatility), it’s considerably higher than other assets - albeit lower than Total Stock (in my other analysis with longer time period, it’s considerably higher).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Feel free to adapt or adopt the code. You can easily substitute the stocks based on your preferred asset allocation.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;setting-up-the-analysis.&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Setting up the analysis.&lt;/h2&gt;
-&lt;p&gt;In this section, I downloaded stock data using quant mod. And merge the time series.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(quantmod)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Loading required package: xts&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Loading required package: zoo&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Attaching package: &amp;#39;zoo&amp;#39;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:base&amp;#39;:
-## 
-##     as.Date, as.Date.numeric&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Loading required package: TTR&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Version 0.4-0 included new data defaults. See ?getSymbols.&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
-library(PerformanceAnalytics)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Attaching package: &amp;#39;PerformanceAnalytics&amp;#39;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following object is masked from &amp;#39;package:graphics&amp;#39;:
-## 
-##     legend&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyr)
-library(dplyr)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Attaching package: &amp;#39;dplyr&amp;#39;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:xts&amp;#39;:
-## 
-##     first, last&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:stats&amp;#39;:
-## 
-##     filter, lag&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:base&amp;#39;:
-## 
-##     intersect, setdiff, setequal, union&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tibble)
-
-# Download data--&amp;gt;Fix the ending date for project section
-ticker1 = &amp;quot;GLD&amp;quot;
-stock1 = getSymbols(ticker1,from=&amp;quot;1900-01-01&amp;quot;,auto.assign=F)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## &amp;#39;getSymbols&amp;#39; currently uses auto.assign=TRUE by default, but will
-## use auto.assign=FALSE in 0.5-0. You will still be able to use
-## &amp;#39;loadSymbols&amp;#39; to automatically load data. getOption(&amp;quot;getSymbols.env&amp;quot;)
-## and getOption(&amp;quot;getSymbols.auto.assign&amp;quot;) will still be checked for
-## alternate defaults.
-## 
-## This message is shown once per session and may be disabled by setting 
-## options(&amp;quot;getSymbols.warning4.0&amp;quot;=FALSE). See ?getSymbols for details.&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## WARNING: There have been significant changes to Yahoo Finance data.
-## Please see the Warning section of &amp;#39;?getSymbols.yahoo&amp;#39; for details.
-## 
-## This message is shown once per session and may be disabled by setting
-## options(&amp;quot;getSymbols.yahoo.warning&amp;quot;=FALSE).&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;names(stock1) = c(&amp;quot;open&amp;quot;,&amp;quot;high&amp;quot;,&amp;quot;low&amp;quot;,&amp;quot;close&amp;quot;,&amp;quot;volume&amp;quot;,&amp;quot;adj_close&amp;quot;)
-stock1 = stock1[,6]
-
-ticker2 = &amp;quot;TLT&amp;quot;
-stock2 = getSymbols(ticker2,from=&amp;quot;1900-01-01&amp;quot;,auto.assign=F)
-names(stock2) = c(&amp;quot;open&amp;quot;,&amp;quot;high&amp;quot;,&amp;quot;low&amp;quot;,&amp;quot;close&amp;quot;,&amp;quot;volume&amp;quot;,&amp;quot;adj_close&amp;quot;)
-stock2 = stock2[,6]
-
-ticker3 = &amp;quot;VGSH&amp;quot;
-stock3 = getSymbols(ticker3,from=&amp;quot;1900-01-01&amp;quot;,auto.assign=F)
-names(stock3) = c(&amp;quot;open&amp;quot;,&amp;quot;high&amp;quot;,&amp;quot;low&amp;quot;,&amp;quot;close&amp;quot;,&amp;quot;volume&amp;quot;,&amp;quot;adj_close&amp;quot;)
-stock3 = stock3[,6]
-
-ticker4 = &amp;quot;VTI&amp;quot;
-stock4 = getSymbols(ticker4,from=&amp;quot;1900-01-01&amp;quot;,auto.assign=F)
-names(stock4) = c(&amp;quot;open&amp;quot;,&amp;quot;high&amp;quot;,&amp;quot;low&amp;quot;,&amp;quot;close&amp;quot;,&amp;quot;volume&amp;quot;,&amp;quot;adj_close&amp;quot;)
-stock4 = stock4[,6]
-
-# Merge the time series and subset NA
-#These are the various time series
-ticker_list = c(&amp;quot;stock1&amp;quot;,&amp;quot;stock2&amp;quot;,&amp;quot;stock3&amp;quot;,&amp;quot;stock4&amp;quot;)
-
-#read in list. Loop through and assign variable to holder variable. Then assign it to combined list
-ticker_all = get(ticker_list[1])  
-
-#Merging in the time series
-for(i in 2:length(ticker_list)){
-  ticker_ind = get(ticker_list[i])
-  ticker_all = merge(ticker_all,ticker_ind)  
-}
-
-names(ticker_all) = c(&amp;quot;stock1&amp;quot;,&amp;quot;stock2&amp;quot;,&amp;quot;stock3&amp;quot;,&amp;quot;stock4&amp;quot;)
-
-ticker_all = subset(ticker_all,!is.na(ticker_all$stock1) &amp;amp; !is.na(ticker_all$stock2) &amp;amp; !is.na(ticker_all$stock3) &amp;amp; !is.na(ticker_all$stock4))&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;running-the-simulation&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Running the simulation&lt;/h2&gt;
-&lt;p&gt;Next, I run the simulation - By intialising 25% asset allocation in each of the asset and rebalance at the end of each year. Daily portfolio returns are then obtained throught the ROC function.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Assign equal weights to each stream of returns
-ticker_all = cbind(ticker_all,rowMeans(ticker_all))
-ticker_all = subset(ticker_all,!is.na(ticker_all[,4]))
-ticker_all = ticker_all[,-ncol(ticker_all)]
-
-#Identify the period of rebalancing. Show the indexes
-rebal_index = data.frame(index = endpoints(ticker_all,on=&amp;quot;years&amp;quot;)[-1])
-# endpoints(ticker_all,on=&amp;quot;quarters&amp;quot;) 
-
-#Merge in the indicator into ticker_all--Can&amp;#39;t seem to merge. Will do the inefficient loop
-# merge(ticker_all,rebal_index, by = &amp;quot;index&amp;quot;, all = T)
-ticker_all$rebal = NA
-for(i in 1:nrow(rebal_index)){
-  ticker_all$rebal[rebal_index$index[i]] = 1
-}
-
-ticker_all$rebal = ifelse(is.na(ticker_all$rebal),0,ticker_all$rebal)
-
-#Create the returns for each price series
-ticker_all$ret1 = ROC(ticker_all[,1])
-ticker_all$ret2 = ROC(ticker_all[,2])
-ticker_all$ret3 = ROC(ticker_all[,3])
-ticker_all$ret4 = ROC(ticker_all[,4])
-
-#Initialise value for each stock series, with a total portfolio value
-ticker_all$val1 = NA; ticker_all$val1[1] = 100
-ticker_all$val2 = NA; ticker_all$val2[1] = 100
-ticker_all$val3 = NA; ticker_all$val3[1] = 100
-ticker_all$val4 = NA; ticker_all$val4[1] = 100
-
-ticker_all$portfolio_val = NA
-ticker_all$portfolio_val[1] = rowSums(ticker_all[1,which(names(ticker_all) == &amp;quot;val1&amp;quot;):which(names(ticker_all) == &amp;quot;val4&amp;quot;)])
-
-
-
-#Loop each row and &amp;#39;compound&amp;#39;. Till it reaches the rebalancing date. Then reset stock value amount in that day. Take the portfolio value in t-1
-for(i in 2:nrow(ticker_all)){
-  
-  if(as.numeric(ticker_all$rebal[i]) == 0){
-    
-  #During non-rebalancing days
-  ticker_all$val1[i] = as.numeric(ticker_all$val1[i-1]) * (1 + as.numeric(ticker_all$ret1[i]))
-  ticker_all$val2[i] = as.numeric(ticker_all$val2[i-1]) * (1 + as.numeric(ticker_all$ret2[i]))
-  ticker_all$val3[i] = as.numeric(ticker_all$val3[i-1]) * (1 + as.numeric(ticker_all$ret3[i]))
-  ticker_all$val4[i] = as.numeric(ticker_all$val4[i-1]) * (1 + as.numeric(ticker_all$ret4[i]))
-
-  ticker_all$portfolio_val[i] = rowSums(ticker_all[i,which(names(ticker_all) == &amp;quot;val1&amp;quot;):which(names(ticker_all) == &amp;quot;val4&amp;quot;)])
-  
-  }else{
-  #During re-balancing days
-  ticker_all$val1[i] = ticker_all$portfolio_val[i-1] / 4
-  ticker_all$val2[i] = ticker_all$portfolio_val[i-1] / 4
-  ticker_all$val3[i] = ticker_all$portfolio_val[i-1] / 4
-  ticker_all$val4[i] = ticker_all$portfolio_val[i-1] / 4
-  
-  ticker_all$portfolio_val[i] = rowSums(ticker_all[i,which(names(ticker_all) == &amp;quot;val1&amp;quot;):which(names(ticker_all) == &amp;quot;val4&amp;quot;)])  
-  } 
-}
-
-#Generate the daily portfolio returns
-ticker_all$portfolio_ret = ROC(ticker_all$portfolio_val)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;portfolio-performance-for-the-entire-period&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Portfolio Performance for the entire period&lt;/h2&gt;
-&lt;p&gt;On the annualized returns, it’s not really fantastic. But it still returns a respectable annualized performance of 5% (+ 2% dividends?)&lt;/p&gt;
-&lt;p&gt;What stands out, however, are the following performance metrics:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;In terms of draw-down, it performed remarkably well relative to a GOLD &amp;amp; Total US Stock portfolio. It suffered a loss of only 9% as compared to a loss of 20+ % in other assets; could’ve be more if full Great Financial Crisis is included (in my post analysis, it could go up to 60% if Great Financial Crisis is included).&lt;/li&gt;
-&lt;li&gt;On the Sharpe Ratio (annualized returns in excess of risk-free rate per unit of volatility), it’s considerably higher than other assets - albeit lower than Total Stock (in my other analysis with longer time period, it’s considerably higher).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;######################################Study the portfolio returns########################################
-#Carry out the portfolio return series
-table.Drawdowns(ticker_all$portfolio_ret, top=10)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##          From     Trough         To   Depth Length To Trough Recovery
-## 1  2012-10-05 2013-06-26 2014-06-19 -0.0882    427       180      247
-## 2  2016-07-11 2016-12-15 2017-08-30 -0.0828    289       112      177
-## 3  2015-01-26 2016-01-14 2016-06-08 -0.0804    346       246      100
-## 4  2009-12-03 2010-02-10 2010-04-14 -0.0471     90        47       43
-## 5  2018-01-29 2018-02-08       &amp;lt;NA&amp;gt; -0.0415     46         9       NA
-## 6  2011-09-07 2011-09-28 2011-11-03 -0.0409     42        16       26
-## 7  2012-02-29 2012-05-16 2012-08-24 -0.0391    125        55       70
-## 8  2011-11-08 2011-12-15 2012-01-27 -0.0368     55        27       28
-## 9  2010-11-09 2010-11-17 2011-02-28 -0.0317     76         7       69
-## 10 2014-09-02 2014-09-17 2014-12-09 -0.0274     70        12       58&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;table.DownsideRisk(merge(ticker_all$portfolio_ret, ticker_all$ret1, ticker_all$ret2, ticker_all$ret3, ticker_all$ret4))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##                               portfolio_ret    ret1    ret2    ret3
-## Semi Deviation                       0.0029  0.0077  0.0065  0.0005
-## Gain Deviation                       0.0023  0.0066  0.0056  0.0004
-## Loss Deviation                       0.0028  0.0079  0.0060  0.0004
-## Downside Deviation (MAR=210%)        0.0090  0.0128  0.0117  0.0083
-## Downside Deviation (Rf=0%)           0.0028  0.0076  0.0064  0.0004
-## Downside Deviation (0%)              0.0028  0.0076  0.0064  0.0004
-## Maximum Drawdown                     0.0882  0.4922  0.2147  0.0106
-## Historical VaR (95%)                -0.0062 -0.0169 -0.0146 -0.0010
-## Historical ES (95%)                 -0.0090 -0.0253 -0.0193 -0.0014
-## Modified VaR (95%)                  -0.0064 -0.0177 -0.0146 -0.0010
-## Modified ES (95%)                   -0.0108 -0.0342 -0.0210 -0.0015
-##                                  ret4
-## Semi Deviation                 0.0071
-## Gain Deviation                 0.0062
-## Loss Deviation                 0.0077
-## Downside Deviation (MAR=210%)  0.0119
-## Downside Deviation (Rf=0%)     0.0069
-## Downside Deviation (0%)        0.0069
-## Maximum Drawdown               0.2169
-## Historical VaR (95%)          -0.0158
-## Historical ES (95%)           -0.0237
-## Modified VaR (95%)            -0.0158
-## Modified ES (95%)             -0.0294&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;table.AnnualizedReturns(merge(ticker_all$portfolio_ret, ticker_all$ret1, ticker_all$ret2, ticker_all$ret3, ticker_all$ret4))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##                           portfolio_ret    ret1   ret2   ret3   ret4
-## Annualized Return                0.0469 -0.0017 0.0500 0.0069 0.1206
-## Annualized Std Dev               0.0611  0.1651 0.1427 0.0101 0.1519
-## Annualized Sharpe (Rf=0%)        0.7674 -0.0103 0.3503 0.6756 0.7937&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;charts.PerformanceSummary(merge(ticker_all$portfolio_ret, ticker_all$ret1, ticker_all$ret2, ticker_all$ret3, ticker_all$ret4))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/project/perm_port_proj_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;yearly-portfolio-performance&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Yearly Portfolio Performance&lt;/h2&gt;
-&lt;p&gt;I also tabulated the yearly metrics of the portfolio to give a sense of the performance over years.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#####################################Study the annualized portfolio returns series#######################
-#Use the rebal-indicator. Loop through the chunks
-# https://www.quantmod.com/documentation/periodReturn.html
-# https://rpubs.com/mohammadshadan/288218
-# yearly_ret = periodReturn(ticker_all$portfolio_val
-#              ,period=&amp;#39;yearly&amp;#39;,subset=&amp;#39;2004::&amp;#39;)  # returns years 2003 to present
-
-yearly_ret = periodReturn(ticker_all$portfolio_val
-                          ,period=&amp;#39;yearly&amp;#39;)  # returns years 2003 to present
-
-#Inefficient way to calulate standard deviation. If it&amp;#39;ve time, I will probably optimize this
-split_val = split(ticker_all$portfolio_ret, f = &amp;quot;years&amp;quot;)
-yearly_ret$annual_sd = sapply(X = split_val, FUN = StdDev) * sqrt(252)
-
-
-getSymbols(&amp;#39;DGS3MO&amp;#39;,src = &amp;#39;FRED&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;DGS3MO&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rf = DGS3MO; rm(DGS3MO)
-rf = rf[&amp;quot;2009/2018&amp;quot;] 
-
-split_val_rf = split(rf$DGS3MO, f = &amp;quot;years&amp;quot;)
-yearly_ret$annual_rf = sapply(X = split_val_rf, FUN = mean, na.rm = T)/100 
-
-yearly_ret$Sharpe = (yearly_ret$yearly.returns - yearly_ret$annual_rf)/yearly_ret$annual_sd  
-
-yearly_ret&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##            yearly.returns  annual_sd    annual_rf     Sharpe
-## 2009-12-31    -0.02143548 0.07391424 0.0015092000 -0.3104230
-## 2010-12-31     0.12503869 0.06925292 0.0013844622  1.7855452
-## 2011-12-30     0.09201080 0.07228724 0.0005284000  1.2655400
-## 2012-12-31     0.05353343 0.05504939 0.0008760000  0.9565489
-## 2013-12-31    -0.02919578 0.06965068 0.0005708000 -0.4273696
-## 2014-12-31     0.09449067 0.04879063 0.0003272000  1.9299499
-## 2015-12-31    -0.03608942 0.06101808 0.0005250996 -0.6000601
-## 2016-12-30     0.05106338 0.06221028 0.0031936000  0.7694834
-## 2017-12-29     0.10340429 0.04264321 0.0094896000  2.2023362
-## 2018-04-03    -0.01057814 0.06051025 0.0158516129 -0.4367815&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(yearly_ret$yearly.returns)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/project/perm_port_proj_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(yearly_ret$Sharpe)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/project/perm_port_proj_files/figure-html/unnamed-chunk-4-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-</description>
+      <description>Portfolio Performance since 2 April 18  Include Google Sheet iframe link in future.   An all weather portfolio Note: I carried out a similar analysis as 1 of the posts I’ve written (https://jirong-huang.netlify.com/post/perm_port/). The difference is that I considered 4 assets (including T-bills) instead of 3. The performance in the post is more reflective of stress-test perfromance (Sharpe, Drawdown Ratio, etc.)
+Based on the literature, permanent portfolio is an investment strategy that is able to yield moderate returns and relatively low volatility.</description>
     </item>
     
   </channel>

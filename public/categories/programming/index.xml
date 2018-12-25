@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>programming on Jirong&#39;s sandbox</title>
+    <link>/categories/programming/</link>
+    <description>Recent content in programming on Jirong&#39;s sandbox</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Sat, 08 Dec 2018 01:11:52 +0800</lastBuildDate>
+    
+	<atom:link href="/categories/programming/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Summary of My Computational Photography Module From Georgia Tech Computer Science Masters</title>
+      <link>/post/summary-of-my-computational-photography-from-georgia-tech-computer-science-masters/</link>
+      <pubDate>Sat, 08 Dec 2018 01:11:52 +0800</pubDate>
+      
+      <guid>/post/summary-of-my-computational-photography-from-georgia-tech-computer-science-masters/</guid>
+      <description>For what&amp;rsquo;s worth, here is a summary of what I went through for my Georgia Tech Computer Science Msc Computational Photography module.
+And it&amp;rsquo;s really painful but rewarding!</description>
+    </item>
+    
+    <item>
+      <title>Colorization</title>
+      <link>/post/colorization/</link>
+      <pubDate>Wed, 05 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/colorization/</guid>
+      <description>Colorization The following is a high level project pipeline of my Computational Photography Colorization report. The project scope involves minimizing a quadratic cost function. An artist would only need to make a few colour scribble on a grey photograph and the algorithm will automatically populate the entire photograph with the associated colours.
+1.Input: I first read in the image using imread function.
+2.Find the difference: Next I compute the difference between the marked and grey scale image.</description>
+    </item>
+    
+    <item>
+      <title>Architecture and Process Flow for My Algorithmic Trading</title>
+      <link>/post/architecture-and-process-flow-for-my-algorithmic-trading/</link>
+      <pubDate>Sun, 04 Nov 2018 10:19:13 +0800</pubDate>
+      
+      <guid>/post/architecture-and-process-flow-for-my-algorithmic-trading/</guid>
+      <description> Project that I will be working in 2018-2019 </description>
+    </item>
+    
+    <item>
+      <title>Seam Carving</title>
+      <link>/post/seam-carving/</link>
+      <pubDate>Thu, 25 Oct 2018 13:23:23 +0800</pubDate>
+      
+      <guid>/post/seam-carving/</guid>
+      <description>Snippet of my Seam Carving Report from my Msc Computer Science Georgia Tech&amp;rsquo;s Computational Photography module Besides removing of streams, we can also add streams. We identify k streams for removal and duplicate by averaging the left and right neighbours. The computation of these averages is done by convolving the following matrix with the images’ colour channels.
+kernel = np.array([[0, 0, 0], [0.5, 0, 0.5], [0, 0, 0]])  In the implementation of my scaling_up algorithm, I first remove k streams (depending on ratio set by user) and recorded the coordinates and cumulative energy values of the original picture in each removal.</description>
+    </item>
+    
+    <item>
+      <title>R package: Decomposing a Position Into Exchange Rate and Non Exchange Rate Effects</title>
+      <link>/post/decomposing-a-position-into-exchange-rate-and-non-exchange-rate-effects/</link>
+      <pubDate>Thu, 25 Oct 2018 11:39:24 +0800</pubDate>
+      
+      <guid>/post/decomposing-a-position-into-exchange-rate-and-non-exchange-rate-effects/</guid>
+      <description>Decomposing a Position Into Exchange Rate and Non Exchange Rate Effects If you are someone with a stake in foreign positions, this package I wrote here may be a useful tool to help you understand the impact of foreign currency on your positions. For instance,
+ If you are an investor, you may use it to analyze impact of exchange rate on your investment positions. If you are in the treasury department, you may wish to analyze the impact of exchange rates on your bonds.</description>
+    </item>
+    
+    <item>
+      <title>Shift Share Analysis Package I developed</title>
+      <link>/post/shift-share-analysis-package/</link>
+      <pubDate>Sat, 22 Sep 2018 12:23:28 +0800</pubDate>
+      
+      <guid>/post/shift-share-analysis-package/</guid>
+      <description>Shift-share Analysis Package I developed During my career, I often have to deal with compositional &amp;amp; within group effects. For instance, the employment rate fell by 3% across 2 period. How much of it is due to an increase in employment rate within the sub-group and how much of it is due to compositional shift (for example ageing population).
+A formal way to explain these effects is known as shift-share analysis.</description>
+    </item>
+    
+    <item>
+      <title>Automated Email Notification of my ETF watchlist</title>
+      <link>/post/automated_email_notification/</link>
+      <pubDate>Tue, 04 Sep 2018 01:37:53 +0800</pubDate>
+      
+      <guid>/post/automated_email_notification/</guid>
+      <description>I wrote an automated email notification code to send out my daily ETF watchlist in csv - an extension of my ETF watchlist project here. I figured out that people will not visit my site. So why not blast out the watchlist instead:)
+And if you are interested in the code. Here you go.
+#Steps for sending watchlist library(&amp;quot;rJava&amp;quot;) library(&#39;mailR&#39;) source(&amp;quot;./R/emails.R&amp;quot;) # Write the content of your email msg &amp;lt;- paste(&amp;quot;Hey there, I&#39;m sending this ETF watchlist that is updated as of &amp;quot;, &amp;quot;\n&amp;quot;, as.</description>
+    </item>
+    
+    <item>
+      <title>Naming Conventions in R. Let&#39;s call it JR Notations</title>
+      <link>/post/jr-naming-conventions-in-r/</link>
+      <pubDate>Sun, 26 Aug 2018 14:09:02 +0800</pubDate>
+      
+      <guid>/post/jr-naming-conventions-in-r/</guid>
+      <description>Naming Conventions in R. Let&amp;rsquo;s call it JR Notations. &amp;lsquo;Naming conventions&amp;rsquo; is a huge thing in many programming languages/ paradigms/ communities. But it&amp;rsquo;s noticeably absent in the R programming community.
+With some inspiration from the Hungarian Notation, here&amp;rsquo;s a blue-print that I came up with while working on a major R project over the last 2 months. Drumroll please&amp;hellip;
+1. Naming conventions for R scripts  F_ for R scripts that contains functions.</description>
+    </item>
+    
+  </channel>
+</rss>

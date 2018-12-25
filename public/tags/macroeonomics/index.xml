@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>macroeonomics on Jirong&#39;s sandbox</title>
+    <link>/tags/macroeonomics/</link>
+    <description>Recent content in macroeonomics on Jirong&#39;s sandbox</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Sun, 01 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/macroeonomics/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Macroeconomic Analysis - Country&#39;s Market Capitalization to GDP ratio</title>
+      <link>/post/mkt_cap_gdp/</link>
+      <pubDate>Sun, 01 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/mkt_cap_gdp/</guid>
+      <description>Analysis of Market Cap to GDP Warren Buffett, the world’s greatest investor once remarked that Country’s Total Market Capitalization to GDP ratio is a good indicator to measure the ‘temperature’ of the market. My wild guess is - he draws his inspiration from P/E ratio where price correspondes to the Total Market Cap and GDP to Earnings.
+ Key points  By historical standards, the Market Cap to GDP ratios are currently way above the average, 5-year and 10-year averages This may spell some bad news in the near term.</description>
+    </item>
+    
+  </channel>
+</rss>

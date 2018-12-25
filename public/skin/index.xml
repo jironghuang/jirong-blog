@@ -8,7 +8,9 @@
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Sun, 19 Aug 2018 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/skin/" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="/skin/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Skin in the Game</title>
@@ -16,14 +18,9 @@
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>/skin/skin-in-the-game/</guid>
-      <description>&lt;p&gt;In this section, I&amp;rsquo;ll note all the quantitative decisions I have made in the areas of investing, trading and betting. Money allocated here excludes the portion that I placed in conservative asset allocation.&lt;/p&gt;
-
-&lt;p&gt;Skin in the game or put in another way - putting where your mouth aligns with my core belief. Any serious analysis that I feel strongly about should have a stake in the game.&lt;/p&gt;
-
-&lt;p&gt;Also, I&amp;rsquo;m of the view that if you make enough calculated bets with positive expected returns in your life, eventually it will be a net positive in the long run.&lt;/p&gt;
-
-&lt;iframe src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubhtml?gid=606546538&amp;amp;single=true&amp;amp;widget=true&amp;amp;headers=false&#34; width=&#34;1000&#34; height=&#34;1000&#34; frameborder=&#34;0&#34; marginheight=&#34;0&#34; marginwidth=&#34;0&#34;&gt;Loading...&lt;/iframe&gt;
-</description>
+      <description>In this section, I&amp;rsquo;ll note all the quantitative decisions I have made in the areas of investing, trading and betting. Money allocated here excludes the portion that I placed in conservative asset allocation.
+Skin in the game or put in another way - putting where your mouth aligns with my core belief. Any serious analysis that I feel strongly about should have a stake in the game.
+Also, I&amp;rsquo;m of the view that if you make enough calculated bets with positive expected returns in your life, eventually it will be a net positive in the long run.</description>
     </item>
     
   </channel>

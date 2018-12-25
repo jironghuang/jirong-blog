@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Jirong&#39;s sandbox</title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on Jirong&#39;s sandbox</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Content tagged as &#39;Academic&#39;</title>
+      <link>/tags/academic/</link>
+      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/academic/</guid>
+      <description>Here is a list of all the content that has been tagged as academic.</description>
+    </item>
+    
+    <item>
+      <title>asset_allocation</title>
+      <link>/tags/asset_allocation/</link>
+      <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/asset_allocation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>betting</title>
+      <link>/tags/betting/</link>
+      <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/betting/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>coding</title>
+      <link>/tags/coding/</link>
+      <pubDate>Sun, 26 Aug 2018 14:09:02 +0800</pubDate>
+      
+      <guid>/tags/coding/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dashboard</title>
+      <link>/tags/dashboard/</link>
+      <pubDate>Thu, 09 Aug 2018 21:30:46 +0800</pubDate>
+      
+      <guid>/tags/dashboard/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>economics</title>
+      <link>/tags/economics/</link>
+      <pubDate>Sun, 01 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/economics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>finance</title>
+      <link>/tags/finance/</link>
+      <pubDate>Tue, 18 Dec 2018 13:03:44 +0800</pubDate>
+      
+      <guid>/tags/finance/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>investment</title>
+      <link>/tags/investment/</link>
+      <pubDate>Thu, 09 Aug 2018 21:30:46 +0800</pubDate>
+      
+      <guid>/tags/investment/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>macroeonomics</title>
+      <link>/tags/macroeonomics/</link>
+      <pubDate>Sun, 01 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/macroeonomics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>momentum</title>
+      <link>/tags/momentum/</link>
+      <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/momentum/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>odds</title>
+      <link>/tags/odds/</link>
+      <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/odds/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>probability</title>
+      <link>/tags/probability/</link>
+      <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/probability/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>programming</title>
+      <link>/tags/programming/</link>
+      <pubDate>Sat, 08 Dec 2018 01:11:52 +0800</pubDate>
+      
+      <guid>/tags/programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>trading</title>
+      <link>/tags/trading/</link>
+      <pubDate>Tue, 18 Dec 2018 13:03:44 +0800</pubDate>
+      
+      <guid>/tags/trading/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

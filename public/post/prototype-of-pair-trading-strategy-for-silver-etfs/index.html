@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.53" />
+  <meta name="author" content="Huang Jirong">
+  <meta name="description" content="Data analyst and Quantitative Investor">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/prototype-of-pair-trading-strategy-for-silver-etfs/">
+
+  
+  
+
+
+  
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-116737154-1', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Jirong&#39;s sandbox">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Jirong&#39;s sandbox">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/prototype-of-pair-trading-strategy-for-silver-etfs/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="Jirong&#39;s sandbox">
+  <meta property="og:url" content="/post/prototype-of-pair-trading-strategy-for-silver-etfs/">
+  <meta property="og:title" content="Prototype Pair Trading Strategy for Silver ETFs | Jirong&#39;s sandbox">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-12-18T13:03:44&#43;08:00">
+  
+  <meta property="article:modified_time" content="2018-12-18T13:03:44&#43;08:00">
+  
+
+  
+
+  <title>Prototype Pair Trading Strategy for Silver ETFs | Jirong&#39;s sandbox</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" class="dark">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">Jirong&#39;s sandbox</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/asset_allocation/asset_allocation">
+            
+            <span>Asset allocation</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/skin/skin-in-the-game">
+            
+            <span>Skin in the game</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/subscribe/subscribe">
+            
+            <span>Subscribe Here</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Prototype Pair Trading Strategy for Silver ETFs</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-12-18 13:03:44 &#43;0800 &#43;08" itemprop="datePublished dateModified">
+      Dec 18, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Huang Jirong">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    5 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/prototype-of-pair-trading-strategy-for-silver-etfs/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/finance">finance</a
+    >, 
+    
+    <a href="/categories/trading">trading</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Prototype%20Pair%20Trading%20Strategy%20for%20Silver%20ETFs&amp;url=%2fpost%2fprototype-of-pair-trading-strategy-for-silver-etfs%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fprototype-of-pair-trading-strategy-for-silver-etfs%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fprototype-of-pair-trading-strategy-for-silver-etfs%2f&amp;title=Prototype%20Pair%20Trading%20Strategy%20for%20Silver%20ETFs"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fprototype-of-pair-trading-strategy-for-silver-etfs%2f&amp;title=Prototype%20Pair%20Trading%20Strategy%20for%20Silver%20ETFs"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Prototype%20Pair%20Trading%20Strategy%20for%20Silver%20ETFs&amp;body=%2fpost%2fprototype-of-pair-trading-strategy-for-silver-etfs%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <p>In these 2 weeks, I&rsquo;ll deploy my pair trading algo strategy into my server.</p>
+
+<p>I modified the code below from a renowned quant trader, Ernest Chan. The basic idea is to find z-scores through moving average &amp; moving SD of spread. If it&rsquo;s more than absolute of z-score, I will either short or long the spread depending on the polarity.</p>
+
+<p>In the backtesting below (using a pair of silver ETFs as an example), I assumed a hypothetical amount of 10,000 dollars per trade.</p>
+
+<p>Results are pretty good with a healthy sharpe ratio of 2.7 in the training set and 1.6 in the testing set of data. Annualized return is approximately 26% (translates to 2600 dollars) for the test set.</p>
+
+<p><img src="/post/img/equity_curve.png" alt="/post/img/equity_curve.png">
+<img src="/post/img/summary_stats.png" alt="/post/img/summary_stats.png"></p>
+
+<pre><code>rm(list=ls()) # clear workspace
+
+library('zoo')
+library(&quot;tidyr&quot;)
+library(&quot;dplyr&quot;)
+require(&quot;quantmod&quot;)
+require(&quot;urca&quot;)
+require(&quot;PerformanceAnalytics&quot;)
+source('R/util/calculateReturns.R')
+source('R/util/calculateMaxDD.R')
+source('R/util/backshift.R')
+source('R/util/extract_stock_prices.R')
+
+#List of silver etfs, SIVR, USV, SLV, DBS
+stock1 = &quot;SIVR&quot;
+stock2 = &quot;USV&quot;
+
+start_date = &quot;2014-12-30&quot;
+end_date = &quot;2018-12-30&quot;
+
+prop_train = 0.65
+enter_z_score = 2     #Can use nlmb to vary
+exit_z_score = 1     #Can use nlmb to vary
+
+trade_amount = 10000
+finance_rates = 2.5/100
+
+data1 = df_crawl_time_series(stock1, start_date, end_date)
+data1 = subset(data1, select = c(&quot;Date&quot;, &quot;Open&quot;, &quot;Close&quot;))
+data1$Date = as.Date(data1$Date)
+
+data2 = df_crawl_time_series(stock2, start_date, end_date)
+data2 = subset(data2, select = c(&quot;Date&quot;, &quot;Open&quot;, &quot;Close&quot;))
+data2$Date = as.Date(data2$Date)
+
+data1 = xts(data1[, -1], order.by = data1[, 1])
+data2 = xts(data2[, -1], order.by = data2[, 1])
+
+data = merge(data1, data2)
+data = as.data.frame(data)
+data = subset(data, !is.na(data$Close) &amp; !is.na(data$Close.1))
+
+#  define indices for training and test sets
+trainset &lt;- 1:as.integer(nrow(data) * prop_train)
+testset &lt;- (length(trainset)+1):nrow(data)
+
+#Cointegration test--&gt;See if test of r&lt;=1 &gt; threshold. If more cointegrating
+jotest=ca.jo(data.frame(data$Close[trainset], data$Close.1[trainset]), type=&quot;trace&quot;, K=2, ecdet=&quot;none&quot;, spec=&quot;longrun&quot;)
+summary(jotest)
+
+is_coint = jotest@teststat[1] &gt; jotest@cval[1,3]
+if(is_coint){
+  print(&quot;This pair's training set is cointegrating&quot;)
+}else{
+  print(&quot;This pair's training set is not cointegrating&quot;)  
+}
+
+#Hedge ratio
+result &lt;- lm(data$Close[trainset] ~ 0 + data$Close.1[trainset])
+hedgeRatio &lt;- coef(result) # 1.631
+
+#Spread
+data$spread &lt;- data$Close - hedgeRatio * data$Close.1
+
+##########################Calculate half life#############################
+# Calculate half life of mean reversion (residuals)
+# Calculate yt-1 and (yt-1-yt)
+# pull residuals to a vector
+spread_train = data$spread[trainset]
+y.lag &lt;- c(spread_train[2:length(spread_train)], 0) # Set vector to lag -1 day
+y.lag &lt;- y.lag[1:length(y.lag)-1] # As shifted vector by -1, remove anomalous element at end of vector
+spread_train &lt;- spread_train[1:length(spread_train)-1] # Make vector same length as vector y.lag
+y.diff &lt;- spread_train - y.lag # Subtract todays close from yesterdays close
+y.diff &lt;- y.diff [1:length(y.diff)-1] # Make vector same length as vector y.lag
+prev.y.mean &lt;- y.lag - mean(y.lag, na.rm = T) # Subtract yesterdays close from the mean of lagged differences
+prev.y.mean &lt;- prev.y.mean [1:length(prev.y.mean )-1] # Make vector same length as vector y.lag
+final.df &lt;- data.frame(y.diff,prev.y.mean) # Create final data frame
+
+# Linear Regression With Intercept
+result &lt;- lm(y.diff ~ prev.y.mean, data = final.df)
+half_life &lt;- -log(2)/coef(result)[2]   #Looking at this to 
+
+if(half_life &lt; 3){
+  half_life = 14
+}
+
+######################MA of Spread#################################
+#Change this to half life for lookback--&gt;https://flare9xblog.com/2017/11/02/pairs-trading-testing-for-conintergration-adf-johansen-test-half-life-of-mean-reversion/
+#Try EMA too
+data$spread = zoo::na.locf(data$spread)
+data$spreadMean &lt;- SMA(data$spread, round(half_life))
+data$spreadStd &lt;- runSD(data$spread, n = round(half_life), sample = TRUE, cumulative = FALSE)
+
+# data$spreadMean &lt;- mean(data$spread[trainset], na.rm = T)
+# data$spreadStd &lt;- sd(data$spread[trainset], na.rm = T)
+
+data$zscore = (data$spread - data$spreadMean)/data$spreadStd
+
+data$longs &lt;- data$zscore &lt;= -enter_z_score # buy spread when its value drops below 2 standard deviations.
+data$shorts &lt;- data$zscore &gt;= enter_z_score # short spread when its value rises above 2 standard deviations.
+
+#  exit any spread position when its value is within 1 standard deviation of its mean.
+data$longExits   &lt;- data$zscore &gt;= -exit_z_score 
+data$shortExits &lt;- data$zscore &lt;= exit_z_score 
+
+#Signal
+data$posL1 = NA
+data$posL2 = NA
+data$posS1 = NA
+data$posS2 = NA
+
+# initialize to 0
+data$posL1[1] &lt;- 0; data$posL2[1] &lt;- 0
+data$posS1[1] &lt;- 0; data$posS2[1] &lt;- 0
+
+data$posL1[data$longs] &lt;- 1
+data$posL2[data$longs] &lt;- -1
+
+data$posS1[data$shorts] &lt;- -1
+data$posS2[data$shorts] &lt;- 1
+
+data$posL1[data$longExits] &lt;- 0
+data$posL2[data$longExits] &lt;- 0
+data$posS1[data$shortExits] &lt;- 0
+data$posS2[data$shortExits] &lt;- 0
+
+#positions
+data$posL1 &lt;- zoo::na.locf(data$posL1); data$posL2 &lt;- zoo::na.locf(data$posL2)
+data$posS1 &lt;- zoo::na.locf(data$posS1); data$posS2 &lt;- zoo::na.locf(data$posS2)
+data$position1 &lt;- data$posL1 + data$posS1
+# data$position1 = -data$position1    #Don't know why. It should be flipped!!!
+
+data$position2 &lt;- data$posL2 + data$posS2
+# data$position2 = -data$position2    #Don't know why. It should be flipped!!!
+
+#Returns
+data$dailyret1 &lt;- ROC(data$Close) #  last row is [385,] -0.0122636689 -0.0140365802
+data$dailyret2 &lt;- ROC(data$Close.1) #  last row is [385,] -0.0122636689 -0.0140365802
+
+#Backshifting here. But signal is for following day returns!. So can still use latest Z-score
+data$date = as.Date(row.names(data))
+data = xts(data[,-which(names(data) == &quot;date&quot;)], order.by = data[, which(names(data) == &quot;date&quot;)])
+
+data$pnl = lag(data$position1, 1) * data$dailyret1  + lag(data$position2, 1) * data$dailyret2
+
+#Sharpe ratio
+sharpeRatioTrainset &lt;- sqrt(252)*mean(data$pnl[trainset], na.rm = TRUE)/sd(data$pnl[trainset], na.rm = TRUE)
+sharpeRatioTrainset
+
+sharpeRatioTestset &lt;- sqrt(252)*mean(data$pnl[testset], na.rm = TRUE)/sd(data$pnl[testset], na.rm = TRUE)
+sharpeRatioTestset 
+
+#Performance analytics
+charts.PerformanceSummary(data$pnl[testset])
+table.Drawdowns(data$pnl[testset])
+table.DownsideRisk(data$pnl[testset])
+table.AnnualizedReturns(data$pnl[testset])
+
+#Number of days not in the market
+sum(data$pnl == 0, na.rm = T)/length(data$pnl)
+
+#Putting a trade indicator
+data$trade_indicator = lag(ifelse(data$position2 != 0 &amp; !is.na(data$position2), 1, 0))
+
+#Putting a unique id
+count = 0
+data$trade_id = NA
+
+for(i in 2:nrow(data)){ 
+  if(as.numeric(data$trade_indicator[i-1]) == 0 &amp; as.numeric(data$trade_indicator[i]) != 0){
+    count = count + 1
+    data$trade_id[i] = count
+  }else if(as.numeric(data$trade_indicator[i-1]) != 0 &amp; as.numeric(data$trade_indicator[i]) != 0){
+    data$trade_id[i] = count
+  }
+}
+
+#Simple trade statistics
+data$test = 0; data$test[testset] = 1 
+data$pnl_add1 = data$pnl + 1
+data_trade = as.data.frame(data)
+data_trade_stats = data_trade %&gt;%
+  group_by(trade_id, test) %&gt;%
+  summarize(trade_duration = n(),
+            cum_pnl = prod(pnl_add1, na.rm = T))
+
+data_trade_stats$cum_pnl = data_trade_stats$cum_pnl - 1
+data_trade_stats$profit_per_trade = data_trade_stats$cum_pnl * trade_amount
+
+#Financing charges --&gt;Depends on length of days
+data_trade_stats$finance_fees =  trade_amount * finance_rates * (data_trade_stats$trade_duration/365)
+
+#Commission fees
+data_trade_stats$comm_fess = 4  #2 for 1 pair
+
+#Net profit
+data_trade_stats$profit_per_trade_less_comms = data_trade_stats$profit_per_trade - data_trade_stats$finance_fees - data_trade_stats$comm_fess
+
+#Average loss
+data_trade_stats = data_trade_stats[-which(is.na(data_trade_stats)), ]
+
+data_trade_stats %&gt;%
+  group_by(test) %&gt;%
+  summarize(sum_profits = sum(profit_per_trade_less_comms), 
+            mean_profits = mean(profit_per_trade_less_comms),
+            na.rm = T)
+
+sum(data_trade_stats$profit_per_trade_less_comms &lt; 0)/ nrow(data_trade_stats)
+
+summary(data_trade_stats$profit_per_trade_less_comms)
+
+</code></pre>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/finance">finance</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/trading">trading</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/architecture-and-process-flow-for-my-algorithmic-trading/">Architecture and Process Flow for My Algorithmic Trading</a></li>
+    
+    <li><a href="/project/investment_compass_guidance/">Investment compass</a></li>
+    
+    <li><a href="/post/rolling-out-the-investment-compass-interactive-app-that-i-promised-to-myself-eons-ago/">Rolling out the Investment Compass interactive app that I promised eons ago</a></li>
+    
+    <li><a href="/post/etf_watchlist_project/">Updated ETF project codes</a></li>
+    
+    <li><a href="/post/buffett/">Analyzing Warren Buffett Cash Level</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "jirong" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+<div id="disqus_thread"></div>
+<script>
+(function() {
+var d = document, s = d.createElement('script');
+s.src = 'https://jironghuang.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2018 &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//jirong.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

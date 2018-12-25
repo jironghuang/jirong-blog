@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.32.4" />
+  <meta name="generator" content="Hugo 0.53" />
   <meta name="author" content="Huang Jirong">
   <meta name="description" content="Data analyst and Quantitative Investor">
 
@@ -267,8 +267,8 @@
     <div id="profile">
 
       
-      <div class="portrait" style="background-image: url('/img/portrait.jpg');"></div>
-      <meta itemprop="image" content="/img/portrait.jpg">
+      <div class="portrait" style="background-image: url('/img/jirong.jpeg');"></div>
+      <meta itemprop="image" content="/img/jirong.jpeg">
       
 
       <div class="portrait-title">
@@ -455,90 +455,6 @@
         
           
       
-
-      
-      
-        
-        
-
-<div class="article-list-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
-  
-  
-  <h3 class="article-title" itemprop="headline">
-    <a href="/post/automated_email_notification/" itemprop="url">Automated Email Notification of my ETF watchlist</a>
-  </h3>
-  
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    
-    <time datetime="2018-09-04 01:37:53 &#43;0800 &#43;08" itemprop="datePublished dateModified">
-      Sep 4, 2018
-    </time>
-  </span>
-  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Huang Jirong">
-  </span>
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    1 min read
-  </span>
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <a href="/post/automated_email_notification/#disqus_thread"></a>
-  
-
-  
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fa fa-folder"></i>
-    
-    <a href="/categories/programming">programming</a
-    >
-    
-  </span>
-  
-  
-
-  
-
-</div>
-
-  <div class="article-style" itemprop="articleBody">
-    
-    I wrote an automated email notification code to send out my daily ETF watchlist in csv - an extension of my ETF watchlist project here. I figured out that people will not visit my site. So why not blast out the watchlist instead:)
-And if you are interested in the code. Here you go.
-#Steps for sending watchlist library(&quot;rJava&quot;) library('mailR') source(&quot;./R/emails.R&quot;) # Write the content of your email msg &lt;- paste(&quot;Hey there, I'm sending this ETF watchlist that is updated as of &quot;, &quot;\n&quot;, as.
-    
-  </div>
-  <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="/post/automated_email_notification/" class="btn btn-primary btn-outline">
-      CONTINUE READING
-    </a>
-  </p>
-</div>
-
-      
-
-      
-
-        
-
-        
-        
-
-        
-        
-          
-      
           
       
 
@@ -551,7 +467,7 @@ And if you are interested in the code. Here you go.
   
   
   <h3 class="article-title" itemprop="headline">
-    <a href="/post/jr-naming-conventions-in-r/" itemprop="url">Naming Conventions in R. Let&#39;s call it JR Notations</a>
+    <a href="/post/prototype-of-pair-trading-strategy-for-silver-etfs/" itemprop="url">Prototype Pair Trading Strategy for Silver ETFs</a>
   </h3>
   
 
@@ -559,8 +475,8 @@ And if you are interested in the code. Here you go.
 
   <span class="article-date">
     
-    <time datetime="2018-08-26 14:09:02 &#43;0800 &#43;08" itemprop="datePublished dateModified">
-      Aug 26, 2018
+    <time datetime="2018-12-18 13:03:44 &#43;0800 &#43;08" itemprop="datePublished dateModified">
+      Dec 18, 2018
     </time>
   </span>
   <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
@@ -570,14 +486,14 @@ And if you are interested in the code. Here you go.
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    2 min read
+    5 min read
   </span>
   
 
   
   
   <span class="middot-divider"></span>
-  <a href="/post/jr-naming-conventions-in-r/#disqus_thread"></a>
+  <a href="/post/prototype-of-pair-trading-strategy-for-silver-etfs/#disqus_thread"></a>
   
 
   
@@ -587,10 +503,10 @@ And if you are interested in the code. Here you go.
   <span class="article-categories">
     <i class="fa fa-folder"></i>
     
-    <a href="/categories/coding">coding</a
+    <a href="/categories/finance">finance</a
     >, 
     
-    <a href="/categories/programming">programming</a
+    <a href="/categories/trading">trading</a
     >
     
   </span>
@@ -603,13 +519,13 @@ And if you are interested in the code. Here you go.
 
   <div class="article-style" itemprop="articleBody">
     
-    Naming Conventions in R. Let&rsquo;s call it JR Notations. &lsquo;Naming conventions&rsquo; is a huge thing in many programming languages/ paradigms/ communities. But it&rsquo;s noticeably absent in the R programming community.
-With some inspiration from the Hungarian Notation, here&rsquo;s a blue-print that I came up with while working on a major R project over the last 2 months. Drumroll please&hellip;
-1. Naming conventions for R scripts  F_ for R scripts that contains functions.
+    In these 2 weeks, I&rsquo;ll deploy my pair trading algo strategy into my server.
+I modified the code below from a renowned quant trader, Ernest Chan. The basic idea is to find z-scores through moving average &amp; moving SD of spread. If it&rsquo;s more than absolute of z-score, I will either short or long the spread depending on the polarity.
+In the backtesting below (using a pair of silver ETFs as an example), I assumed a hypothetical amount of 10,000 dollars per trade.
     
   </div>
   <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="/post/jr-naming-conventions-in-r/" class="btn btn-primary btn-outline">
+    <a href="/post/prototype-of-pair-trading-strategy-for-silver-etfs/" class="btn btn-primary btn-outline">
       CONTINUE READING
     </a>
   </p>
@@ -628,8 +544,99 @@ With some inspiration from the Hungarian Notation, here&rsquo;s a blue-print tha
         
           
       
-          
+
       
+      
+        
+        
+
+<div class="article-list-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+  
+  
+  <h3 class="article-title" itemprop="headline">
+    <a href="/post/summary-of-my-computational-photography-from-georgia-tech-computer-science-masters/" itemprop="url">Summary of My Computational Photography Module From Georgia Tech Computer Science Masters</a>
+  </h3>
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-12-08 01:11:52 &#43;0800 &#43;08" itemprop="datePublished dateModified">
+      Dec 8, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Huang Jirong">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    1 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/summary-of-my-computational-photography-from-georgia-tech-computer-science-masters/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/programming">programming</a
+    >
+    
+  </span>
+  
+  
+
+  
+
+</div>
+
+  <div class="article-style" itemprop="articleBody">
+    
+    <p>For what&rsquo;s worth, here is a summary of what I went through for my Georgia Tech Computer Science Msc Computational Photography module.</p>
+
+<p>And it&rsquo;s really painful but rewarding!</p>
+
+<p><img src="/post/img/CP_1.png" alt="/post/img/CP_1.png">
+<img src="/post/img/CP_2.png" alt="/post/img/CP_2.png">
+<img src="/post/img/CP_3.png" alt="/post/img/CP_3.png">
+<img src="/post/img/CP_4.png" alt="/post/img/CP_4.png">
+<img src="/post/img/CP_5.png" alt="/post/img/CP_5.png">
+<img src="/post/img/CP_6.png" alt="/post/img/CP_6.png">
+<img src="/post/img/CP_7.png" alt="/post/img/CP_7.png">
+<img src="/post/img/CP_8.png" alt="/post/img/CP_8.png">
+<img src="/post/img/CP_9.png" alt="/post/img/CP_9.png"></p>
+
+    
+  </div>
+  <p class="read-more" itemprop="mainEntityOfPage">
+    <a href="/post/summary-of-my-computational-photography-from-georgia-tech-computer-science-masters/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
+
+      
+
+        
+
+        
+        
+
+        
+        
           
       
 
@@ -642,7 +649,7 @@ With some inspiration from the Hungarian Notation, here&rsquo;s a blue-print tha
   
   
   <h3 class="article-title" itemprop="headline">
-    <a href="/post/rolling-out-the-investment-compass-interactive-app-that-i-promised-to-myself-eons-ago/" itemprop="url">Rolling out the Investment Compass interactive app that I promised eons ago</a>
+    <a href="/post/colorization/" itemprop="url">Colorization</a>
   </h3>
   
 
@@ -650,8 +657,8 @@ With some inspiration from the Hungarian Notation, here&rsquo;s a blue-print tha
 
   <span class="article-date">
     
-    <time datetime="2018-08-05 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
-      Aug 5, 2018
+    <time datetime="2018-12-05 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      Dec 5, 2018
     </time>
   </span>
   <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
@@ -668,7 +675,7 @@ With some inspiration from the Hungarian Notation, here&rsquo;s a blue-print tha
   
   
   <span class="middot-divider"></span>
-  <a href="/post/rolling-out-the-investment-compass-interactive-app-that-i-promised-to-myself-eons-ago/#disqus_thread"></a>
+  <a href="/post/colorization/#disqus_thread"></a>
   
 
   
@@ -678,7 +685,7 @@ With some inspiration from the Hungarian Notation, here&rsquo;s a blue-print tha
   <span class="article-categories">
     <i class="fa fa-folder"></i>
     
-    <a href="/categories/investment">investment</a
+    <a href="/categories/programming">programming</a
     >
     
   </span>
@@ -691,12 +698,13 @@ With some inspiration from the Hungarian Notation, here&rsquo;s a blue-print tha
 
   <div class="article-style" itemprop="articleBody">
     
-    Finally I had some time to sit down to work on the interactive app. From what was an hideous app to a somewhat Minimum Viable Product (MVP) version of an app. (Shhh&hellip;I&rsquo;m not really a User Interface, UI person).
-This serves as a compass for me to visualize the potential returns given the % fall from 52 week high. See my linkedin article here for further explanation on why I think this is a good indicator.
+    Colorization The following is a high level project pipeline of my Computational Photography Colorization report. The project scope involves minimizing a quadratic cost function. An artist would only need to make a few colour scribble on a grey photograph and the algorithm will automatically populate the entire photograph with the associated colours.
+1.Input: I first read in the image using imread function.
+2.Find the difference: Next I compute the difference between the marked and grey scale image.
     
   </div>
   <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="/post/rolling-out-the-investment-compass-interactive-app-that-i-promised-to-myself-eons-ago/" class="btn btn-primary btn-outline">
+    <a href="/post/colorization/" class="btn btn-primary btn-outline">
       CONTINUE READING
     </a>
   </p>
@@ -727,7 +735,7 @@ This serves as a compass for me to visualize the potential returns given the % f
   
   
   <h3 class="article-title" itemprop="headline">
-    <a href="/post/etf_watchlist_project/" itemprop="url">Updated ETF project codes</a>
+    <a href="/post/architecture-and-process-flow-for-my-algorithmic-trading/" itemprop="url">Architecture and Process Flow for My Algorithmic Trading</a>
   </h3>
   
 
@@ -735,8 +743,8 @@ This serves as a compass for me to visualize the potential returns given the % f
 
   <span class="article-date">
     
-    <time datetime="2018-07-07 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
-      Jul 7, 2018
+    <time datetime="2018-11-04 10:19:13 &#43;0800 &#43;08" itemprop="datePublished dateModified">
+      Nov 4, 2018
     </time>
   </span>
   <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
@@ -753,7 +761,7 @@ This serves as a compass for me to visualize the potential returns given the % f
   
   
   <span class="middot-divider"></span>
-  <a href="/post/etf_watchlist_project/#disqus_thread"></a>
+  <a href="/post/architecture-and-process-flow-for-my-algorithmic-trading/#disqus_thread"></a>
   
 
   
@@ -763,7 +771,13 @@ This serves as a compass for me to visualize the potential returns given the % f
   <span class="article-categories">
     <i class="fa fa-folder"></i>
     
-    <a href="/categories/investment">investment</a
+    <a href="/categories/programming">programming</a
+    >, 
+    
+    <a href="/categories/trading">trading</a
+    >, 
+    
+    <a href="/categories/operationalisation">operationalisation</a
     >
     
   </span>
@@ -776,14 +790,16 @@ This serves as a compass for me to visualize the potential returns given the % f
 
   <div class="article-style" itemprop="articleBody">
     
-    Updated ETF watchlist project While watching a world cup match today, I updated my ETF watchlist project (you may click here if you haven’t seen it yet)
-You may find the github code here. In the revision, I parallelized the crawling - essentially tapping on all the cores in my machines.
-To create your own watchlist. Follow these steps,
- Install R and R studio. In Mac or Linux, type the following in command line git clone https://github.
+    
+
+<h2 id="project-that-i-will-be-working-in-2018-2019">Project that I will be working in 2018-2019</h2>
+
+<p><img src="/post/img/mvp_algo_trading.png" alt="/post/img/mvp_algo_trading.png"></p>
+
     
   </div>
   <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="/post/etf_watchlist_project/" class="btn btn-primary btn-outline">
+    <a href="/post/architecture-and-process-flow-for-my-algorithmic-trading/" class="btn btn-primary btn-outline">
       CONTINUE READING
     </a>
   </p>
@@ -812,7 +828,7 @@ To create your own watchlist. Follow these steps,
   
   
   <h3 class="article-title" itemprop="headline">
-    <a href="/post/updated-etf-watchlist-codes/" itemprop="url">Updated ETF Watchlist Codes</a>
+    <a href="/post/seam-carving/" itemprop="url">Seam Carving</a>
   </h3>
   
 
@@ -820,8 +836,8 @@ To create your own watchlist. Follow these steps,
 
   <span class="article-date">
     
-    <time datetime="2018-07-07 01:37:53 &#43;0800 &#43;08" itemprop="datePublished dateModified">
-      Jul 7, 2018
+    <time datetime="2018-10-25 13:23:23 &#43;0800 &#43;08" itemprop="datePublished dateModified">
+      Oct 25, 2018
     </time>
   </span>
   <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
@@ -838,7 +854,7 @@ To create your own watchlist. Follow these steps,
   
   
   <span class="middot-divider"></span>
-  <a href="/post/updated-etf-watchlist-codes/#disqus_thread"></a>
+  <a href="/post/seam-carving/#disqus_thread"></a>
   
 
   
@@ -848,7 +864,7 @@ To create your own watchlist. Follow these steps,
   <span class="article-categories">
     <i class="fa fa-folder"></i>
     
-    <a href="/categories/investment">investment</a
+    <a href="/categories/programming">programming</a
     >
     
   </span>
@@ -861,14 +877,12 @@ To create your own watchlist. Follow these steps,
 
   <div class="article-style" itemprop="articleBody">
     
-    Updated ETF watchlist project While watching a world cup match today, I updated my ETF watchlist project (you may click here if you haven&rsquo;t seen it yet)
-You may find the github code here. In the revision, I parallelized the crawling - essentially tapping on all the cores in my machines.
-To create your own watchlist. Follow these steps,
- Install R and R studio. In Mac or Linux, type the following in command line git clone https://github.
+    Snippet of my Seam Carving Report from my Msc Computer Science Georgia Tech&rsquo;s Computational Photography module Besides removing of streams, we can also add streams. We identify k streams for removal and duplicate by averaging the left and right neighbours. The computation of these averages is done by convolving the following matrix with the images’ colour channels.
+kernel = np.array([[0, 0, 0], [0.5, 0, 0.5], [0, 0, 0]])  In the implementation of my scaling_up algorithm, I first remove k streams (depending on ratio set by user) and recorded the coordinates and cumulative energy values of the original picture in each removal.
     
   </div>
   <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="/post/updated-etf-watchlist-codes/" class="btn btn-primary btn-outline">
+    <a href="/post/seam-carving/" class="btn btn-primary btn-outline">
       CONTINUE READING
     </a>
   </p>
@@ -1038,14 +1052,14 @@ To create your own watchlist. Follow these steps,
           
           
           
-          <a href="/tags/asset_allocation" style="font-size:1.311750992628768rem">asset_allocation</a>
+          <a href="/tags/asset_allocation" style="font-size:1.2914102047404095rem">asset_allocation</a>
         
           
           
           
           
           
-          <a href="/tags/betting" style="font-size:1.311750992628768rem">betting</a>
+          <a href="/tags/betting" style="font-size:1.2914102047404095rem">betting</a>
         
           
           
@@ -1059,7 +1073,7 @@ To create your own watchlist. Follow these steps,
           
           
           
-          <a href="/tags/dashboard" style="font-size:1.311750992628768rem">dashboard</a>
+          <a href="/tags/dashboard" style="font-size:1.2914102047404095rem">dashboard</a>
         
           
           
@@ -1073,14 +1087,14 @@ To create your own watchlist. Follow these steps,
           
           
           
-          <a href="/tags/finance" style="font-size:2.422212266046852rem">finance</a>
+          <a href="/tags/finance" style="font-size:2.432429365241517rem">finance</a>
         
           
           
           
           
           
-          <a href="/tags/investment" style="font-size:2.422212266046852rem">investment</a>
+          <a href="/tags/investment" style="font-size:2.3577334939705095rem">investment</a>
         
           
           
@@ -1094,28 +1108,35 @@ To create your own watchlist. Follow these steps,
           
           
           
-          <a href="/tags/momentum" style="font-size:1.311750992628768rem">momentum</a>
+          <a href="/tags/momentum" style="font-size:1.2914102047404095rem">momentum</a>
         
           
           
           
           
           
-          <a href="/tags/odds" style="font-size:1.311750992628768rem">odds</a>
+          <a href="/tags/odds" style="font-size:1.2914102047404095rem">odds</a>
         
           
           
           
           
           
-          <a href="/tags/probability" style="font-size:1.311750992628768rem">probability</a>
+          <a href="/tags/probability" style="font-size:1.2914102047404095rem">probability</a>
         
           
           
           
           
           
-          <a href="/tags/programming" style="font-size:1.311750992628768rem">programming</a>
+          <a href="/tags/programming" style="font-size:2.274230614221228rem">programming</a>
+        
+          
+          
+          
+          
+          
+          <a href="/tags/trading" style="font-size:1.2914102047404095rem">trading</a>
         
       </div>
     
@@ -1160,14 +1181,14 @@ To create your own watchlist. Follow these steps,
           
           
           
-          <a href="/tags/asset_allocation" style="font-size:1.311750992628768rem">asset_allocation</a>
+          <a href="/tags/asset_allocation" style="font-size:1.2914102047404095rem">asset_allocation</a>
         
           
           
           
           
           
-          <a href="/tags/betting" style="font-size:1.311750992628768rem">betting</a>
+          <a href="/tags/betting" style="font-size:1.2914102047404095rem">betting</a>
         
           
           
@@ -1181,7 +1202,7 @@ To create your own watchlist. Follow these steps,
           
           
           
-          <a href="/tags/dashboard" style="font-size:1.311750992628768rem">dashboard</a>
+          <a href="/tags/dashboard" style="font-size:1.2914102047404095rem">dashboard</a>
         
           
           
@@ -1195,14 +1216,14 @@ To create your own watchlist. Follow these steps,
           
           
           
-          <a href="/tags/finance" style="font-size:2.422212266046852rem">finance</a>
+          <a href="/tags/finance" style="font-size:2.432429365241517rem">finance</a>
         
           
           
           
           
           
-          <a href="/tags/investment" style="font-size:2.422212266046852rem">investment</a>
+          <a href="/tags/investment" style="font-size:2.3577334939705095rem">investment</a>
         
           
           
@@ -1216,28 +1237,35 @@ To create your own watchlist. Follow these steps,
           
           
           
-          <a href="/tags/momentum" style="font-size:1.311750992628768rem">momentum</a>
+          <a href="/tags/momentum" style="font-size:1.2914102047404095rem">momentum</a>
         
           
           
           
           
           
-          <a href="/tags/odds" style="font-size:1.311750992628768rem">odds</a>
+          <a href="/tags/odds" style="font-size:1.2914102047404095rem">odds</a>
         
           
           
           
           
           
-          <a href="/tags/probability" style="font-size:1.311750992628768rem">probability</a>
+          <a href="/tags/probability" style="font-size:1.2914102047404095rem">probability</a>
         
           
           
           
           
           
-          <a href="/tags/programming" style="font-size:1.311750992628768rem">programming</a>
+          <a href="/tags/programming" style="font-size:2.274230614221228rem">programming</a>
+        
+          
+          
+          
+          
+          
+          <a href="/tags/trading" style="font-size:1.2914102047404095rem">trading</a>
         
       </div>
     

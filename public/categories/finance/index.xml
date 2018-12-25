@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>finance on Jirong&#39;s sandbox</title>
+    <link>/categories/finance/</link>
+    <description>Recent content in finance on Jirong&#39;s sandbox</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Tue, 18 Dec 2018 13:03:44 +0800</lastBuildDate>
+    
+	<atom:link href="/categories/finance/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Prototype Pair Trading Strategy for Silver ETFs</title>
+      <link>/post/prototype-of-pair-trading-strategy-for-silver-etfs/</link>
+      <pubDate>Tue, 18 Dec 2018 13:03:44 +0800</pubDate>
+      
+      <guid>/post/prototype-of-pair-trading-strategy-for-silver-etfs/</guid>
+      <description>In these 2 weeks, I&amp;rsquo;ll deploy my pair trading algo strategy into my server.
+I modified the code below from a renowned quant trader, Ernest Chan. The basic idea is to find z-scores through moving average &amp;amp; moving SD of spread. If it&amp;rsquo;s more than absolute of z-score, I will either short or long the spread depending on the polarity.
+In the backtesting below (using a pair of silver ETFs as an example), I assumed a hypothetical amount of 10,000 dollars per trade.</description>
+    </item>
+    
+  </channel>
+</rss>

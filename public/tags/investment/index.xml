@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>investment on Jirong&#39;s sandbox</title>
+    <link>/tags/investment/</link>
+    <description>Recent content in investment on Jirong&#39;s sandbox</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Thu, 09 Aug 2018 21:30:46 +0800</lastBuildDate>
+    
+	<atom:link href="/tags/investment/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Investment compass</title>
+      <link>/project/investment_compass_guidance/</link>
+      <pubDate>Thu, 09 Aug 2018 21:30:46 +0800</pubDate>
+      
+      <guid>/project/investment_compass_guidance/</guid>
+      <description>Investment Compass (Kindly wait 10 seconds for the entire app to load. Best viewed in Desktop) This serves as a compass for me to visualize the potential returns given the % fall from 52 week high. See my linkedin article here for further explanation on why I think this is a good indicator.
+The app consists of 3 tabs. The &amp;lsquo;Visualize&amp;rsquo; tab contains 3 graphs plotting % fall from 52 week high against the expected returns 1 to 3 years later.</description>
+    </item>
+    
+    <item>
+      <title>Rolling out the Investment Compass interactive app that I promised eons ago</title>
+      <link>/post/rolling-out-the-investment-compass-interactive-app-that-i-promised-to-myself-eons-ago/</link>
+      <pubDate>Sun, 05 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/rolling-out-the-investment-compass-interactive-app-that-i-promised-to-myself-eons-ago/</guid>
+      <description>Finally I had some time to sit down to work on the interactive app. From what was an hideous app to a somewhat Minimum Viable Product (MVP) version of an app. (Shhh&amp;hellip;I&amp;rsquo;m not really a User Interface, UI person).
+This serves as a compass for me to visualize the potential returns given the % fall from 52 week high. See my linkedin article here for further explanation on why I think this is a good indicator.</description>
+    </item>
+    
+    <item>
+      <title>Updated ETF project codes</title>
+      <link>/post/etf_watchlist_project/</link>
+      <pubDate>Sat, 07 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/etf_watchlist_project/</guid>
+      <description>Updated ETF watchlist project While watching a world cup match today, I updated my ETF watchlist project (you may click here if you haven’t seen it yet)
+You may find the github code here. In the revision, I parallelized the crawling - essentially tapping on all the cores in my machines.
+To create your own watchlist. Follow these steps,
+ Install R and R studio. In Mac or Linux, type the following in command line git clone https://github.</description>
+    </item>
+    
+    <item>
+      <title>Updated ETF Watchlist Codes</title>
+      <link>/post/updated-etf-watchlist-codes/</link>
+      <pubDate>Sat, 07 Jul 2018 01:37:53 +0800</pubDate>
+      
+      <guid>/post/updated-etf-watchlist-codes/</guid>
+      <description>Updated ETF watchlist project While watching a world cup match today, I updated my ETF watchlist project (you may click here if you haven&amp;rsquo;t seen it yet)
+You may find the github code here. In the revision, I parallelized the crawling - essentially tapping on all the cores in my machines.
+To create your own watchlist. Follow these steps,
+ Install R and R studio. In Mac or Linux, type the following in command line git clone https://github.</description>
+    </item>
+    
+    <item>
+      <title>Analyzing Warren Buffett Cash Level</title>
+      <link>/post/buffett/</link>
+      <pubDate>Wed, 04 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/buffett/</guid>
+      <description>Warren Buffett the sage It’s always interesting to understand investment gurus’ thought process. And one of the ways is to look at their companies’ balance sheet.
+Warren Buffett, the Sage &amp;amp; CEO of Berkshire, in recent decade has always been known to hoard cash. And before the 2008 crisis, he held cash level of 40-50% relative to its equity - probably trying to stay out of the overvalued market and waiting for the right opportunity to swoop in for a ‘BIG CATCH’.</description>
+    </item>
+    
+    <item>
+      <title>ETFs watchlist</title>
+      <link>/project/watch_list/</link>
+      <pubDate>Sun, 17 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/project/watch_list/</guid>
+      <description>ETFs watchlist In my Ubunutu - Linux laptop, I wrote some R scripts to crawl the yahoo financial data. When the clock strikes midnight, my cronjob task scheduler will execute these scripts in a parallel fashion to extract the data.
+Then my script will log into my google account via SSH and paste the crawled data into 1 of the googlesheet tabs. And this is linked to my portfolio allocation, computation and milestones.</description>
+    </item>
+    
+    <item>
+      <title>Permanent Portfolio that I Implemented</title>
+      <link>/project/perm_port_proj/</link>
+      <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/project/perm_port_proj/</guid>
+      <description>Portfolio Performance since 2 April 18  Include Google Sheet iframe link in future.   An all weather portfolio Note: I carried out a similar analysis as 1 of the posts I’ve written (https://jirong-huang.netlify.com/post/perm_port/). The difference is that I considered 4 assets (including T-bills) instead of 3. The performance in the post is more reflective of stress-test perfromance (Sharpe, Drawdown Ratio, etc.)
+Based on the literature, permanent portfolio is an investment strategy that is able to yield moderate returns and relatively low volatility.</description>
+    </item>
+    
+    <item>
+      <title>Investigating Faber Sector Rotation Strategy</title>
+      <link>/post/sector_rotation/</link>
+      <pubDate>Tue, 03 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/sector_rotation/</guid>
+      <description>Does sector rotation - momentum strategy work? Faber sector rotation strategy is touted as a superior Tactical Asset Allocation strategy that could generate positive Alpha. This is evident in the post here http://stockcharts.com/school/doku.php?id=chart_school:trading_strategies:sector_rotation_roc.
+The strategy is pretty simple. Here is how it works,
+ First, you choose 9 sectors Second, compute the 6 month returns Third, you only ‘trade’ once a month. For simiplicity I choose end of the month Fourth, you invest in 3 sectors with the highest past 6 month returns.</description>
+    </item>
+    
+    <item>
+      <title>Permanent Portfolio</title>
+      <link>/post/perm_port/</link>
+      <pubDate>Sat, 31 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/perm_port/</guid>
+      <description>An all weather portfolio Based on the literature, permanent portfolio is an investment strategy that is able to yield moderate returns and relatively low volatility. Investor is recommended to invest equally (25%) into GLD, Index, Bond and Cash and rebalance it back to this proportion on regular intervals.
+This approach is something that I’m keen to adopt for a portion of my portfolio.
+To investigate the feasibility, I simulated a portfolio starting at $300 on Nov 2004.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>coding on Jirong&#39;s sandbox</title>
+    <link>/tags/coding/</link>
+    <description>Recent content in coding on Jirong&#39;s sandbox</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Sun, 26 Aug 2018 14:09:02 +0800</lastBuildDate>
+    
+	<atom:link href="/tags/coding/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Naming Conventions in R. Let&#39;s call it JR Notations</title>
+      <link>/post/jr-naming-conventions-in-r/</link>
+      <pubDate>Sun, 26 Aug 2018 14:09:02 +0800</pubDate>
+      
+      <guid>/post/jr-naming-conventions-in-r/</guid>
+      <description>Naming Conventions in R. Let&amp;rsquo;s call it JR Notations. &amp;lsquo;Naming conventions&amp;rsquo; is a huge thing in many programming languages/ paradigms/ communities. But it&amp;rsquo;s noticeably absent in the R programming community.
+With some inspiration from the Hungarian Notation, here&amp;rsquo;s a blue-print that I came up with while working on a major R project over the last 2 months. Drumroll please&amp;hellip;
+1. Naming conventions for R scripts  F_ for R scripts that contains functions.</description>
+    </item>
+    
+  </channel>
+</rss>

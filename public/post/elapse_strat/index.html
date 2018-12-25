@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.32.4" />
+  <meta name="generator" content="Hugo 0.53" />
   <meta name="author" content="Huang Jirong">
   <meta name="description" content="Data analyst and Quantitative Investor">
 
@@ -343,7 +343,10 @@
 
 
       <div class="article-style" itemprop="articleBody">
-        <p>I simply adapted the code in this post here (<a href="https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/" class="uri">https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/</a>) for the following momentum strategy.</p>
+        
+
+
+<p>I simply adapted the code in this post here (<a href="https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/" class="uri">https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/</a>) for the following momentum strategy.</p>
 <p>This is a momentum based strategy: Long if current day is &lt;50 days of 200 days high. Nil position otherwise.</p>
 <p>Returns are pretty impressive for Singapore market. That being said, it will be useful to try it with different parameters and different markets!</p>
 <pre class="r"><code>#Inspired by the blog post here--&gt;https://www.r-bloggers.com/backtesting-a-simple-stock-trading-strategy/
@@ -464,7 +467,7 @@ cbind(Me=Performance(myReturns),stock = Performance(bmkReturns))</code></pre>
   
 <section id="comments">
   <div id="disqus_thread"></div>
-<script>
+<script type="application/javascript">
     var disqus_config = function () {
     
     

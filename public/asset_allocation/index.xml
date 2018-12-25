@@ -8,7 +8,9 @@
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Sun, 02 Sep 2018 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/asset_allocation/" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="/asset_allocation/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Asset Alllocation</title>
@@ -16,10 +18,8 @@
       <pubDate>Sun, 02 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/asset_allocation/asset_allocation/</guid>
-      <description>&lt;p&gt;This section indicates my overall current asset allocation, not based on any quantitative analysis but based on rule-of-thumb from wealth management community.&lt;/p&gt;
-
-&lt;iframe src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubchart?oid=963907902&amp;amp;format=interactive&#34; width=&#34;1000&#34; height=&#34;1000&#34; frameborder=&#34;0&#34; marginheight=&#34;0&#34; marginwidth=&#34;0&#34;&gt;Loading...&lt;/iframe&gt;
-</description>
+      <description>This section indicates my overall current asset allocation, not based on any quantitative analysis but based on rule-of-thumb from wealth management community.
+Loading... </description>
     </item>
     
   </channel>

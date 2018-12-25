@@ -11,6 +11,538 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Prototype Pair Trading Strategy for Silver ETFs</title>
+      <link>/post/prototype-of-pair-trading-strategy-for-silver-etfs/</link>
+      <pubDate>Tue, 18 Dec 2018 13:03:44 +0800</pubDate>
+      
+      <guid>/post/prototype-of-pair-trading-strategy-for-silver-etfs/</guid>
+      <description>&lt;p&gt;In these 2 weeks, I&amp;rsquo;ll deploy my pair trading algo strategy into my server.&lt;/p&gt;
+
+&lt;p&gt;I modified the code below from a renowned quant trader, Ernest Chan. The basic idea is to find z-scores through moving average &amp;amp; moving SD of spread. If it&amp;rsquo;s more than absolute of z-score, I will either short or long the spread depending on the polarity.&lt;/p&gt;
+
+&lt;p&gt;In the backtesting below (using a pair of silver ETFs as an example), I assumed a hypothetical amount of 10,000 dollars per trade.&lt;/p&gt;
+
+&lt;p&gt;Results are pretty good with a healthy sharpe ratio of 2.7 in the training set and 1.6 in the testing set of data. Annualized return is approximately 26% (translates to 2600 dollars) for the test set.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/img/equity_curve.png&#34; alt=&#34;/post/img/equity_curve.png&#34;&gt;
+&lt;img src=&#34;/post/img/summary_stats.png&#34; alt=&#34;/post/img/summary_stats.png&#34;&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;rm(list=ls()) # clear workspace
+
+library(&#39;zoo&#39;)
+library(&amp;quot;tidyr&amp;quot;)
+library(&amp;quot;dplyr&amp;quot;)
+require(&amp;quot;quantmod&amp;quot;)
+require(&amp;quot;urca&amp;quot;)
+require(&amp;quot;PerformanceAnalytics&amp;quot;)
+source(&#39;R/util/calculateReturns.R&#39;)
+source(&#39;R/util/calculateMaxDD.R&#39;)
+source(&#39;R/util/backshift.R&#39;)
+source(&#39;R/util/extract_stock_prices.R&#39;)
+
+#List of silver etfs, SIVR, USV, SLV, DBS
+stock1 = &amp;quot;SIVR&amp;quot;
+stock2 = &amp;quot;USV&amp;quot;
+
+start_date = &amp;quot;2014-12-30&amp;quot;
+end_date = &amp;quot;2018-12-30&amp;quot;
+
+prop_train = 0.65
+enter_z_score = 2     #Can use nlmb to vary
+exit_z_score = 1     #Can use nlmb to vary
+
+trade_amount = 10000
+finance_rates = 2.5/100
+
+data1 = df_crawl_time_series(stock1, start_date, end_date)
+data1 = subset(data1, select = c(&amp;quot;Date&amp;quot;, &amp;quot;Open&amp;quot;, &amp;quot;Close&amp;quot;))
+data1$Date = as.Date(data1$Date)
+
+data2 = df_crawl_time_series(stock2, start_date, end_date)
+data2 = subset(data2, select = c(&amp;quot;Date&amp;quot;, &amp;quot;Open&amp;quot;, &amp;quot;Close&amp;quot;))
+data2$Date = as.Date(data2$Date)
+
+data1 = xts(data1[, -1], order.by = data1[, 1])
+data2 = xts(data2[, -1], order.by = data2[, 1])
+
+data = merge(data1, data2)
+data = as.data.frame(data)
+data = subset(data, !is.na(data$Close) &amp;amp; !is.na(data$Close.1))
+
+#  define indices for training and test sets
+trainset &amp;lt;- 1:as.integer(nrow(data) * prop_train)
+testset &amp;lt;- (length(trainset)+1):nrow(data)
+
+#Cointegration test--&amp;gt;See if test of r&amp;lt;=1 &amp;gt; threshold. If more cointegrating
+jotest=ca.jo(data.frame(data$Close[trainset], data$Close.1[trainset]), type=&amp;quot;trace&amp;quot;, K=2, ecdet=&amp;quot;none&amp;quot;, spec=&amp;quot;longrun&amp;quot;)
+summary(jotest)
+
+is_coint = jotest@teststat[1] &amp;gt; jotest@cval[1,3]
+if(is_coint){
+  print(&amp;quot;This pair&#39;s training set is cointegrating&amp;quot;)
+}else{
+  print(&amp;quot;This pair&#39;s training set is not cointegrating&amp;quot;)  
+}
+
+#Hedge ratio
+result &amp;lt;- lm(data$Close[trainset] ~ 0 + data$Close.1[trainset])
+hedgeRatio &amp;lt;- coef(result) # 1.631
+
+#Spread
+data$spread &amp;lt;- data$Close - hedgeRatio * data$Close.1
+
+##########################Calculate half life#############################
+# Calculate half life of mean reversion (residuals)
+# Calculate yt-1 and (yt-1-yt)
+# pull residuals to a vector
+spread_train = data$spread[trainset]
+y.lag &amp;lt;- c(spread_train[2:length(spread_train)], 0) # Set vector to lag -1 day
+y.lag &amp;lt;- y.lag[1:length(y.lag)-1] # As shifted vector by -1, remove anomalous element at end of vector
+spread_train &amp;lt;- spread_train[1:length(spread_train)-1] # Make vector same length as vector y.lag
+y.diff &amp;lt;- spread_train - y.lag # Subtract todays close from yesterdays close
+y.diff &amp;lt;- y.diff [1:length(y.diff)-1] # Make vector same length as vector y.lag
+prev.y.mean &amp;lt;- y.lag - mean(y.lag, na.rm = T) # Subtract yesterdays close from the mean of lagged differences
+prev.y.mean &amp;lt;- prev.y.mean [1:length(prev.y.mean )-1] # Make vector same length as vector y.lag
+final.df &amp;lt;- data.frame(y.diff,prev.y.mean) # Create final data frame
+
+# Linear Regression With Intercept
+result &amp;lt;- lm(y.diff ~ prev.y.mean, data = final.df)
+half_life &amp;lt;- -log(2)/coef(result)[2]   #Looking at this to 
+
+if(half_life &amp;lt; 3){
+  half_life = 14
+}
+
+######################MA of Spread#################################
+#Change this to half life for lookback--&amp;gt;https://flare9xblog.com/2017/11/02/pairs-trading-testing-for-conintergration-adf-johansen-test-half-life-of-mean-reversion/
+#Try EMA too
+data$spread = zoo::na.locf(data$spread)
+data$spreadMean &amp;lt;- SMA(data$spread, round(half_life))
+data$spreadStd &amp;lt;- runSD(data$spread, n = round(half_life), sample = TRUE, cumulative = FALSE)
+
+# data$spreadMean &amp;lt;- mean(data$spread[trainset], na.rm = T)
+# data$spreadStd &amp;lt;- sd(data$spread[trainset], na.rm = T)
+
+data$zscore = (data$spread - data$spreadMean)/data$spreadStd
+
+data$longs &amp;lt;- data$zscore &amp;lt;= -enter_z_score # buy spread when its value drops below 2 standard deviations.
+data$shorts &amp;lt;- data$zscore &amp;gt;= enter_z_score # short spread when its value rises above 2 standard deviations.
+
+#  exit any spread position when its value is within 1 standard deviation of its mean.
+data$longExits   &amp;lt;- data$zscore &amp;gt;= -exit_z_score 
+data$shortExits &amp;lt;- data$zscore &amp;lt;= exit_z_score 
+
+#Signal
+data$posL1 = NA
+data$posL2 = NA
+data$posS1 = NA
+data$posS2 = NA
+
+# initialize to 0
+data$posL1[1] &amp;lt;- 0; data$posL2[1] &amp;lt;- 0
+data$posS1[1] &amp;lt;- 0; data$posS2[1] &amp;lt;- 0
+
+data$posL1[data$longs] &amp;lt;- 1
+data$posL2[data$longs] &amp;lt;- -1
+
+data$posS1[data$shorts] &amp;lt;- -1
+data$posS2[data$shorts] &amp;lt;- 1
+
+data$posL1[data$longExits] &amp;lt;- 0
+data$posL2[data$longExits] &amp;lt;- 0
+data$posS1[data$shortExits] &amp;lt;- 0
+data$posS2[data$shortExits] &amp;lt;- 0
+
+#positions
+data$posL1 &amp;lt;- zoo::na.locf(data$posL1); data$posL2 &amp;lt;- zoo::na.locf(data$posL2)
+data$posS1 &amp;lt;- zoo::na.locf(data$posS1); data$posS2 &amp;lt;- zoo::na.locf(data$posS2)
+data$position1 &amp;lt;- data$posL1 + data$posS1
+# data$position1 = -data$position1    #Don&#39;t know why. It should be flipped!!!
+
+data$position2 &amp;lt;- data$posL2 + data$posS2
+# data$position2 = -data$position2    #Don&#39;t know why. It should be flipped!!!
+
+#Returns
+data$dailyret1 &amp;lt;- ROC(data$Close) #  last row is [385,] -0.0122636689 -0.0140365802
+data$dailyret2 &amp;lt;- ROC(data$Close.1) #  last row is [385,] -0.0122636689 -0.0140365802
+
+#Backshifting here. But signal is for following day returns!. So can still use latest Z-score
+data$date = as.Date(row.names(data))
+data = xts(data[,-which(names(data) == &amp;quot;date&amp;quot;)], order.by = data[, which(names(data) == &amp;quot;date&amp;quot;)])
+
+data$pnl = lag(data$position1, 1) * data$dailyret1  + lag(data$position2, 1) * data$dailyret2
+
+#Sharpe ratio
+sharpeRatioTrainset &amp;lt;- sqrt(252)*mean(data$pnl[trainset], na.rm = TRUE)/sd(data$pnl[trainset], na.rm = TRUE)
+sharpeRatioTrainset
+
+sharpeRatioTestset &amp;lt;- sqrt(252)*mean(data$pnl[testset], na.rm = TRUE)/sd(data$pnl[testset], na.rm = TRUE)
+sharpeRatioTestset 
+
+#Performance analytics
+charts.PerformanceSummary(data$pnl[testset])
+table.Drawdowns(data$pnl[testset])
+table.DownsideRisk(data$pnl[testset])
+table.AnnualizedReturns(data$pnl[testset])
+
+#Number of days not in the market
+sum(data$pnl == 0, na.rm = T)/length(data$pnl)
+
+#Putting a trade indicator
+data$trade_indicator = lag(ifelse(data$position2 != 0 &amp;amp; !is.na(data$position2), 1, 0))
+
+#Putting a unique id
+count = 0
+data$trade_id = NA
+
+for(i in 2:nrow(data)){ 
+  if(as.numeric(data$trade_indicator[i-1]) == 0 &amp;amp; as.numeric(data$trade_indicator[i]) != 0){
+    count = count + 1
+    data$trade_id[i] = count
+  }else if(as.numeric(data$trade_indicator[i-1]) != 0 &amp;amp; as.numeric(data$trade_indicator[i]) != 0){
+    data$trade_id[i] = count
+  }
+}
+
+#Simple trade statistics
+data$test = 0; data$test[testset] = 1 
+data$pnl_add1 = data$pnl + 1
+data_trade = as.data.frame(data)
+data_trade_stats = data_trade %&amp;gt;%
+  group_by(trade_id, test) %&amp;gt;%
+  summarize(trade_duration = n(),
+            cum_pnl = prod(pnl_add1, na.rm = T))
+
+data_trade_stats$cum_pnl = data_trade_stats$cum_pnl - 1
+data_trade_stats$profit_per_trade = data_trade_stats$cum_pnl * trade_amount
+
+#Financing charges --&amp;gt;Depends on length of days
+data_trade_stats$finance_fees =  trade_amount * finance_rates * (data_trade_stats$trade_duration/365)
+
+#Commission fees
+data_trade_stats$comm_fess = 4  #2 for 1 pair
+
+#Net profit
+data_trade_stats$profit_per_trade_less_comms = data_trade_stats$profit_per_trade - data_trade_stats$finance_fees - data_trade_stats$comm_fess
+
+#Average loss
+data_trade_stats = data_trade_stats[-which(is.na(data_trade_stats)), ]
+
+data_trade_stats %&amp;gt;%
+  group_by(test) %&amp;gt;%
+  summarize(sum_profits = sum(profit_per_trade_less_comms), 
+            mean_profits = mean(profit_per_trade_less_comms),
+            na.rm = T)
+
+sum(data_trade_stats$profit_per_trade_less_comms &amp;lt; 0)/ nrow(data_trade_stats)
+
+summary(data_trade_stats$profit_per_trade_less_comms)
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Summary of My Computational Photography Module From Georgia Tech Computer Science Masters</title>
+      <link>/post/summary-of-my-computational-photography-from-georgia-tech-computer-science-masters/</link>
+      <pubDate>Sat, 08 Dec 2018 01:11:52 +0800</pubDate>
+      
+      <guid>/post/summary-of-my-computational-photography-from-georgia-tech-computer-science-masters/</guid>
+      <description>&lt;p&gt;For what&amp;rsquo;s worth, here is a summary of what I went through for my Georgia Tech Computer Science Msc Computational Photography module.&lt;/p&gt;
+
+&lt;p&gt;And it&amp;rsquo;s really painful but rewarding!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/img/CP_1.png&#34; alt=&#34;/post/img/CP_1.png&#34;&gt;
+&lt;img src=&#34;/post/img/CP_2.png&#34; alt=&#34;/post/img/CP_2.png&#34;&gt;
+&lt;img src=&#34;/post/img/CP_3.png&#34; alt=&#34;/post/img/CP_3.png&#34;&gt;
+&lt;img src=&#34;/post/img/CP_4.png&#34; alt=&#34;/post/img/CP_4.png&#34;&gt;
+&lt;img src=&#34;/post/img/CP_5.png&#34; alt=&#34;/post/img/CP_5.png&#34;&gt;
+&lt;img src=&#34;/post/img/CP_6.png&#34; alt=&#34;/post/img/CP_6.png&#34;&gt;
+&lt;img src=&#34;/post/img/CP_7.png&#34; alt=&#34;/post/img/CP_7.png&#34;&gt;
+&lt;img src=&#34;/post/img/CP_8.png&#34; alt=&#34;/post/img/CP_8.png&#34;&gt;
+&lt;img src=&#34;/post/img/CP_9.png&#34; alt=&#34;/post/img/CP_9.png&#34;&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Colorization</title>
+      <link>/post/colorization/</link>
+      <pubDate>Wed, 05 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/colorization/</guid>
+      <description>
+
+&lt;h2 id=&#34;colorization&#34;&gt;Colorization&lt;/h2&gt;
+
+&lt;p&gt;The following is a high level project pipeline of my Computational Photography Colorization report. The project scope involves minimizing a quadratic cost function. An artist would only need to make a few colour scribble on a grey photograph and the algorithm will automatically populate the entire photograph with the associated colours.&lt;/p&gt;
+
+&lt;p&gt;1.Input: I first read in the image using imread function.&lt;/p&gt;
+
+&lt;p&gt;2.Find the difference: Next I compute the difference between the marked and grey scale image. This would feed into step 5.&lt;/p&gt;
+
+&lt;p&gt;3.Transform to YIQ space: Then I convert the grey image and the marked version from RGB space to YIQ space 2 &amp;amp; 3 . I wrote a function, rgbToyiq in color_space.py to convert rgb dimension to that of YIQ.&lt;/p&gt;
+
+&lt;p&gt;4.Compute weight matrix:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The next step, also the most complicated one is to compute the weight matrix.&lt;/li&gt;
+&lt;li&gt;I first initialize 3 matrices of size height X width X size of window (9): row indices (i, j count), colIndices and values (weights) to hold key information during the loop&lt;/li&gt;
+&lt;li&gt;The algo will loop through each pixel. And it will compute the weights (using marked) according to formula below in a window of size 9 i.e. 9 pixels in a window (including the pixel).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;5.Solve Ax = B: Once the weights are obtained, I proceed to obtain a least square solution.&lt;/p&gt;
+
+&lt;p&gt;6.Lastly, I transform the YIQ output back to RGB space.&lt;/p&gt;
+
+&lt;p&gt;Here are the photographs.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/img/baby.bmp&#34; alt=&#34;/post/img/baby.bmp&#34;&gt;
+&lt;img src=&#34;/post/img/baby_marked.bmp&#34; alt=&#34;/post/img/baby_marked.bmp&#34;&gt;
+&lt;img src=&#34;/post/img/baby_colorized.bmp&#34; alt=&#34;/post/img/baby_colorized.bmp&#34;&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Architecture and Process Flow for My Algorithmic Trading</title>
+      <link>/post/architecture-and-process-flow-for-my-algorithmic-trading/</link>
+      <pubDate>Sun, 04 Nov 2018 10:19:13 +0800</pubDate>
+      
+      <guid>/post/architecture-and-process-flow-for-my-algorithmic-trading/</guid>
+      <description>
+
+&lt;h2 id=&#34;project-that-i-will-be-working-in-2018-2019&#34;&gt;Project that I will be working in 2018-2019&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/img/mvp_algo_trading.png&#34; alt=&#34;/post/img/mvp_algo_trading.png&#34;&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Seam Carving</title>
+      <link>/post/seam-carving/</link>
+      <pubDate>Thu, 25 Oct 2018 13:23:23 +0800</pubDate>
+      
+      <guid>/post/seam-carving/</guid>
+      <description>
+
+&lt;h2 id=&#34;snippet-of-my-seam-carving-report-from-my-msc-computer-science-georgia-tech-s-computational-photography-module&#34;&gt;Snippet of my Seam Carving Report from my Msc Computer Science Georgia Tech&amp;rsquo;s Computational Photography module&lt;/h2&gt;
+
+&lt;p&gt;Besides removing of streams, we can also add streams. We identify k streams for removal and duplicate by averaging the left and right neighbours. The computation of these averages is done by convolving the following matrix with the images’ colour channels.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;kernel = np.array([[0, 0, 0],
+         [0.5, 0, 0.5],
+         [0, 0, 0]])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the implementation of my scaling_up algorithm, I first remove k streams (depending on ratio set by user) and recorded the coordinates and cumulative energy values of the original picture in each removal.&lt;/p&gt;
+
+&lt;p&gt;Then I reverse the whole process by adding the stream back together with the averaged values of neighbours&lt;/p&gt;
+
+&lt;p&gt;I implemented this scaling_up algorithn for the dolphin pictures.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;8(a) is the original picture&lt;/li&gt;
+&lt;li&gt;8&amp;copy; Enlarged picture with added streams: python main.py fig8 u c 1.5 y&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;8(d) Enalrged picture without added streams: python main.py fig8 u c 1.5 n&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;8(f) Enlarged picture with scaling up algorithm implemented twice: python main.py fig8_processed u c 1.5 n&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Figure 8(a), 8&amp;copy;, 8(d), (f)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/img/seam_carving.img.png&#34; alt=&#34;/post/img/seam_carving.img.png&#34;&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>R package: Decomposing a Position Into Exchange Rate and Non Exchange Rate Effects</title>
+      <link>/post/decomposing-a-position-into-exchange-rate-and-non-exchange-rate-effects/</link>
+      <pubDate>Thu, 25 Oct 2018 11:39:24 +0800</pubDate>
+      
+      <guid>/post/decomposing-a-position-into-exchange-rate-and-non-exchange-rate-effects/</guid>
+      <description>
+
+&lt;h2 id=&#34;decomposing-a-position-into-exchange-rate-and-non-exchange-rate-effects&#34;&gt;Decomposing a Position Into Exchange Rate and Non Exchange Rate Effects&lt;/h2&gt;
+
+&lt;p&gt;If you are someone with a stake in foreign positions, this package I wrote here may be a useful tool to help you understand the impact of foreign currency on your positions. For instance,&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If you are an investor, you may use it to analyze impact of exchange rate on your investment positions.&lt;/li&gt;
+&lt;li&gt;If you are in the treasury department, you may wish to analyze the impact of exchange rates on your bonds.&lt;/li&gt;
+&lt;li&gt;If you are in the finance department, you could analyze the exchange rate impact on your foreign revenue.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To start using this package, you may first install the devtools package and execute the following command. install_github(&amp;ldquo;jironghuang/RemoveExchangeRateEffects&amp;rdquo;). The R documentation is as follows,&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/img/exch_documentation1.png&#34; alt=&#34;/post/img/exch_documentation1.png&#34;&gt;
+&lt;img src=&#34;/post/img/exch_documentation2.png&#34; alt=&#34;/post/img/exch_documentation2.png&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;You may follow the 2 examples to better understand how this package works.&lt;/p&gt;
+
+&lt;h3 id=&#34;example-1&#34;&gt;Example 1&lt;/h3&gt;
+
+&lt;p&gt;In summary, what the example does below is to decompose 1 instrument position in SGD (column value) - from the perspective of someone staying in Singapore - into local static value (i.e if I keep the exchange rate constant at the start of the period) and the residual exchange rate impact.&lt;/p&gt;
+
+&lt;p&gt;If you look at the value at the end of the period (Oct 2018), you would notice that the value in SGD fell from 331 to 261. From the perspective of a Singaporean local - through this package -  we can understand that the appreciation in USD negate the fall in value by 4 SGD.&lt;/p&gt;
+
+&lt;p&gt;If you are an economist, you could have considered the exchange rate elasticities. But let&amp;rsquo;s ignore that for now.&lt;/p&gt;
+
+&lt;h3 id=&#34;quick-example-1-in-r-codes-decomposing-a-single-instrument&#34;&gt;Quick example 1 in R codes (decomposing a single instrument)&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;library(devtools)
+install_github(&amp;quot;jironghuang/RemoveExchangeRateEffects&amp;quot;)
+library(RemoveExchangeRateEffects)
+
+sp_exch_rate_pair = &amp;quot;USDSGD=X&amp;quot;  #exchange rate pair. e.g &amp;quot;USDSGD=X&amp;quot;. &amp;quot;&amp;lt;Foreign_currency&amp;gt;&amp;lt;local_currency&amp;gt;=X&amp;quot;
+
+ap_start_date &amp;lt;- as.Date(&amp;quot;2017-10-01&amp;quot;)  #starting date of portfolio e.g. 2017-10-01
+ap_end_date &amp;lt;- as.Date(&amp;quot;2020-10-01&amp;quot;) #ending date of portfolio e.g. 2020-10-01. If you include a date beyond current date, the function will use the current date instead
+np_mthly_yearly = &amp;quot;monthly&amp;quot;  #alternatively this could be &amp;quot;yearly&amp;quot;&amp;quot;
+
+data(eg_dat) #example dataset that I included in this package
+dp_dates_investment_value = instrument
+o_exchRate_effect &amp;lt;- exchange_rate_decomposition(sp_exch_rate_pair, ap_start_date, ap_end_date, np_mthly_yearly, dp_dates_investment_value)
+o_exchRate_effect$get_portfolio()
+
+    value_in_sgd exchange_rate fgn_value local_static_value exch_rate_impact
+Oct 2017 331.53   1.36010  243.7541           331.5300        0.0000000
+Nov 2017 308.85   1.34670  229.3384           311.9231       -3.0731344
+Dec 2017 311.35   1.33780  232.7328           316.5399       -5.1899425
+Jan 2018 354.31   1.31168  270.1192           367.3892      -13.0791734
+Feb 2018 343.06   1.32433  259.0442           352.3260       -9.2660108
+Mar 2018 266.13   1.31090  203.0132           276.1183       -9.9882495
+Apr 2018 293.90   1.32577  221.6825           301.5104       -7.6103599
+May 2018 284.73   1.33850  212.7232           289.3248       -4.5948212
+Jun 2018 342.95   1.36830  250.6395           340.8948        2.0552438
+Jul 2018 298.14   1.36140  218.9952           297.8553        0.2846937
+Aug 2018 301.66   1.36700  220.6730           300.1374        1.5226438
+Sep 2018 264.77   1.36732  193.6416           263.3719        1.3980921
+Oct 2018 260.95   1.38061  189.0107           257.0734        3.8766087
+
+o_exchRate_effect$get_diff_portfolio_value()
+[1] 3.8766087
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;example-2&#34;&gt;Example 2&lt;/h3&gt;
+
+&lt;p&gt;The second example builds upon the first. I&amp;rsquo;ve expanded the previous function to decompose multiple instruments at once.&lt;/p&gt;
+
+&lt;p&gt;get_full_decomposition() returns a list of data frames with the decompositions.&lt;/p&gt;
+
+&lt;p&gt;But before you implement the function above, you would have to add the information via the mutator functions as shown in the example below (the functions with the prefix set)&lt;/p&gt;
+
+&lt;h3 id=&#34;quick-example-2-in-r-codes-decomposing-multiple-instruments-at-1-time&#34;&gt;Quick example 2 in R codes (Decomposing multiple instruments at 1 time)&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;data(eg_dat)
+
+er = c(&amp;quot;USDSGD=X&amp;quot;, &amp;quot;GBPSGD=X&amp;quot;)
+start_date = c(&amp;quot;2017-10-01&amp;quot;, &amp;quot;2017-10-01&amp;quot;)
+end_date = c(&amp;quot;2020-10-01&amp;quot;, &amp;quot;2020-10-01&amp;quot;)
+freq = c(&amp;quot;monthly&amp;quot;, &amp;quot;monthly&amp;quot;)
+dat = list(eg_dat, eg_dat)
+
+
+o_exchRate_effect &amp;lt;- multiple_exchange_rate_decomposition(2)
+o_exchRate_effect$set_sa_exch_rate_pair(er) #adding an array of exchange rate pairs
+o_exchRate_effect$set_sa_start_date(start_date) #adding an array of starting dates
+o_exchRate_effect$set_sa_end_date(end_date) #adding an array of ending dates
+o_exchRate_effect$set_sa_mthly_yearly(freq) #adding an array of &amp;quot;monthly&amp;quot; or &amp;quot;yearly&amp;quot; option
+o_exchRate_effect$set_dl_dates_investment_value(dat) #adding list of data frames
+o_exchRate_effect$get_full_decomposition()  #carry out decomposition and obtain a list of data frames
+
+[[1]]
+          value exchange_rate fgn_value local_static_value exch_rate_impact
+Oct 2017 331.53       1.36010  243.7541           331.5300        0.0000000
+Nov 2017 308.85       1.34670  229.3384           311.9231       -3.0731344
+Dec 2017 311.35       1.33780  232.7328           316.5399       -5.1899425
+Jan 2018 354.31       1.31168  270.1192           367.3892      -13.0791734
+Feb 2018 343.06       1.32433  259.0442           352.3260       -9.2660108
+Mar 2018 266.13       1.31090  203.0132           276.1183       -9.9882495
+Apr 2018 293.90       1.32577  221.6825           301.5104       -7.6103599
+May 2018 284.73       1.33850  212.7232           289.3248       -4.5948212
+Jun 2018 342.95       1.36830  250.6395           340.8948        2.0552438
+Jul 2018 298.14       1.36140  218.9952           297.8553        0.2846937
+Aug 2018 301.66       1.36700  220.6730           300.1374        1.5226438
+Sep 2018 264.77       1.36732  193.6416           263.3719        1.3980921
+Oct 2018 260.95       1.38061  189.0107           257.0734        3.8766087
+
+[[2]]
+          value exchange_rate fgn_value local_static_value exch_rate_impact
+Oct 2017 331.53       1.79703  184.4877           331.5300        0.0000000
+Nov 2017 308.85       1.80690  170.9281           307.1629        1.6870605
+Dec 2017 311.35       1.79812  173.1531           311.1613        0.1887369
+Jan 2018 354.31       1.85680  190.8175           342.9048       11.4051640
+Feb 2018 343.06       1.84162  186.2816           334.7537        8.3062984
+Mar 2018 266.13       1.83911  144.7059           260.0408        6.0892228
+Apr 2018 293.90       1.82588  160.9635           289.2562        4.6437963
+May 2018 284.73       1.77878  160.0704           287.6513       -2.9212846
+Jun 2018 342.95       1.78907  191.6918           344.4759       -1.5258666
+Jul 2018 298.14       1.78638  166.8962           299.9175       -1.7774444
+Aug 2018 301.66       1.77860  169.6053           304.7858       -3.1258259
+Sep 2018 264.77       1.78285  148.5094           266.8759       -2.1058633
+Oct 2018 260.95       1.76900  147.5127           265.0848       -4.1347817
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Shift Share Analysis Package I developed</title>
+      <link>/post/shift-share-analysis-package/</link>
+      <pubDate>Sat, 22 Sep 2018 12:23:28 +0800</pubDate>
+      
+      <guid>/post/shift-share-analysis-package/</guid>
+      <description>
+
+&lt;h2 id=&#34;shift-share-analysis-package-i-developed&#34;&gt;Shift-share Analysis Package I developed&lt;/h2&gt;
+
+&lt;p&gt;During my career, I often have to deal with compositional &amp;amp; within group effects. For instance, the employment rate fell by 3% across 2 period. How much of it is due to an increase in employment rate within the sub-group and how much of it is due to compositional shift (for example ageing population).&lt;/p&gt;
+
+&lt;p&gt;A formal way to explain these effects is known as shift-share analysis. It allows you to decompose percentage point change or absolute changes (WIP) into within group and across group effects.&lt;/p&gt;
+
+&lt;p&gt;A package currently used in the R community is REAT, but it doesn&amp;rsquo;t allow you to decompose the effects into finer categories. Hence, I hope this package developed here is able to fill up the gap.&lt;/p&gt;
+
+&lt;p&gt;Some examples that you may use this tool are,&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Employment rate&lt;/li&gt;
+&lt;li&gt;Demographics rate&lt;/li&gt;
+&lt;li&gt;Basketball field goal % decomposed into 2 point vs 3 point&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To start using this package, you may first install the devtools package and execute the following command. install_github(&amp;ldquo;jironghuang/shiftshare&amp;rdquo;).&lt;/p&gt;
+
+&lt;p&gt;And if you are interested in the codes used to develop the package, you may visit the following link &lt;a href=&#34;https://github.com/jironghuang/shiftshare&#34; target=&#34;_blank&#34;&gt;https://github.com/jironghuang/shiftshare&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;You may follow the example to better understand how this package works. Essentially, what the example does is to decomposte the 29.7% point change into 3 effects. Within effect == 68.8%,  Across_effect == -7.4% and Dynamic Effect == -31.8%&lt;/p&gt;
+
+&lt;h3 id=&#34;quick-example&#34;&gt;Quick example&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;emp1 = c(10, 20, 40, 50)
+pop1 = c(40, 50, 60, 70)
+emp2 = c(20, 30, 50, 60)
+pop2 = c(50, 70, 20, 50)
+
+ss_analysis &amp;lt;- shift_share(ap_grp_labels = c(&amp;quot;grp1&amp;quot;, &amp;quot;grp2&amp;quot;, &amp;quot;grp3&amp;quot;, &amp;quot;grp4&amp;quot;),
+                           ap_numerator1 = emp1,
+                           ap_numerator2 = emp2,
+                           ap_denominator1 = pop1,
+                           ap_denominator2 = pop2)
+                           
+&amp;gt; ss_analysis$get_effects()
+  grp_labels     prop1     prop2     rate1     rate2 within_effect across_effect dynamic_effect overall_effect
+1       grp1 0.1818182 0.2631579 0.2500000 0.4000000   0.027272727    0.02033493    0.012200957     0.05980861
+2       grp2 0.2272727 0.3684211 0.4000000 0.4285714   0.006493506    0.05645933    0.004032809     0.06698565
+3       grp3 0.2727273 0.1052632 0.6666667 2.5000000   0.500000000   -0.11164274   -0.307017544     0.08133971
+4       grp4 0.3181818 0.2631579 0.7142857 1.2000000   0.154545455   -0.03930280   -0.026725906     0.08851675  
+
+&amp;gt; ss_analysis$get_agg_effects()
+         Description within_effect across_effect dynamic_effect overall_effect
+1 aggregated_effects     0.6883117   -0.07415129     -0.3175097      0.2966507
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Automated Email Notification of my ETF watchlist</title>
       <link>/post/automated_email_notification/</link>
       <pubDate>Tue, 04 Sep 2018 01:37:53 +0800</pubDate>
@@ -167,7 +699,10 @@ recipients &amp;lt;- emails
       <pubDate>Sun, 12 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>/subscribe/subscribe/</guid>
-      <description>&lt;iframe src=&#34;https://docs.google.com/forms/d/e/1FAIpQLSddfEPQE7LHMi7MdfzPx6tJL_KPDKsEpLOloPHY9R04-n48sQ/viewform?usp=sf_link&#34; width=&#34;1000&#34; height=&#34;1000&#34; frameborder=&#34;0&#34; marginheight=&#34;0&#34; marginwidth=&#34;0&#34;&gt;
+      <description>
+
+
+&lt;iframe src=&#34;https://docs.google.com/forms/d/e/1FAIpQLSddfEPQE7LHMi7MdfzPx6tJL_KPDKsEpLOloPHY9R04-n48sQ/viewform?usp=sf_link&#34; width=&#34;1000&#34; height=&#34;1000&#34; frameborder=&#34;0&#34; marginheight=&#34;0&#34; marginwidth=&#34;0&#34;&gt;
 Loading…
 &lt;/iframe&gt;
 </description>
@@ -225,7 +760,10 @@ Loading…
       <pubDate>Sat, 07 Jul 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/etf_watchlist_project/</guid>
-      <description>&lt;div id=&#34;updated-etf-watchlist-project&#34; class=&#34;section level2&#34;&gt;
+      <description>
+
+
+&lt;div id=&#34;updated-etf-watchlist-project&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Updated ETF watchlist project&lt;/h2&gt;
 &lt;p&gt;While watching a world cup match today, I updated my ETF watchlist project (you may click &lt;a href=&#34;/project/watch_list&#34;&gt;here&lt;/a&gt; if you haven’t seen it yet)&lt;/p&gt;
 &lt;p&gt;You may find the github code &lt;a href=&#34;https://github.com/jironghuang/ETF_watchlist&#34;&gt;here&lt;/a&gt;. In the revision, I parallelized the crawling - essentially tapping on all the cores in my machines.&lt;/p&gt;
@@ -240,589 +778,6 @@ Loading…
 &lt;p&gt;Note: For the auth.r section, you may comment it out if you do not wish to upload the crawled data in googlesheet.&lt;/p&gt;
 &lt;iframe src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubhtml?gid=0&amp;amp;single=true&#34; width=&#34;900&#34; height=&#34;780&#34; style=&#34;border: none;&#34;&gt;
 &lt;/iframe&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Updated ETF Watchlist Codes</title>
-      <link>/post/updated-etf-watchlist-codes/</link>
-      <pubDate>Sat, 07 Jul 2018 01:37:53 +0800</pubDate>
-      
-      <guid>/post/updated-etf-watchlist-codes/</guid>
-      <description>
-
-&lt;h2 id=&#34;updated-etf-watchlist-project&#34;&gt;Updated ETF watchlist project&lt;/h2&gt;
-
-&lt;p&gt;While watching a world cup match today, I updated my ETF watchlist project (you may click &lt;a href=&#34;/project/watch_list&#34;&gt;here&lt;/a&gt; if you haven&amp;rsquo;t seen it yet)&lt;/p&gt;
-
-&lt;p&gt;You may find the github code &lt;a href=&#34;https://github.com/jironghuang/ETF_watchlist&#34;&gt;here&lt;/a&gt;. In the revision, I parallelized the crawling - essentially tapping on all the cores in my machines.&lt;/p&gt;
-
-&lt;p&gt;To create your own watchlist. Follow these steps,&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Install R and R studio.&lt;/li&gt;
-&lt;li&gt;In Mac or Linux, type the following in command line git clone &lt;a href=&#34;https://github.com/jironghuang/ETF_watchlist&#34; target=&#34;_blank&#34;&gt;https://github.com/jironghuang/ETF_watchlist&lt;/a&gt; . In windows, you may visit the link and download it as zipped folder&lt;/li&gt;
-&lt;li&gt;Open the .Rproj&lt;/li&gt;
-&lt;li&gt;Tweak the input file to change your watchlist. Ticker symbol should follow yahoo ticker naming convention (e.g. VWRD.L for the ETF listed on stock exchange)&lt;/li&gt;
-&lt;li&gt;Ctrl + A and Ctrl + Enter. Or just click the run button in the top right hand of Rstudio&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Note: For the auth.r section, you may comment it out if you do not wish to upload the crawled data in googlesheet.&lt;/p&gt;
-
-&lt;iframe src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubhtml?gid=0&amp;single=true&#34; width=&#34;900&#34; height=&#34;780&#34; style=&#34;border: none;&#34;&gt;&lt;/iframe&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Analyzing Warren Buffett Cash Level</title>
-      <link>/post/buffett/</link>
-      <pubDate>Wed, 04 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/buffett/</guid>
-      <description>&lt;div id=&#34;warren-buffett-the-sage&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Warren Buffett the sage&lt;/h2&gt;
-&lt;p&gt;It’s always interesting to understand investment gurus’ thought process. And one of the ways is to look at their companies’ balance sheet.&lt;/p&gt;
-&lt;p&gt;Warren Buffett, the Sage &amp;amp; CEO of Berkshire, in recent decade has always been known to hoard cash. And before the 2008 crisis, he held cash level of 40-50% relative to its equity - probably trying to stay out of the overvalued market and waiting for the right opportunity to swoop in for a ‘BIG CATCH’. And his efforts (or no effort) paid off. He made huge bets on companies like Goldman Sachs when prices are really depressed. And he was rewarded handsomely.&lt;/p&gt;
-&lt;p&gt;At the moment, his cash level ratios for both cash/equity &amp;amp; cash/asset are on the low side - suggesting that the markets aren’t overvalued. And he’s willing to stay invested in the market.&lt;/p&gt;
-&lt;p&gt;That being said, there’re few factors in play,&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;As your assets grows, it may be really hard to maintain a high proportion of cash since opportunity of holding cash is really high!&lt;/li&gt;
-&lt;li&gt;Types of business will affect your appetite to hold cash. Insurance business, for instance requires more cash for payout during disasters and calamaties.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;In the near future, I will probably integrate quarterly earnings and display the charts as an interactive dashboard - hosting live on the cloud.&lt;/p&gt;
-&lt;p&gt;PS:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Honestly, the time series here is a bit disjointed. But I guess it still yields some useful information.&lt;/li&gt;
-&lt;li&gt;I painstakingly keyed in the numbers from gurufocus.com (can’t extract the numbers from the chart)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat = read.csv(&amp;quot;berkshire_fin_statement.csv&amp;quot;, stringsAsFactors = F)
-dat$cash_over_asset = round(100 * (dat$cash / dat$asset),1)
-dat$cash_over_equity = round(100 * (dat$cash / dat$equity), 1)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
-library(reshape2)
-dat_long = melt(dat, id = c(&amp;quot;year&amp;quot;))
-dat_long = subset(dat_long, dat_long$variable == &amp;quot;cash_over_asset&amp;quot; |
-                    dat_long$variable == &amp;quot;cash_over_equity&amp;quot;)
-
-ggplot(data = dat_long,
-       aes(x = year, y = value, colour = variable)) +
-       geom_line() + scale_x_continuous(breaks = seq(1990, 2017, 2)) +
-       labs(x=&amp;quot;Year&amp;quot;,y=&amp;quot;Percentage&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/buffett_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>ETFs watchlist</title>
-      <link>/project/watch_list/</link>
-      <pubDate>Sun, 17 Jun 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/project/watch_list/</guid>
-      <description>&lt;div id=&#34;etfs-watchlist&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;ETFs watchlist&lt;/h2&gt;
-&lt;p&gt;In my Ubunutu - Linux laptop, I wrote some R scripts to crawl the yahoo financial data. When the clock strikes midnight, my cronjob task scheduler will execute these scripts in a parallel fashion to extract the data.&lt;/p&gt;
-&lt;p&gt;Then my script will log into my google account via SSH and paste the crawled data into 1 of the googlesheet tabs. And this is linked to my portfolio allocation, computation and milestones.&lt;/p&gt;
-&lt;p&gt;It also serves as a watchlist for me to monitor which of these ETFs are undervalued via % fall from 52 week high. See my linkedin article &lt;a href=&#34;https://www.linkedin.com/pulse/investment-compass-our-volatile-times-jirong-huang/&#34;&gt;here&lt;/a&gt; for further explanation on why I think this is a good indicator.&lt;/p&gt;
-&lt;p&gt;You may find my R scripts &lt;a href=&#34;https://github.com/jironghuang/ETF_watchlist&#34;&gt;here&lt;/a&gt;. I didn’t really document this repo well so do approach me if you’ve any questions.&lt;/p&gt;
-&lt;p&gt;And here’s the googlesheet (updated daily) opened to the public. Hope you find it useful!&lt;/p&gt;
-&lt;iframe src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubhtml?gid=0&amp;amp;single=true&#34; width=&#34;900&#34; height=&#34;780&#34; style=&#34;border: none;&#34;&gt;
-&lt;/iframe&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>World Cup - Singapore Pools odds</title>
-      <link>/post/odds_analysis_worldcup/</link>
-      <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/odds_analysis_worldcup/</guid>
-      <description>&lt;div id=&#34;hey-its-the-world-cup-season---tapping-into-a-machine-learning-based-paper&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Hey it’s the world cup season - Tapping into a Machine Learning based paper&lt;/h2&gt;
-&lt;p&gt;Once again as a Singaporean citizen, there’re no other choices but to place my bets in Singapore pools. Betting in SG is not my preferred way to grow my wealth because of the crazy ~15% spread in Sg pools. In international sites, the spread is usually close to 3-5%. Oh well, that’s illegal.&lt;/p&gt;
-&lt;p&gt;But because this is the world cup season, I decide to make some small punts! And of course with some analytical slant.&lt;/p&gt;
-&lt;p&gt;I came across this academic paper (&lt;a href=&#34;https://arxiv.org/pdf/1806.03208.pdf&#34; class=&#34;uri&#34;&gt;https://arxiv.org/pdf/1806.03208.pdf&lt;/a&gt;) written by Darmouth professors. They use a suite of features from individual players’ abilities, to teams’ rankings and even Countries’ GDP! Looking at all the data fields used, the data collection process must have been a nightmare. The authors then use Random Forest with simulations (think of Dr Strange forays’ into 14 milion possibilities) to predict the results. The probabilites for each team reaches each round is listed in 1 of the pages.&lt;/p&gt;
-&lt;p&gt;As the probabilities listed are accurate only for round of 16 (non-conditionally), I shall only place my bets for round of 16 should I find any undervalued opportunities. In addition, as one of the group A’s game has been played, I’ll ignore the analysis from Group A since the ‘true probability’ has already shifted.&lt;/p&gt;
-&lt;p&gt;Also, if my analysis shows that 2 of the teams in the same group are undervalued, I’ll only pick 1 of them because of the possible non-independence issues.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;results&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Results&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;According to the table at the end of the web page, only 5 teams are undervalued now! And they are Saudi, Morocco, Iceland, Switzerland and Sweden.&lt;/li&gt;
-&lt;li&gt;Since Saudi has been trashed, I shall ignore them.&lt;/li&gt;
-&lt;li&gt;And since these countries are in different groups, the round-of-16 probabilities used are strictly independent&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Disclosure: - I bought into Morocoo, Icleand, Switzerland and Sweden with bet sizes of 200, 350, 350, 350. The allocation is based on ‘True - SG odds difference’ &amp;amp; ‘True - SG probabilities difference’. Fingers crossed and wish me luck!&lt;/p&gt;
-&lt;p&gt;Update: - Switzerland and Sweden won but the rest lost. So, I won 97 (got back 1347) while risking 1250. A return of 8% in a space of 1 month. May not seem much - but that’s the return in 1 month! Ok, that’s not a lot. - Earning a profit doesn’t mean I’m right. I believe I had a sound framework; that’s why I went with my decision. I think that’s the most important.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Analyzing UEFA champons league odds
-dat = data.frame(team = c(&amp;quot;uru&amp;quot;,&amp;quot;rus&amp;quot;,&amp;quot;egy&amp;quot;,&amp;quot;sau&amp;quot;,
-                          &amp;quot;spa&amp;quot;,&amp;quot;por&amp;quot;,&amp;quot;mor&amp;quot;,&amp;quot;ira&amp;quot;,
-                          &amp;quot;fra&amp;quot;,&amp;quot;den&amp;quot;,&amp;quot;per&amp;quot;,&amp;quot;aus&amp;quot;,
-                          &amp;quot;arg&amp;quot;,&amp;quot;cro&amp;quot;,&amp;quot;nig&amp;quot;,&amp;quot;ice&amp;quot;,
-                          &amp;quot;bra&amp;quot;,&amp;quot;swi&amp;quot;,&amp;quot;ser&amp;quot;,&amp;quot;coa&amp;quot;,
-                          &amp;quot;ger&amp;quot;,&amp;quot;mex&amp;quot;,&amp;quot;swe&amp;quot;,&amp;quot;kor&amp;quot;,
-                          &amp;quot;bel&amp;quot;,&amp;quot;eng&amp;quot;,&amp;quot;tun&amp;quot;,&amp;quot;pan&amp;quot;,
-                          &amp;quot;col&amp;quot;,&amp;quot;pol&amp;quot;,&amp;quot;sen&amp;quot;,&amp;quot;jap&amp;quot;),
-                 sg = c(1.15,1.16,2.1,11,
-                        1.05,1.12,3.5,6,
-                        1.03,1.53,2.3,4.2,
-                        1.02,1.45,3.15,3.2,
-                        1.02,1.85,1.9,4,
-                        1.07,1.80,2,3.25,
-                        1.03,1.05,4,8,
-                        1.25,1.5,2,3),
-                 ml_prop = c(86.6,50.4,45.5,17.5,
-                             88.4,67.5,30.3,13.8,
-                             85.5,59.0,39.2,16.2,
-                             81.6,65.9,15.8,36.6,
-                             83.5,58.9,36.2,21.4,
-                             86.5,41.5,54,17.9,
-                             86.3,79.8,22.8,11.1,
-                             79.2,60.6,39.7,20.5))
-
-dat$ml = 1/(dat$ml_prop/100)
-
-dat$underval = ifelse(dat$ml &amp;lt; dat$sg,1,0)
-
-library(dplyr)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Attaching package: &amp;#39;dplyr&amp;#39;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:stats&amp;#39;:
-## 
-##     filter, lag&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:base&amp;#39;:
-## 
-##     intersect, setdiff, setequal, union&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat = arrange(dat,desc(dat$underval))
-dat$sg_prob = 100*1/dat$sg
-
-print(dat)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##    team    sg ml_prop       ml underval   sg_prob
-## 1   sau 11.00    17.5 5.714286        1  9.090909
-## 2   mor  3.50    30.3 3.300330        1 28.571429
-## 3   ice  3.20    36.6 2.732240        1 31.250000
-## 4   swi  1.85    58.9 1.697793        1 54.054054
-## 5   swe  2.00    54.0 1.851852        1 50.000000
-## 6   uru  1.15    86.6 1.154734        0 86.956522
-## 7   rus  1.16    50.4 1.984127        0 86.206897
-## 8   egy  2.10    45.5 2.197802        0 47.619048
-## 9   spa  1.05    88.4 1.131222        0 95.238095
-## 10  por  1.12    67.5 1.481481        0 89.285714
-## 11  ira  6.00    13.8 7.246377        0 16.666667
-## 12  fra  1.03    85.5 1.169591        0 97.087379
-## 13  den  1.53    59.0 1.694915        0 65.359477
-## 14  per  2.30    39.2 2.551020        0 43.478261
-## 15  aus  4.20    16.2 6.172840        0 23.809524
-## 16  arg  1.02    81.6 1.225490        0 98.039216
-## 17  cro  1.45    65.9 1.517451        0 68.965517
-## 18  nig  3.15    15.8 6.329114        0 31.746032
-## 19  bra  1.02    83.5 1.197605        0 98.039216
-## 20  ser  1.90    36.2 2.762431        0 52.631579
-## 21  coa  4.00    21.4 4.672897        0 25.000000
-## 22  ger  1.07    86.5 1.156069        0 93.457944
-## 23  mex  1.80    41.5 2.409639        0 55.555556
-## 24  kor  3.25    17.9 5.586592        0 30.769231
-## 25  bel  1.03    86.3 1.158749        0 97.087379
-## 26  eng  1.05    79.8 1.253133        0 95.238095
-## 27  tun  4.00    22.8 4.385965        0 25.000000
-## 28  pan  8.00    11.1 9.009009        0 12.500000
-## 29  col  1.25    79.2 1.262626        0 80.000000
-## 30  pol  1.50    60.6 1.650165        0 66.666667
-## 31  sen  2.00    39.7 2.518892        0 50.000000
-## 32  jap  3.00    20.5 4.878049        0 33.333333&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Journey of a non coder to a budding computer scientist</title>
-      <link>/post/journey-from-a-non-coder-to-a-budding-computer-scientist/</link>
-      <pubDate>Sun, 06 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/journey-from-a-non-coder-to-a-budding-computer-scientist/</guid>
-      <description>&lt;p&gt;Here&amp;rsquo;s a true story. And it happens on 1 faithful night during the wee hours&amp;hellip; when I was inspired to write a statement of purpose for my Msc Georgia Tech application.&lt;/p&gt;
-
-&lt;p&gt;I am currently an analyst, working in Korn Ferry Institute, a research and analytics arm of Korn Ferry. At the same time, I&amp;rsquo;m &amp;lsquo;juggling&amp;rsquo; my work-study-life balance as a Part-Time student, studying Post-Graduate Diploma Computer Science in University of Adelaide.&lt;/p&gt;
-
-&lt;p&gt;I started out in Economics Discipline. First, as an Economics undergraduate, then I entered the workforce as an Economist in Singapore&amp;rsquo;s Public service. I never coded seriously till then. During my time in Public service, I was exposed to sophisticated Economic Models, text analytics projects that required serious programming skills in VBA, Python and R. It was during this time when my interests in programming were piqued.&lt;/p&gt;
-
-&lt;p&gt;I started immersing myself in computer science through MOOC, but felt that that it wasn&amp;rsquo;t sufficient. In the end, I bit the bullet and enrolled myself in University of Adelaide&amp;rsquo;s Part-Time Program. I&amp;rsquo;ve never looked back since then.&lt;/p&gt;
-
-&lt;p&gt;Computer Science discipline allows me to structure my code in an efficient way. Prior to taking computer science, I was paying little attention to the efficiency of my code. But after going through the arduous computer science program in University of Adelaide, I started paying more attention to the complexity of my programs; started writing more functions to ensure re-usability of my programs on a larger scale.&lt;/p&gt;
-
-&lt;p&gt;If I&amp;rsquo;m fortunate and given the chance to be a student of Georgia Tech, I intend to specialize in Machine Learning. It complements my existing knowledge in Statistics picked up during my Masters in NUS. In addition, I&amp;rsquo;ve immediate chance to apply what I&amp;rsquo;ve learnt in my current job, particularly in the area of Psychology and Organizational Behavior.&lt;/p&gt;
-
-&lt;p&gt;As a busy professional, Georgia Tech&amp;rsquo;s Part-Time program provides the best of all options - in terms of cost, flexibility without sacrificing the rigor of a University Program. I sincerely believe I&amp;rsquo;ve the tenacity and self-discipline to complete the program as evident in my past 4 years as a Part-Time student studying Msc Statistics in National University of Singapore and G.Dip. Computer Science in University of Adelaide.&lt;/p&gt;
-
-&lt;p&gt;My greatest impression of Georgia Tech came when Former President, Barack Obama praised the quality and affordability of the program during his speech in 2015. It never left me. Understanding that matriculating in the program requires background in Computer Science, I started building my foundations towards it. I do hope I&amp;rsquo;ve done enough!&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Betting in Singapore Pools</title>
-      <link>/post/odds_analysis/</link>
-      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/odds_analysis/</guid>
-      <description>&lt;div id=&#34;finding-value-in-singapore-pools&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Finding value in Singapore Pools&lt;/h2&gt;
-&lt;p&gt;Of all places, this is the last place I expect to find value. But I found it - supposedly!&lt;/p&gt;
-&lt;p&gt;I compared the Singapore Pools Odds against Fivethirtyeight blog probabilities of teams’ winning various leagues.&lt;/p&gt;
-&lt;p&gt;The spread in Singpore Pools is often insane. In a typical 1X2 game, the odds is around 15% - as compared to a spread of 3% in overseas betting houses - which btw is illegal in Singapore.&lt;/p&gt;
-&lt;p&gt;Spread simply is summation of the inverse for all decimal odds subtracted by 1. The amount you concede to the ‘house’.&lt;/p&gt;
-&lt;p&gt;As much as this blog is about analytics and showcasing my skillset, it’s also about having skin in the game.&lt;/p&gt;
-&lt;p&gt;Disclosure: I bet 280 dollars on Barcelona to win Champions League in early March. Why $280 you may ask? I think that’s the amount of cash I had in my wallet at that point of time. I just realised Barcelona lost by 3-0 today. That’s like a black swan event. I was in the money - options terminology - 5 dollars odds down to 3 dollars. But poof! Oh well. It’s something I have to accept in the probability game.&lt;/p&gt;
-&lt;p&gt;Here’s my short analysis. Enjoy!&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Analyzing UEFA champons league odds
-dat_cl = data.frame(team = c(&amp;quot;real&amp;quot;,&amp;quot;bayern&amp;quot;,&amp;quot;barca&amp;quot;,&amp;quot;manu&amp;quot;,&amp;quot;mancity&amp;quot;,&amp;quot;jue&amp;quot;),
-                 sg = c(4.5,5,5,15,3.3,8),
-                 five = c(1/0.15,1/0.19,1/0.22,1/0.02,1/0.15,1/0.13))
-
-
-dat_cl$underval = ifelse(dat_cl$five &amp;lt; dat_cl$sg,1,0)
-
-print(dat_cl)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##      team   sg      five underval
-## 1    real  4.5  6.666667        0
-## 2  bayern  5.0  5.263158        0
-## 3   barca  5.0  4.545455        1
-## 4    manu 15.0 50.000000        0
-## 5 mancity  3.3  6.666667        0
-## 6     jue  8.0  7.692308        1&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Championship league
-dat_champ = data.frame(team = c(&amp;quot;wolf&amp;quot;,&amp;quot;cardiff&amp;quot;,&amp;quot;aston&amp;quot;,&amp;quot;fulham&amp;quot;),
-                       sg = c(1.03,5,15,30),
-                       five = c(1/0.85,1/0.1,1/0.03,1/0.01))
-
-dat_champ$underval = ifelse(dat_champ$five &amp;lt; dat_champ$sg,1,0)
-
-print(dat_champ)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##      team    sg       five underval
-## 1    wolf  1.03   1.176471        0
-## 2 cardiff  5.00  10.000000        0
-## 3   aston 15.00  33.333333        0
-## 4  fulham 30.00 100.000000        0&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#europa
-dat_eur = data.frame(team = c(&amp;quot;ath&amp;quot;,&amp;quot;dort&amp;quot;,&amp;quot;ars&amp;quot;,&amp;quot;lazio&amp;quot;,&amp;quot;mars&amp;quot;,&amp;quot;rb_lei&amp;quot;,&amp;quot;lyon&amp;quot;,&amp;quot;ac&amp;quot;,&amp;quot;cska&amp;quot;,&amp;quot;sport&amp;quot;,&amp;quot;ath_bil&amp;quot;,&amp;quot;rb_sal&amp;quot;,&amp;quot;zenit&amp;quot;,&amp;quot;dyn&amp;quot;),
-                       sg = c(2.9,5,6,9.5,17,10,12,11,40,15,17,150,40,80),
-                       five = c(1/0.26,1/0.11,1/0.09,1/0.08,1/0.06,1/0.06,1/0.05,1/0.05,1/0.04,1/0.04,1/0.04,1/0.03,1/0.03,1/0.03))
-
-dat_eur$underval = ifelse(dat_eur$five &amp;lt; dat_eur$sg,1,0)
-
-print(dat_eur)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##       team    sg      five underval
-## 1      ath   2.9  3.846154        0
-## 2     dort   5.0  9.090909        0
-## 3      ars   6.0 11.111111        0
-## 4    lazio   9.5 12.500000        0
-## 5     mars  17.0 16.666667        1
-## 6   rb_lei  10.0 16.666667        0
-## 7     lyon  12.0 20.000000        0
-## 8       ac  11.0 20.000000        0
-## 9     cska  40.0 25.000000        1
-## 10   sport  15.0 25.000000        0
-## 11 ath_bil  17.0 25.000000        0
-## 12  rb_sal 150.0 33.333333        1
-## 13   zenit  40.0 33.333333        1
-## 14     dyn  80.0 33.333333        1&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Permanent Portfolio that I Implemented</title>
-      <link>/project/perm_port_proj/</link>
-      <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/project/perm_port_proj/</guid>
-      <description>&lt;!-- https://stackoverflow.com/questions/47371794/how-to-create-an-image-preview-for-a-post-in-hugo-academic-from-rmd --&gt;
-&lt;div id=&#34;portfolio-performance-since-2-april-18&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Portfolio Performance since 2 April 18&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Include Google Sheet iframe link in future.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div id=&#34;an-all-weather-portfolio&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;An all weather portfolio&lt;/h2&gt;
-&lt;p&gt;Note: I carried out a similar analysis as 1 of the posts I’ve written (&lt;a href=&#34;https://jirong-huang.netlify.com/post/perm_port/&#34; class=&#34;uri&#34;&gt;https://jirong-huang.netlify.com/post/perm_port/&lt;/a&gt;). The difference is that I considered 4 assets (including T-bills) instead of 3. The performance in the post is more reflective of stress-test perfromance (Sharpe, Drawdown Ratio, etc.)&lt;/p&gt;
-&lt;p&gt;Based on the literature, permanent portfolio is an investment strategy that is able to yield moderate returns and relatively low volatility. Investor is recommended to invest equally (25%) into GLD, Index, Bond and Cash and rebalance it back to this proportion on regular intervals.&lt;/p&gt;
-&lt;p&gt;This approach is something that I’m keen to adopt for a portion of my portfolio.&lt;/p&gt;
-&lt;p&gt;To investigate the feasibility, I simulated a portfolio starting at $400 on 2009 (limited by complete series). Here’s the asset allocation proportion,&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;GLD: Gold&lt;/li&gt;
-&lt;li&gt;TLT: 20 Years Treasury Bond&lt;/li&gt;
-&lt;li&gt;VGSH: Vanguard Short Term Bond&lt;/li&gt;
-&lt;li&gt;VTI: Total US stock&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Note:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;I admit that the code that I wrote here is very procedural. If I’ve time, I’ll try to ‘functionalize’ the codes so that I could use it for other portfolio simulation purposes.&lt;/li&gt;
-&lt;li&gt;The looping in the R vectorized setting is known to be super slow! If I really have time to spare, I’ll convert some of the loops to Rcpp (C++). But I highly doubt so since the data is not that huge at the moment (unless I venture into tick data. Oh well, who knows).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div id=&#34;key-points&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Key points&lt;/h2&gt;
-&lt;p&gt;On the annualized returns, it’s not really fantastic. But it still returns a respectable annualized performance of 5% (+ 2% dividends?)&lt;/p&gt;
-&lt;p&gt;What stands out, however, are the following performance metrics:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;In terms of draw-down, it performed remarkably well relative to a Total US Stock portfolio. It suffered a loss of only 9% as compared to a huge loss of 20 + % in other assets; could be more if full Great Financial Crisis is included.&lt;/li&gt;
-&lt;li&gt;On the Sharpe Ratio (annualized returns in excess of risk-free rate per unit of volatility), it’s considerably higher than other assets - albeit lower than Total Stock (in my other analysis with longer time period, it’s considerably higher).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Feel free to adapt or adopt the code. You can easily substitute the stocks based on your preferred asset allocation.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;setting-up-the-analysis.&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Setting up the analysis.&lt;/h2&gt;
-&lt;p&gt;In this section, I downloaded stock data using quant mod. And merge the time series.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(quantmod)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Loading required package: xts&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Loading required package: zoo&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Attaching package: &amp;#39;zoo&amp;#39;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:base&amp;#39;:
-## 
-##     as.Date, as.Date.numeric&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Loading required package: TTR&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Version 0.4-0 included new data defaults. See ?getSymbols.&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
-library(PerformanceAnalytics)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Attaching package: &amp;#39;PerformanceAnalytics&amp;#39;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following object is masked from &amp;#39;package:graphics&amp;#39;:
-## 
-##     legend&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyr)
-library(dplyr)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Attaching package: &amp;#39;dplyr&amp;#39;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:xts&amp;#39;:
-## 
-##     first, last&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:stats&amp;#39;:
-## 
-##     filter, lag&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:base&amp;#39;:
-## 
-##     intersect, setdiff, setequal, union&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tibble)
-
-# Download data--&amp;gt;Fix the ending date for project section
-ticker1 = &amp;quot;GLD&amp;quot;
-stock1 = getSymbols(ticker1,from=&amp;quot;1900-01-01&amp;quot;,auto.assign=F)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## &amp;#39;getSymbols&amp;#39; currently uses auto.assign=TRUE by default, but will
-## use auto.assign=FALSE in 0.5-0. You will still be able to use
-## &amp;#39;loadSymbols&amp;#39; to automatically load data. getOption(&amp;quot;getSymbols.env&amp;quot;)
-## and getOption(&amp;quot;getSymbols.auto.assign&amp;quot;) will still be checked for
-## alternate defaults.
-## 
-## This message is shown once per session and may be disabled by setting 
-## options(&amp;quot;getSymbols.warning4.0&amp;quot;=FALSE). See ?getSymbols for details.&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## WARNING: There have been significant changes to Yahoo Finance data.
-## Please see the Warning section of &amp;#39;?getSymbols.yahoo&amp;#39; for details.
-## 
-## This message is shown once per session and may be disabled by setting
-## options(&amp;quot;getSymbols.yahoo.warning&amp;quot;=FALSE).&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;names(stock1) = c(&amp;quot;open&amp;quot;,&amp;quot;high&amp;quot;,&amp;quot;low&amp;quot;,&amp;quot;close&amp;quot;,&amp;quot;volume&amp;quot;,&amp;quot;adj_close&amp;quot;)
-stock1 = stock1[,6]
-
-ticker2 = &amp;quot;TLT&amp;quot;
-stock2 = getSymbols(ticker2,from=&amp;quot;1900-01-01&amp;quot;,auto.assign=F)
-names(stock2) = c(&amp;quot;open&amp;quot;,&amp;quot;high&amp;quot;,&amp;quot;low&amp;quot;,&amp;quot;close&amp;quot;,&amp;quot;volume&amp;quot;,&amp;quot;adj_close&amp;quot;)
-stock2 = stock2[,6]
-
-ticker3 = &amp;quot;VGSH&amp;quot;
-stock3 = getSymbols(ticker3,from=&amp;quot;1900-01-01&amp;quot;,auto.assign=F)
-names(stock3) = c(&amp;quot;open&amp;quot;,&amp;quot;high&amp;quot;,&amp;quot;low&amp;quot;,&amp;quot;close&amp;quot;,&amp;quot;volume&amp;quot;,&amp;quot;adj_close&amp;quot;)
-stock3 = stock3[,6]
-
-ticker4 = &amp;quot;VTI&amp;quot;
-stock4 = getSymbols(ticker4,from=&amp;quot;1900-01-01&amp;quot;,auto.assign=F)
-names(stock4) = c(&amp;quot;open&amp;quot;,&amp;quot;high&amp;quot;,&amp;quot;low&amp;quot;,&amp;quot;close&amp;quot;,&amp;quot;volume&amp;quot;,&amp;quot;adj_close&amp;quot;)
-stock4 = stock4[,6]
-
-# Merge the time series and subset NA
-#These are the various time series
-ticker_list = c(&amp;quot;stock1&amp;quot;,&amp;quot;stock2&amp;quot;,&amp;quot;stock3&amp;quot;,&amp;quot;stock4&amp;quot;)
-
-#read in list. Loop through and assign variable to holder variable. Then assign it to combined list
-ticker_all = get(ticker_list[1])  
-
-#Merging in the time series
-for(i in 2:length(ticker_list)){
-  ticker_ind = get(ticker_list[i])
-  ticker_all = merge(ticker_all,ticker_ind)  
-}
-
-names(ticker_all) = c(&amp;quot;stock1&amp;quot;,&amp;quot;stock2&amp;quot;,&amp;quot;stock3&amp;quot;,&amp;quot;stock4&amp;quot;)
-
-ticker_all = subset(ticker_all,!is.na(ticker_all$stock1) &amp;amp; !is.na(ticker_all$stock2) &amp;amp; !is.na(ticker_all$stock3) &amp;amp; !is.na(ticker_all$stock4))&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;running-the-simulation&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Running the simulation&lt;/h2&gt;
-&lt;p&gt;Next, I run the simulation - By intialising 25% asset allocation in each of the asset and rebalance at the end of each year. Daily portfolio returns are then obtained throught the ROC function.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#Assign equal weights to each stream of returns
-ticker_all = cbind(ticker_all,rowMeans(ticker_all))
-ticker_all = subset(ticker_all,!is.na(ticker_all[,4]))
-ticker_all = ticker_all[,-ncol(ticker_all)]
-
-#Identify the period of rebalancing. Show the indexes
-rebal_index = data.frame(index = endpoints(ticker_all,on=&amp;quot;years&amp;quot;)[-1])
-# endpoints(ticker_all,on=&amp;quot;quarters&amp;quot;) 
-
-#Merge in the indicator into ticker_all--Can&amp;#39;t seem to merge. Will do the inefficient loop
-# merge(ticker_all,rebal_index, by = &amp;quot;index&amp;quot;, all = T)
-ticker_all$rebal = NA
-for(i in 1:nrow(rebal_index)){
-  ticker_all$rebal[rebal_index$index[i]] = 1
-}
-
-ticker_all$rebal = ifelse(is.na(ticker_all$rebal),0,ticker_all$rebal)
-
-#Create the returns for each price series
-ticker_all$ret1 = ROC(ticker_all[,1])
-ticker_all$ret2 = ROC(ticker_all[,2])
-ticker_all$ret3 = ROC(ticker_all[,3])
-ticker_all$ret4 = ROC(ticker_all[,4])
-
-#Initialise value for each stock series, with a total portfolio value
-ticker_all$val1 = NA; ticker_all$val1[1] = 100
-ticker_all$val2 = NA; ticker_all$val2[1] = 100
-ticker_all$val3 = NA; ticker_all$val3[1] = 100
-ticker_all$val4 = NA; ticker_all$val4[1] = 100
-
-ticker_all$portfolio_val = NA
-ticker_all$portfolio_val[1] = rowSums(ticker_all[1,which(names(ticker_all) == &amp;quot;val1&amp;quot;):which(names(ticker_all) == &amp;quot;val4&amp;quot;)])
-
-
-
-#Loop each row and &amp;#39;compound&amp;#39;. Till it reaches the rebalancing date. Then reset stock value amount in that day. Take the portfolio value in t-1
-for(i in 2:nrow(ticker_all)){
-  
-  if(as.numeric(ticker_all$rebal[i]) == 0){
-    
-  #During non-rebalancing days
-  ticker_all$val1[i] = as.numeric(ticker_all$val1[i-1]) * (1 + as.numeric(ticker_all$ret1[i]))
-  ticker_all$val2[i] = as.numeric(ticker_all$val2[i-1]) * (1 + as.numeric(ticker_all$ret2[i]))
-  ticker_all$val3[i] = as.numeric(ticker_all$val3[i-1]) * (1 + as.numeric(ticker_all$ret3[i]))
-  ticker_all$val4[i] = as.numeric(ticker_all$val4[i-1]) * (1 + as.numeric(ticker_all$ret4[i]))
-
-  ticker_all$portfolio_val[i] = rowSums(ticker_all[i,which(names(ticker_all) == &amp;quot;val1&amp;quot;):which(names(ticker_all) == &amp;quot;val4&amp;quot;)])
-  
-  }else{
-  #During re-balancing days
-  ticker_all$val1[i] = ticker_all$portfolio_val[i-1] / 4
-  ticker_all$val2[i] = ticker_all$portfolio_val[i-1] / 4
-  ticker_all$val3[i] = ticker_all$portfolio_val[i-1] / 4
-  ticker_all$val4[i] = ticker_all$portfolio_val[i-1] / 4
-  
-  ticker_all$portfolio_val[i] = rowSums(ticker_all[i,which(names(ticker_all) == &amp;quot;val1&amp;quot;):which(names(ticker_all) == &amp;quot;val4&amp;quot;)])  
-  } 
-}
-
-#Generate the daily portfolio returns
-ticker_all$portfolio_ret = ROC(ticker_all$portfolio_val)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;portfolio-performance-for-the-entire-period&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Portfolio Performance for the entire period&lt;/h2&gt;
-&lt;p&gt;On the annualized returns, it’s not really fantastic. But it still returns a respectable annualized performance of 5% (+ 2% dividends?)&lt;/p&gt;
-&lt;p&gt;What stands out, however, are the following performance metrics:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;In terms of draw-down, it performed remarkably well relative to a GOLD &amp;amp; Total US Stock portfolio. It suffered a loss of only 9% as compared to a loss of 20+ % in other assets; could’ve be more if full Great Financial Crisis is included (in my post analysis, it could go up to 60% if Great Financial Crisis is included).&lt;/li&gt;
-&lt;li&gt;On the Sharpe Ratio (annualized returns in excess of risk-free rate per unit of volatility), it’s considerably higher than other assets - albeit lower than Total Stock (in my other analysis with longer time period, it’s considerably higher).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;######################################Study the portfolio returns########################################
-#Carry out the portfolio return series
-table.Drawdowns(ticker_all$portfolio_ret, top=10)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##          From     Trough         To   Depth Length To Trough Recovery
-## 1  2012-10-05 2013-06-26 2014-06-19 -0.0882    427       180      247
-## 2  2016-07-11 2016-12-15 2017-08-30 -0.0828    289       112      177
-## 3  2015-01-26 2016-01-14 2016-06-08 -0.0804    346       246      100
-## 4  2009-12-03 2010-02-10 2010-04-14 -0.0471     90        47       43
-## 5  2018-01-29 2018-02-08       &amp;lt;NA&amp;gt; -0.0415     46         9       NA
-## 6  2011-09-07 2011-09-28 2011-11-03 -0.0409     42        16       26
-## 7  2012-02-29 2012-05-16 2012-08-24 -0.0391    125        55       70
-## 8  2011-11-08 2011-12-15 2012-01-27 -0.0368     55        27       28
-## 9  2010-11-09 2010-11-17 2011-02-28 -0.0317     76         7       69
-## 10 2014-09-02 2014-09-17 2014-12-09 -0.0274     70        12       58&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;table.DownsideRisk(merge(ticker_all$portfolio_ret, ticker_all$ret1, ticker_all$ret2, ticker_all$ret3, ticker_all$ret4))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##                               portfolio_ret    ret1    ret2    ret3
-## Semi Deviation                       0.0029  0.0077  0.0065  0.0005
-## Gain Deviation                       0.0023  0.0066  0.0056  0.0004
-## Loss Deviation                       0.0028  0.0079  0.0060  0.0004
-## Downside Deviation (MAR=210%)        0.0090  0.0128  0.0117  0.0083
-## Downside Deviation (Rf=0%)           0.0028  0.0076  0.0064  0.0004
-## Downside Deviation (0%)              0.0028  0.0076  0.0064  0.0004
-## Maximum Drawdown                     0.0882  0.4922  0.2147  0.0106
-## Historical VaR (95%)                -0.0062 -0.0169 -0.0146 -0.0010
-## Historical ES (95%)                 -0.0090 -0.0253 -0.0193 -0.0014
-## Modified VaR (95%)                  -0.0064 -0.0177 -0.0146 -0.0010
-## Modified ES (95%)                   -0.0108 -0.0342 -0.0210 -0.0015
-##                                  ret4
-## Semi Deviation                 0.0071
-## Gain Deviation                 0.0062
-## Loss Deviation                 0.0077
-## Downside Deviation (MAR=210%)  0.0119
-## Downside Deviation (Rf=0%)     0.0069
-## Downside Deviation (0%)        0.0069
-## Maximum Drawdown               0.2169
-## Historical VaR (95%)          -0.0158
-## Historical ES (95%)           -0.0237
-## Modified VaR (95%)            -0.0158
-## Modified ES (95%)             -0.0294&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;table.AnnualizedReturns(merge(ticker_all$portfolio_ret, ticker_all$ret1, ticker_all$ret2, ticker_all$ret3, ticker_all$ret4))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##                           portfolio_ret    ret1   ret2   ret3   ret4
-## Annualized Return                0.0469 -0.0017 0.0500 0.0069 0.1206
-## Annualized Std Dev               0.0611  0.1651 0.1427 0.0101 0.1519
-## Annualized Sharpe (Rf=0%)        0.7674 -0.0103 0.3503 0.6756 0.7937&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;charts.PerformanceSummary(merge(ticker_all$portfolio_ret, ticker_all$ret1, ticker_all$ret2, ticker_all$ret3, ticker_all$ret4))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/project/perm_port_proj_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;yearly-portfolio-performance&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Yearly Portfolio Performance&lt;/h2&gt;
-&lt;p&gt;I also tabulated the yearly metrics of the portfolio to give a sense of the performance over years.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#####################################Study the annualized portfolio returns series#######################
-#Use the rebal-indicator. Loop through the chunks
-# https://www.quantmod.com/documentation/periodReturn.html
-# https://rpubs.com/mohammadshadan/288218
-# yearly_ret = periodReturn(ticker_all$portfolio_val
-#              ,period=&amp;#39;yearly&amp;#39;,subset=&amp;#39;2004::&amp;#39;)  # returns years 2003 to present
-
-yearly_ret = periodReturn(ticker_all$portfolio_val
-                          ,period=&amp;#39;yearly&amp;#39;)  # returns years 2003 to present
-
-#Inefficient way to calulate standard deviation. If it&amp;#39;ve time, I will probably optimize this
-split_val = split(ticker_all$portfolio_ret, f = &amp;quot;years&amp;quot;)
-yearly_ret$annual_sd = sapply(X = split_val, FUN = StdDev) * sqrt(252)
-
-
-getSymbols(&amp;#39;DGS3MO&amp;#39;,src = &amp;#39;FRED&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;DGS3MO&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rf = DGS3MO; rm(DGS3MO)
-rf = rf[&amp;quot;2009/2018&amp;quot;] 
-
-split_val_rf = split(rf$DGS3MO, f = &amp;quot;years&amp;quot;)
-yearly_ret$annual_rf = sapply(X = split_val_rf, FUN = mean, na.rm = T)/100 
-
-yearly_ret$Sharpe = (yearly_ret$yearly.returns - yearly_ret$annual_rf)/yearly_ret$annual_sd  
-
-yearly_ret&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##            yearly.returns  annual_sd    annual_rf     Sharpe
-## 2009-12-31    -0.02143548 0.07391424 0.0015092000 -0.3104230
-## 2010-12-31     0.12503869 0.06925292 0.0013844622  1.7855452
-## 2011-12-30     0.09201080 0.07228724 0.0005284000  1.2655400
-## 2012-12-31     0.05353343 0.05504939 0.0008760000  0.9565489
-## 2013-12-31    -0.02919578 0.06965068 0.0005708000 -0.4273696
-## 2014-12-31     0.09449067 0.04879063 0.0003272000  1.9299499
-## 2015-12-31    -0.03608942 0.06101808 0.0005250996 -0.6000601
-## 2016-12-30     0.05106338 0.06221028 0.0031936000  0.7694834
-## 2017-12-29     0.10340429 0.04264321 0.0094896000  2.2023362
-## 2018-04-03    -0.01057814 0.06051025 0.0158516129 -0.4367815&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(yearly_ret$yearly.returns)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/project/perm_port_proj_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(yearly_ret$Sharpe)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/project/perm_port_proj_files/figure-html/unnamed-chunk-4-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
