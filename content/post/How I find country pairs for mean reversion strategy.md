@@ -60,7 +60,7 @@ return(key_info)
 ```
 ### Step 2
 
-- Next, I filter out pairs with sharpe ratio >1 in both training and testing periods.
+- Next, I select pairs with sharpe ratio >1 in both training and testing periods.
 - And also those pairs with long half-life i.e. long duration before it reverts to its mean path.
 
 ### Step 3
@@ -70,7 +70,7 @@ return(key_info)
 
 - With this new piece of information, I went on to compute the manhattan distance, euclidean distance and correlation between these country pairs.
 - Next I applied percentile ranks to these distance measures and find an average percentile rank
-- Anything that is above 50th percentile is filtered out.
+- Anything that is above 50th percentile is selected.
 
 ```
 distance_metrics = function(stock1, stock2){

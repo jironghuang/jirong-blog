@@ -11,6 +11,119 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>How I Find Country Pairs for Mean Reversion Strategy</title>
+      <link>/post/how-i-find-country-pairs-for-mean-reversion-strategy/</link>
+      <pubDate>Wed, 26 Dec 2018 12:30:03 +0800</pubDate>
+      
+      <guid>/post/how-i-find-country-pairs-for-mean-reversion-strategy/</guid>
+      <description>
+
+&lt;h2 id=&#34;how-i-find-country-pairs-for-mean-reversion-strategy&#34;&gt;How I Find Country Pairs for Mean Reversion Strategy&lt;/h2&gt;
+
+&lt;p&gt;As mentioned in my previous post &lt;a href=&#34;https://jirong-huang.netlify.com/post/research-to-production-pipeline-for-mean-reversion/&#34;&gt;here&lt;/a&gt;, the first step for a mean reversion strategy is to conduct some background quantitative research.&lt;/p&gt;
+
+&lt;h3 id=&#34;step-1&#34;&gt;Step 1&lt;/h3&gt;
+
+&lt;p&gt;First, I use a pair trading function to loop across 800+ country pairs (created from combination function),&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;pair_trading = function(stock1, stock2, trade_amount, finance_rates, start_date, end_date, 
+                        prop_train, enter_z_score, exit_z_score){
+
+## More codes here
+   
+## Return this
+key_info = list(
+  ticker = c(stock1, stock2),
+  start_date = start_date,
+  trade_table = data_trade,
+  sharpe = c(sharpeRatioTrainset, sharpeRatioTestset),
+  half_life = half_life,
+  profits = data_trade_stats,
+  max_drawdown = c(table.DownsideRisk(data$pnl[trainset])[1]$pnl[7], table.DownsideRisk(data$pnl[testset])[1]$pnl[7]),
+  returns = cbind(table.AnnualizedReturns(data$pnl[trainset]), table.AnnualizedReturns(data$pnl[testset])),
+  hedgeRatio_mean_sd = c(as.numeric(hedgeRatio), as.numeric(data_trade$spreadMean[nrow(data_trade)]), as.numeric(data_trade$spreadStd[nrow(data_trade)])),   #critical --&amp;gt;to be used in real-time trading
+  close_z_score = as.numeric(data_trade$zscore[nrow(data_trade)]),
+  hist_spread = data_trade$spread[(nrow(data_trade) - round(half_life) + 2):nrow(data_trade)],
+  prop_days_mkt = c(prop_days_mkt_train, prop_days_mkt_test),
+  close_price = c(data_trade$Close[nrow(data_trade)], data_trade$Close.1[nrow(data_trade)]),
+  win_rate = c(perc_win_train, perc_win_test)
+  # ,
+  # chart_train = charts.PerformanceSummary(data$pnl[trainset]),
+  # chart_test = charts.PerformanceSummary(data$pnl[testset])
+)
+
+return(key_info)
+                        
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;step-2&#34;&gt;Step 2&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Next, I select pairs with sharpe ratio &amp;gt;1 in both training and testing periods.&lt;/li&gt;
+&lt;li&gt;And also those pairs with long half-life i.e. long duration before it reverts to its mean path.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;step-3&#34;&gt;Step 3&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Then I went on to IShares website to get the respective tickers&amp;rsquo; industries&amp;rsquo; composition.
+&lt;img src=&#34;/post/img/country_composition.png&#34; alt=&#34;/post/img/country_composition.png&#34;&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;With this new piece of information, I went on to compute the manhattan distance, euclidean distance and correlation between these country pairs.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Next I applied percentile ranks to these distance measures and find an average percentile rank&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Anything that is above 50th percentile is selected.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;distance_metrics = function(stock1, stock2){
+  
+  dist = c(NA, NA, NA)
+  
+  tryCatch({
+  
+  ctry_pair_composition_sub = subset(ctry_pair_composition, ctry_pair_composition$ticker == stock1 | ctry_pair_composition$ticker == stock2)
+  manhattan = as.numeric(distance(ctry_pair_composition_sub[, -1], method = &amp;quot;manhattan&amp;quot;))
+  euclidean = as.numeric(distance(ctry_pair_composition_sub[, -1], method = &amp;quot;euclidean&amp;quot;))
+  correlation = cor(as.numeric(ctry_pair_composition_sub[1, -1]), as.numeric(ctry_pair_composition_sub[2, -1]))
+  
+  dist = c(manhattan, euclidean, correlation)
+  }, error=function(e){})
+  
+  return(dist)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And ta-dah! This is the final selected country pairs that I will be using for my mean reversion strategy.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/img/final_selection.png&#34; alt=&#34;/post/img/final_selection.png&#34;&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;further-improvement&#34;&gt;Further improvement&lt;/h3&gt;
+
+&lt;p&gt;Note: I could have applied co-integration test. Will do it pretty soon.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Research to Production Pipeline for Mean Reversion</title>
+      <link>/post/research-to-production-pipeline-for-mean-reversion/</link>
+      <pubDate>Tue, 25 Dec 2018 18:07:19 +0800</pubDate>
+      
+      <guid>/post/research-to-production-pipeline-for-mean-reversion/</guid>
+      <description>
+
+&lt;h2 id=&#34;research-to-production-pipeline-for-mean-reversion&#34;&gt;Research to Production Pipeline for Mean Reversion&lt;/h2&gt;
+
+&lt;p&gt;Here is a high level overview of something that I&amp;rsquo;m working on.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve been grappling with the finite state automata Event Driven Computing transitions and I kinda sorted it out for production use.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/img/research_to_production.png&#34; alt=&#34;/post/img/research_to_production.png&#34;&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Prototype Pair Trading Strategy for Silver ETFs</title>
       <link>/post/prototype-of-pair-trading-strategy-for-silver-etfs/</link>
       <pubDate>Tue, 18 Dec 2018 13:03:44 +0800</pubDate>
@@ -729,56 +842,6 @@ Loading…
 &lt;p&gt;If you&amp;rsquo;re interested in reading the codes, pls visit my github &lt;a href=&#34;https://github.com/jironghuang/investment_compass&#34;&gt;link&lt;/a&gt;. At the moment, the lagging of indicators are done in a grossly inefficient way because I was just cobbling together some codes I did in the past. Will optimize it by using parallelized functions like mclapply in the future (used for crawling the stock process but not the computation).&lt;/p&gt;
 
 &lt;iframe src=&#34;https://sef88.shinyapps.io/investment_compass/&#34; width=&#34;1200&#34; height=&#34;1500&#34; style=&#34;border: none;&#34;&gt;&lt;/iframe&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Rolling out the Investment Compass interactive app that I promised eons ago</title>
-      <link>/post/rolling-out-the-investment-compass-interactive-app-that-i-promised-to-myself-eons-ago/</link>
-      <pubDate>Sun, 05 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/rolling-out-the-investment-compass-interactive-app-that-i-promised-to-myself-eons-ago/</guid>
-      <description>&lt;p&gt;Finally I had some time to sit down to work on the interactive app. From what was an hideous app to a somewhat Minimum Viable Product (MVP) version of an app. (Shhh&amp;hellip;I&amp;rsquo;m not really a User Interface, UI person).&lt;/p&gt;
-
-&lt;p&gt;This serves as a compass for me to visualize the potential returns given the % fall from 52 week high. See my linkedin article &lt;a href=&#34;https://www.linkedin.com/pulse/investment-compass-our-volatile-times-jirong-huang/&#34;&gt;here&lt;/a&gt; for further explanation on why I think this is a good indicator.&lt;/p&gt;
-
-&lt;p&gt;The app consists of 3 tabs. The &amp;lsquo;Visualize&amp;rsquo; tab contains 3 graphs plotting % fall from 52 week high against the expected returns 1 to 3 years later. And the value boxes are simply the fitted values from the best fit lines.&lt;/p&gt;
-
-&lt;p&gt;The second tab contains the description of the indexes. For eg. ^STI refers to Straits Times Index. It will be useful for selection of the Index under Visualization tab.&lt;/p&gt;
-
-&lt;p&gt;The third tab is just a summary of the Linkedin article.&lt;/p&gt;
-
-&lt;p&gt;If you&amp;rsquo;re interested in reading the codes, pls visit my github &lt;a href=&#34;https://github.com/jironghuang/investment_compass&#34;&gt;link&lt;/a&gt;. At the moment, the lagging of indicators are done in a grossly inefficient way because I was just cobbling together some codes I did in the past. Will optimize it by using parallelized functions like mclapply in the future (used for crawling the stock process but not the computation).&lt;/p&gt;
-
-&lt;iframe src=&#34;https://sef88.shinyapps.io/investment_compass/&#34; width=&#34;1200&#34; height=&#34;1500&#34; style=&#34;border: none;&#34;&gt;&lt;/iframe&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Updated ETF project codes</title>
-      <link>/post/etf_watchlist_project/</link>
-      <pubDate>Sat, 07 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/etf_watchlist_project/</guid>
-      <description>
-
-
-&lt;div id=&#34;updated-etf-watchlist-project&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Updated ETF watchlist project&lt;/h2&gt;
-&lt;p&gt;While watching a world cup match today, I updated my ETF watchlist project (you may click &lt;a href=&#34;/project/watch_list&#34;&gt;here&lt;/a&gt; if you haven’t seen it yet)&lt;/p&gt;
-&lt;p&gt;You may find the github code &lt;a href=&#34;https://github.com/jironghuang/ETF_watchlist&#34;&gt;here&lt;/a&gt;. In the revision, I parallelized the crawling - essentially tapping on all the cores in my machines.&lt;/p&gt;
-&lt;p&gt;To create your own watchlist. Follow these steps,&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Install R and R studio.&lt;/li&gt;
-&lt;li&gt;In Mac or Linux, type the following in command line git clone &lt;a href=&#34;https://github.com/jironghuang/ETF_watchlist&#34; class=&#34;uri&#34;&gt;https://github.com/jironghuang/ETF_watchlist&lt;/a&gt; . In windows, you may visit the link and download it as zipped folder&lt;/li&gt;
-&lt;li&gt;Open the .Rproj&lt;/li&gt;
-&lt;li&gt;Tweak the input file to change your watchlist. Ticker symbol should follow yahoo ticker naming convention (e.g. VWRD.L for the ETF listed on stock exchange)&lt;/li&gt;
-&lt;li&gt;Ctrl + A and Ctrl + Enter. Or just click the run button in the top right hand of Rstudio&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Note: For the auth.r section, you may comment it out if you do not wish to upload the crawled data in googlesheet.&lt;/p&gt;
-&lt;iframe src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubhtml?gid=0&amp;amp;single=true&#34; width=&#34;900&#34; height=&#34;780&#34; style=&#34;border: none;&#34;&gt;
-&lt;/iframe&gt;
-&lt;/div&gt;
 </description>
     </item>
     

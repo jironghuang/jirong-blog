@@ -8,7 +8,7 @@
   <meta name="theme" content="hugo-academic">
   <meta name="generator" content="Hugo 0.53" />
   <meta name="author" content="Huang Jirong">
-  <meta name="description" content="Data analyst and Quantitative Investor">
+  <meta name="description" content="Data scientist and Quantitative Investor/ Trader">
 
   
   <link rel="alternate" hreflang="en-us" href="/">
@@ -77,7 +77,7 @@
   <meta property="og:site_name" content="Jirong&#39;s sandbox">
   <meta property="og:url" content="/">
   <meta property="og:title" content="Jirong&#39;s sandbox">
-  <meta property="og:description" content="Data analyst and Quantitative Investor">
+  <meta property="og:description" content="Data scientist and Quantitative Investor/ Trader">
   <meta property="og:locale" content="en-us">
   
   <meta property="og:updated_time" content="2016-04-20T00:00:00&#43;00:00">
@@ -273,7 +273,7 @@
 
       <div class="portrait-title">
         <h2 itemprop="name">Huang Jirong</h2>
-        <h3 itemprop="jobTitle">Data analyst and Quantitative Investor</h3>
+        <h3 itemprop="jobTitle">Data scientist and Quantitative Investor/ Trader</h3>
 
         
         
@@ -322,7 +322,7 @@
 
 <h1 id="biography">Biography</h1>
 
-<p>I&rsquo;m a versatile analyst that understands the supply chain of Analytics: 1.) Sourcing for raw data (Web-Crawling, Social Media APIs) 2.) Database (SQL) 3.) Analysis (Statistics, Econometrics, Machine-Learning) and 4.) Delivery (Interactive Data visualizations, Automated Reports, Intranet). In addition, I possess strong project-management and communication skills essential in delivering results to stakeholders.</p>
+<p>I&rsquo;m a versatile analyst/scientist that understands the supply chain of Analytics: 1.) Sourcing for raw data (Web-Crawling, Social Media APIs) 2.) Database (SQL) 3.) Analysis (Statistics, Econometrics, Machine-Learning) and 4.) Delivery (Interactive Data visualizations, Automated Reports, Intranet). In addition, I possess strong project-management and communication skills essential in delivering results to stakeholders.</p>
 
 <p>As a curious &amp; keen learner, I strive to improve myself through structured and unstructured learning.</p>
 
@@ -364,14 +364,6 @@
             <div class="description">
               <p class="course">Msc in Computer Science, 2021</p>
               <p class="institution">Georgia Institute of Technology</p>
-            </div>
-          </li>
-          
-          <li>
-            <i class="fa-li fa fa-graduation-cap"></i>
-            <div class="description">
-              <p class="course">Dip in Full Stack Web Development, 2019</p>
-              <p class="institution">Singapore Polytechnic</p>
             </div>
           </li>
           
@@ -444,6 +436,191 @@
       
 
       
+      
+
+        
+
+        
+        
+
+        
+        
+          
+      
+          
+      
+
+      
+      
+        
+        
+
+<div class="article-list-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+  
+  
+  <h3 class="article-title" itemprop="headline">
+    <a href="/post/how-i-find-country-pairs-for-mean-reversion-strategy/" itemprop="url">How I Find Country Pairs for Mean Reversion Strategy</a>
+  </h3>
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-12-26 12:30:03 &#43;0800 &#43;08" itemprop="datePublished dateModified">
+      Dec 26, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Huang Jirong">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    2 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/how-i-find-country-pairs-for-mean-reversion-strategy/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/algo">algo</a
+    >, 
+    
+    <a href="/categories/trading">trading</a
+    >
+    
+  </span>
+  
+  
+
+  
+
+</div>
+
+  <div class="article-style" itemprop="articleBody">
+    
+    How I Find Country Pairs for Mean Reversion Strategy As mentioned in my previous post here, the first step for a mean reversion strategy is to conduct some background quantitative research.
+Step 1 First, I use a pair trading function to loop across 800+ country pairs (created from combination function),
+pair_trading = function(stock1, stock2, trade_amount, finance_rates, start_date, end_date, prop_train, enter_z_score, exit_z_score){ ## More codes here ## Return this key_info = list( ticker = c(stock1, stock2), start_date = start_date, trade_table = data_trade, sharpe = c(sharpeRatioTrainset, sharpeRatioTestset), half_life = half_life, profits = data_trade_stats, max_drawdown = c(table.
+    
+  </div>
+  <p class="read-more" itemprop="mainEntityOfPage">
+    <a href="/post/how-i-find-country-pairs-for-mean-reversion-strategy/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
+
+      
+
+        
+
+        
+        
+
+        
+        
+          
+      
+          
+      
+
+      
+      
+        
+        
+
+<div class="article-list-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+  
+  
+  <h3 class="article-title" itemprop="headline">
+    <a href="/post/research-to-production-pipeline-for-mean-reversion/" itemprop="url">Research to Production Pipeline for Mean Reversion</a>
+  </h3>
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-12-25 18:07:19 &#43;0800 &#43;08" itemprop="datePublished dateModified">
+      Dec 25, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Huang Jirong">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    1 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/research-to-production-pipeline-for-mean-reversion/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/algo">algo</a
+    >, 
+    
+    <a href="/categories/trading">trading</a
+    >
+    
+  </span>
+  
+  
+
+  
+
+</div>
+
+  <div class="article-style" itemprop="articleBody">
+    
+    
+
+<h2 id="research-to-production-pipeline-for-mean-reversion">Research to Production Pipeline for Mean Reversion</h2>
+
+<p>Here is a high level overview of something that I&rsquo;m working on.</p>
+
+<p>I&rsquo;ve been grappling with the finite state automata Event Driven Computing transitions and I kinda sorted it out for production use.</p>
+
+<p><img src="/post/img/research_to_production.png" alt="/post/img/research_to_production.png"></p>
+
+    
+  </div>
+  <p class="read-more" itemprop="mainEntityOfPage">
+    <a href="/post/research-to-production-pipeline-for-mean-reversion/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
+
       
 
         
@@ -713,184 +890,6 @@ In the backtesting below (using a pair of silver ETFs as an example), I assumed 
       
 
       
-
-        
-
-        
-        
-
-        
-        
-          
-      
-          
-      
-
-      
-      
-        
-        
-
-<div class="article-list-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
-  
-  
-  <h3 class="article-title" itemprop="headline">
-    <a href="/post/architecture-and-process-flow-for-my-algorithmic-trading/" itemprop="url">Architecture and Process Flow for My Algorithmic Trading</a>
-  </h3>
-  
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    
-    <time datetime="2018-11-04 10:19:13 &#43;0800 &#43;08" itemprop="datePublished dateModified">
-      Nov 4, 2018
-    </time>
-  </span>
-  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Huang Jirong">
-  </span>
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    1 min read
-  </span>
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <a href="/post/architecture-and-process-flow-for-my-algorithmic-trading/#disqus_thread"></a>
-  
-
-  
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fa fa-folder"></i>
-    
-    <a href="/categories/programming">programming</a
-    >, 
-    
-    <a href="/categories/trading">trading</a
-    >, 
-    
-    <a href="/categories/operationalisation">operationalisation</a
-    >
-    
-  </span>
-  
-  
-
-  
-
-</div>
-
-  <div class="article-style" itemprop="articleBody">
-    
-    
-
-<h2 id="project-that-i-will-be-working-in-2018-2019">Project that I will be working in 2018-2019</h2>
-
-<p><img src="/post/img/mvp_algo_trading.png" alt="/post/img/mvp_algo_trading.png"></p>
-
-    
-  </div>
-  <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="/post/architecture-and-process-flow-for-my-algorithmic-trading/" class="btn btn-primary btn-outline">
-      CONTINUE READING
-    </a>
-  </p>
-</div>
-
-      
-
-      
-
-        
-
-        
-        
-
-        
-        
-          
-      
-
-      
-      
-        
-        
-
-<div class="article-list-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
-  
-  
-  <h3 class="article-title" itemprop="headline">
-    <a href="/post/seam-carving/" itemprop="url">Seam Carving</a>
-  </h3>
-  
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    
-    <time datetime="2018-10-25 13:23:23 &#43;0800 &#43;08" itemprop="datePublished dateModified">
-      Oct 25, 2018
-    </time>
-  </span>
-  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Huang Jirong">
-  </span>
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    1 min read
-  </span>
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <a href="/post/seam-carving/#disqus_thread"></a>
-  
-
-  
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fa fa-folder"></i>
-    
-    <a href="/categories/programming">programming</a
-    >
-    
-  </span>
-  
-  
-
-  
-
-</div>
-
-  <div class="article-style" itemprop="articleBody">
-    
-    Snippet of my Seam Carving Report from my Msc Computer Science Georgia Tech&rsquo;s Computational Photography module Besides removing of streams, we can also add streams. We identify k streams for removal and duplicate by averaging the left and right neighbours. The computation of these averages is done by convolving the following matrix with the images’ colour channels.
-kernel = np.array([[0, 0, 0], [0.5, 0, 0.5], [0, 0, 0]])  In the implementation of my scaling_up algorithm, I first remove k streams (depending on ratio set by user) and recorded the coordinates and cumulative energy values of the original picture in each removal.
-    
-  </div>
-  <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="/post/seam-carving/" class="btn btn-primary btn-outline">
-      CONTINUE READING
-    </a>
-  </p>
-</div>
-
-      
-
-      
     
 
   </div>
@@ -1052,6 +1051,13 @@ kernel = np.array([[0, 0, 0], [0.5, 0, 0.5], [0, 0, 0]])  In the implementation 
           
           
           
+          <a href="/tags/algo" style="font-size:1.2914102047404095rem">algo</a>
+        
+          
+          
+          
+          
+          
           <a href="/tags/asset_allocation" style="font-size:1.2914102047404095rem">asset_allocation</a>
         
           
@@ -1136,7 +1142,7 @@ kernel = np.array([[0, 0, 0], [0.5, 0, 0.5], [0, 0, 0]])  In the implementation 
           
           
           
-          <a href="/tags/trading" style="font-size:1.2914102047404095rem">trading</a>
+          <a href="/tags/trading" style="font-size:1.7828204094808187rem">trading</a>
         
       </div>
     
@@ -1181,6 +1187,13 @@ kernel = np.array([[0, 0, 0], [0.5, 0, 0.5], [0, 0, 0]])  In the implementation 
           
           
           
+          <a href="/tags/algo" style="font-size:1.2914102047404095rem">algo</a>
+        
+          
+          
+          
+          
+          
           <a href="/tags/asset_allocation" style="font-size:1.2914102047404095rem">asset_allocation</a>
         
           
@@ -1265,7 +1278,7 @@ kernel = np.array([[0, 0, 0], [0.5, 0, 0.5], [0, 0, 0]])  In the implementation 
           
           
           
-          <a href="/tags/trading" style="font-size:1.2914102047404095rem">trading</a>
+          <a href="/tags/trading" style="font-size:1.7828204094808187rem">trading</a>
         
       </div>
     

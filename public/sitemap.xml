@@ -5,6 +5,24 @@
     
     <url>
     
+      <loc>/post/how-i-find-country-pairs-for-mean-reversion-strategy/</loc>
+      <lastmod>2018-12-26T12:30:03+08:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/post/research-to-production-pipeline-for-mean-reversion/</loc>
+      <lastmod>2018-12-25T18:07:19+08:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/prototype-of-pair-trading-strategy-for-silver-etfs/</loc>
       <lastmod>2018-12-18T13:03:44+08:00</lastmod>
     </url>
@@ -278,7 +296,7 @@
     <url>
     
       <loc>/post/</loc>
-      <lastmod>2018-12-18T13:03:44+08:00</lastmod>
+      <lastmod>2018-12-26T12:30:03+08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -336,8 +354,8 @@
     
     <url>
     
-      <loc>/tags/asset_allocation/</loc>
-      <lastmod>2018-04-04T00:00:00+00:00</lastmod>
+      <loc>/categories/algo/</loc>
+      <lastmod>2018-12-26T12:30:03+08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -346,8 +364,18 @@
     
     <url>
     
-      <loc>/tags/betting/</loc>
-      <lastmod>2018-06-15T00:00:00+00:00</lastmod>
+      <loc>/tags/algo/</loc>
+      <lastmod>2018-12-26T12:30:03+08:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/asset_allocation/</loc>
+      <lastmod>2018-04-04T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -366,8 +394,8 @@
     
     <url>
     
-      <loc>/tags/coding/</loc>
-      <lastmod>2018-08-26T14:09:02+08:00</lastmod>
+      <loc>/tags/betting/</loc>
+      <lastmod>2018-06-15T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -377,6 +405,16 @@
     <url>
     
       <loc>/categories/coding/</loc>
+      <lastmod>2018-08-26T14:09:02+08:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/coding/</loc>
       <lastmod>2018-08-26T14:09:02+08:00</lastmod>
       <priority>0</priority>
     </url>
@@ -406,16 +444,6 @@
     
     <url>
     
-      <loc>/tags/finance/</loc>
-      <lastmod>2018-12-18T13:03:44+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/categories/finance/</loc>
       <lastmod>2018-12-18T13:03:44+08:00</lastmod>
       <priority>0</priority>
@@ -426,8 +454,8 @@
     
     <url>
     
-      <loc>/tags/investment/</loc>
-      <lastmod>2018-08-09T21:30:46+08:00</lastmod>
+      <loc>/tags/finance/</loc>
+      <lastmod>2018-12-18T13:03:44+08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -438,6 +466,16 @@
     
       <loc>/categories/investment/</loc>
       <lastmod>2018-08-05T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/investment/</loc>
+      <lastmod>2018-08-09T21:30:46+08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -496,16 +534,6 @@
     
     <url>
     
-      <loc>/tags/programming/</loc>
-      <lastmod>2018-12-08T01:11:52+08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/categories/programming/</loc>
       <lastmod>2018-12-08T01:11:52+08:00</lastmod>
       <priority>0</priority>
@@ -516,8 +544,8 @@
     
     <url>
     
-      <loc>/tags/trading/</loc>
-      <lastmod>2018-12-18T13:03:44+08:00</lastmod>
+      <loc>/tags/programming/</loc>
+      <lastmod>2018-12-08T01:11:52+08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -527,7 +555,17 @@
     <url>
     
       <loc>/categories/trading/</loc>
-      <lastmod>2018-12-18T13:03:44+08:00</lastmod>
+      <lastmod>2018-12-26T12:30:03+08:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/trading/</loc>
+      <lastmod>2018-12-26T12:30:03+08:00</lastmod>
       <priority>0</priority>
     </url>
     
