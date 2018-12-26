@@ -61,7 +61,7 @@ return(key_info)
 ### Step 2
 
 - Next, I select pairs with sharpe ratio >1 in both training and testing periods.
-- And also those pairs with long half-life i.e. long duration before it reverts to its mean path.
+- And also select pairs with shorter half-life i.e. shorter duration before it reverts to its mean path - more than 5 and lesser than 25
 
 ### Step 3
 
