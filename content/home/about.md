@@ -22,11 +22,6 @@ weight = 5
   year = 2021
   
 [[education.courses]]
-  course = "Dip in Full Stack Web Development"
-  institution = "Singapore Polytechnic"
-  year = 2019
-
-[[education.courses]]
   course = "Gdip in Computer Science"
   institution = "University of Adelaide"
   year = 2018
@@ -45,7 +40,7 @@ weight = 5
 
 # Biography
 
-I'm a versatile analyst that understands the supply chain of Analytics: 1.) Sourcing for raw data (Web-Crawling, Social Media APIs) 2.) Database (SQL) 3.) Analysis (Statistics, Econometrics, Machine-Learning) and 4.) Delivery (Interactive Data visualizations, Automated Reports, Intranet). In addition, I possess strong project-management and communication skills essential in delivering results to stakeholders. 
+I'm a versatile analyst/scientist that understands the supply chain of Analytics: 1.) Sourcing for raw data (Web-Crawling, Social Media APIs) 2.) Database (SQL) 3.) Analysis (Statistics, Econometrics, Machine-Learning) and 4.) Delivery (Interactive Data visualizations, Automated Reports, Intranet). In addition, I possess strong project-management and communication skills essential in delivering results to stakeholders. 
 
 As a curious & keen learner, I strive to improve myself through structured and unstructured learning. 
 
