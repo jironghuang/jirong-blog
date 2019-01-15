@@ -11,6 +11,226 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>How to Create a Python Environment in Ubuntu or any Debian-based system</title>
+      <link>/post/how-to-create-a-python-environment-in-ubuntu/</link>
+      <pubDate>Wed, 09 Jan 2019 23:39:22 +0800</pubDate>
+      
+      <guid>/post/how-to-create-a-python-environment-in-ubuntu/</guid>
+      <description>&lt;p&gt;Often, certain projects or classes involving python require a set of modules/packages for the code to work.&lt;/p&gt;
+
+&lt;p&gt;1 solution is to create a Python Environment dedicated to that project.&lt;/p&gt;
+
+&lt;p&gt;First set up a folder, and include a .yml file with the specific modules and environment that you wish to install. Here is an example (env.yml),&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;name: env
+channels: !!python/tuple
+- !!python/unicode &#39;defaults&#39;
+dependencies:
+- nb_conda=2.2.0=py27_0
+- python=2.7.13=0
+- cycler=0.10.0
+- functools32=3.2.3.2
+- matplotlib=2.0.2
+- numpy=1.13.1
+- pandas=0.20.3
+- py=1.4.34
+- pyparsing=2.2.0
+- pytest=3.2.1
+- python-dateutil=2.6.1
+- pytz=2017.2
+- scipy=0.19.1
+- six=1.10.0
+- subprocess32=3.2.7
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you have anaconda installed, navigate to the folder with .yml; right click and select open in terminal. Then, type the following into bash&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;conda env create -f env.yml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once installed, type the following into bash to bring up the environment,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;source activate env
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you wish to install a specific program in this environment - say spyder - you can install it directly. Example,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;conda install spyder
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To open spyder program, simply type spyder into terminal. And there you go!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Translating Ernest Chan Kalman Filter Strategy Matlab and Python Code Into R</title>
+      <link>/post/translating-ernest-chan-kalman-filter-strategy-matlab-and-python-code-into-r/</link>
+      <pubDate>Tue, 01 Jan 2019 00:15:53 +0800</pubDate>
+      
+      <guid>/post/translating-ernest-chan-kalman-filter-strategy-matlab-and-python-code-into-r/</guid>
+      <description>
+
+&lt;h2 id=&#34;translating-ernest-chan-kalman-filter-strategy-matlab-and-python-code-into-r&#34;&gt;Translating Ernest Chan Kalman Filter Strategy Matlab and Python Code Into R&lt;/h2&gt;
+
+&lt;p&gt;I&amp;rsquo;m really intrigued by Ernest Chan&amp;rsquo;s approach in Quant Trading.&lt;/p&gt;
+
+&lt;p&gt;Often in the retail trading space, what &amp;lsquo;gurus&amp;rsquo; preach often sounds really dubious. But Ernest Chan is different. He&amp;rsquo;s sincere, down-to-earth and earnest (meant to be a pun here).&lt;/p&gt;
+
+&lt;p&gt;In my first month of deploying algo trading strategies, I focus mainly on mean-reversion strategies - paricularly amongst pairs. What I learnt - with real capital - is that the hedge ratio is dynamic and will vary over time. In the early days, I fixed it through linear regression. But boy this doesn&amp;rsquo;t work! It&amp;rsquo;s not really market neutral because of the imbalance in values between pairs across time.&lt;/p&gt;
+
+&lt;p&gt;Then I chanced upon Kalman filter - something I learnt during my AI module in my Computer Science Degree days. I&amp;rsquo;ll spare the Math here. It&amp;rsquo;s a variant of the markov model, that uses a series of measurements over time (in this case, one of the pairs price), containing noise and produces estimates of unknown (here it&amp;rsquo;s the hedge ratio and intercept). Hedge ratio is updated in each time step.&lt;/p&gt;
+
+&lt;p&gt;I saw the Python code online for EWA-EWC pair strategy that returns a sharpe ratio of 2.4. I tried to search for a R version but to no avail!&lt;/p&gt;
+
+&lt;p&gt;Hence I decided to spend a day translating the python code into R code (for deployment purposes. Currently my algo trading stack is built around R). Thankfully I&amp;rsquo;m not translating the Matlab version because I do not have prior experience in that. And it would definitely take me more than a day for the translation.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve since,&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Wrapped the code with a function&lt;/li&gt;
+&lt;li&gt;Loop through a 40 choose 2 combinations of country pairs&lt;/li&gt;
+&lt;li&gt;Triangulated with distance metrics like Correlation, Euclidean Distance and Manhattan Distance&lt;/li&gt;
+&lt;li&gt;Filtered out long half life (i.e. # of days before reverting to the mean)&lt;/li&gt;
+&lt;li&gt;Filtered by sharpe ratios, drawdown and average profits&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And so far, this market-neutral strategy is really promising!&lt;/p&gt;
+
+&lt;h3 id=&#34;translated-r-code-for-ewa-ewc-strategy&#34;&gt;Translated R code for EWA - EWC strategy&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;#Note: Try to put everything in a data-frame
+lapply(c(&amp;quot;zoo&amp;quot;, &amp;quot;tidyr&amp;quot;, &amp;quot;plyr&amp;quot;, &amp;quot;dplyr&amp;quot;,
+         &amp;quot;gtools&amp;quot;,&amp;quot;googlesheets&amp;quot;, &amp;quot;quantmod&amp;quot;, 
+         &amp;quot;urca&amp;quot;, &amp;quot;PerformanceAnalytics&amp;quot;, &amp;quot;parallel&amp;quot;), require, character.only = T)
+
+source(&#39;util/calculateReturns.R&#39;)
+source(&#39;util/calculateMaxDD.R&#39;)
+source(&#39;util/backshift.R&#39;)
+source(&#39;util/extract_stock_prices.R&#39;)
+source(&#39;util/cointegration_pair.R&#39;)
+
+
+#Reading in the data
+df = read.csv(&#39;kalman_filter/inputData_EWA_EWC.csv&#39;)
+df = subset(df, select = c(&amp;quot;Date&amp;quot;, &amp;quot;EWC&amp;quot;, &amp;quot;EWA&amp;quot;))
+
+# Augment x with ones to  accomodate possible offset in the regression between y vs x.
+# df$EWA_ones = 1
+
+# delta=1 gives fastest change in beta, delta=0.000....1 allows no change (like traditional linear regression).
+delta = 0.0001 
+
+#yhat=np.full(y.shape[0], np.nan) # measurement prediction
+df$yhat = NA
+
+#Initialize matrix
+df$e = df$yhat # e = yhat.copy(), residuals
+df$Q = df$yhat # Q = yhat.copy(), measurement variance
+
+# For clarity, we denote R(t|t) by P(t). Initialize R, P and beta.
+R = matrix(dat = rep(0, 4), nrow = 2, ncol = 2) #R = np.zeros((2,2))
+P = R   #P = R.copy()
+
+#Store beta in df and separately for computation
+beta = matrix(dat = rep(NA, nrow(df) * 2), nrow = 2, ncol = nrow(df))
+df$beta1 = NA; df$beta2 = NA  #beta = np.full((2, x.shape[0]), np.nan)
+
+Vw = delta/(1-delta) * diag(2) #Vw=delta/(1-delta)*np.eye(2)
+Ve = 0.001
+
+# Initialize beta(:, 1) to zero
+beta[, 1] = 0 #beta[:, 0]=0
+df$beta1 = beta[1, 1]; df$beta2 = beta[2, 1]
+
+#for t in range(len(y)):
+for (t in 1:nrow(df)){
+ 
+  if(t &amp;gt; 1){
+    #Update matrix
+    beta[, t] = beta[, t-1]
+    R = P + Vw
+    
+    #Update df
+    df$beta1[t] = beta[1, t]
+    df$beta2[t] = beta[2, t]
+  }
+  
+  # yhat[t, ] = as.matrix(x[t, ]) %*% as.matrix(beta[, t])    #yhat[t]=np.dot(x[t, :], beta[:, t])
+  df$yhat[t] = as.matrix(data.frame(df$EWA[t], 1)) %*% as.matrix(beta[, t]) 
+  
+  # Q[t, ] = (as.matrix(x[t, ]) %*% R) %*% t(as.matrix(x[t, ])) + Ve  #Q[t] = np.dot(np.dot(x[t, :], R), x[t, :].T)+Ve
+  df$Q[t] = (as.matrix(data.frame(df$EWA[t], 1)) %*% R) %*% t(as.matrix(data.frame(df$EWA[t], 1))) + Ve
+  
+  # e[t, ] = y[t, ] - yhat[t, ] #e[t]=y[t]-yhat[t] # measurement prediction error
+  df$e[t] = df$EWC[t] - df$yhat[t]
+  
+  K = R %*% t(as.matrix(data.frame(df$EWA[t], 1))) / df$Q[t]  #K = np.dot(R, x[t, :].T)/Q[t] #  Kalman gain
+  beta[, t] = beta[, t] + K %*% as.matrix(df$e[t]) #beta[:, t]=beta[:, t]+np.dot(K, e[t]) #  State update. Equation 3.11
+  
+  #Update df
+  df$beta1[t] = beta[1, t]
+  df$beta2[t] = beta[2, t]
+  
+  # State covariance update. Euqation 3.12
+  P = R - ((K %*% as.matrix(data.frame(df$EWA[t], 1))) %*% R) #P = R-np.dot(np.dot(K, x[t, :]), R) 
+}
+
+#Generated signals
+df$Q_root = df$Q ^ 0.5
+df$longs &amp;lt;- df$e &amp;lt;= -df$Q ^ 0.5 # buy spread when its value drops below 2 standard deviations.
+df$shorts &amp;lt;- df$e &amp;gt;= df$Q ^ 0.5  # short spread when its value rises above 2 standard deviations.  Short EWC
+
+df$longExits  &amp;lt;- df$e &amp;gt; 0 
+df$shortExits &amp;lt;- df$e &amp;lt; 0
+
+# initialize to 0
+df$numUnitsLong = NA
+df$numUnitsShort = NA
+df$numUnitsLong[0]=0.
+df$numUnitsShort[0]=0.
+
+df$numUnitsLong[df$longs]=1.
+df$numUnitsLong[df$longsExit]=0
+df$numUnitsLong = ifelse(is.na(df$numUnitsLong), 0, df$numUnitsLong)
+
+df$numUnitsShort[df$shorts]=-1.
+df$numUnitsShort[df$shortsExit]=0
+df$numUnitsShort = ifelse(is.na(df$numUnitsShort), 0, df$numUnitsShort)
+
+df$numUnits = df$numUnitsLong + df$numUnitsShort 
+
+df$position1 = 0; df$position2 = 0 
+
+df$position1 = ifelse(df$numUnits == -1, -1, df$position1)   #short EWC, Long EWA --&amp;gt; df$e[t] = df$EWC[t] - df$yhat[t]
+df$position2 = ifelse(df$numUnits == -1, 1, df$position2)  #short EWC, Long EWA 
+
+df$position1 = ifelse(df$numUnits == 1, 1, df$position1)   #long EWC, short EWA 
+df$position2 = ifelse(df$numUnits == 1, -1, df$position2)  #long EWC, short EWA 
+
+# df$positions = data.frame(df$numUnits, df$numUnits) * (data.frame(-df$beta1, 1)) * data.frame(df$EWA, df$EWC)   #Adjusted price
+df$positions = data.frame(df$numUnits, df$numUnits) * (data.frame(1, -df$beta1)) * data.frame(df$EWC, df$EWA)   #Adjusted price
+
+#Returns
+df$dailyret1 &amp;lt;- c(NA, (df$EWC[2: nrow(df)] - df$EWC[1: (nrow(df) - 1)])/df$EWC[1: (nrow(df) - 1)])
+df$dailyret2 &amp;lt;- c(NA, (df$EWA[2: nrow(df)] - df$EWA[1: (nrow(df) - 1)])/df$EWA[1: (nrow(df) - 1)])
+
+#Daily returns
+# lag(df$position1, 1)
+# lag(df$position2, 1) * df$beta1
+df$pnl = lag(df$positions$df.numUnits, 1) * df$dailyret1  + lag(df$positions$df.numUnits.1, 1) * df$dailyret2
+
+df$ret = (df$pnl)/lag((df$positions$df.numUnits + df$positions$df.numUnits.1), 1)
+df$ret = ifelse(is.na(df$ret), 0, df$ret)
+df$ret[2] = 0
+
+#Sharpe ratio
+sqrt(252)*mean(df$pnl, na.rm = TRUE)/sd(df$pnl, na.rm = TRUE)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>How I Find Country Pairs for Mean Reversion Strategy</title>
       <link>/post/how-i-find-country-pairs-for-mean-reversion-strategy/</link>
       <pubDate>Wed, 26 Dec 2018 12:30:03 +0800</pubDate>
@@ -803,45 +1023,6 @@ recipients &amp;lt;- emails
 &lt;p&gt;Also, I&amp;rsquo;m of the view that if you make enough calculated bets with positive expected returns in your life, eventually it will be a net positive in the long run.&lt;/p&gt;
 
 &lt;iframe src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubhtml?gid=606546538&amp;amp;single=true&amp;amp;widget=true&amp;amp;headers=false&#34; width=&#34;1000&#34; height=&#34;1000&#34; frameborder=&#34;0&#34; marginheight=&#34;0&#34; marginwidth=&#34;0&#34;&gt;Loading...&lt;/iframe&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>If you&#39;re interested in the content, please subscribe here</title>
-      <link>/subscribe/subscribe/</link>
-      <pubDate>Sun, 12 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/subscribe/subscribe/</guid>
-      <description>
-
-
-&lt;iframe src=&#34;https://docs.google.com/forms/d/e/1FAIpQLSddfEPQE7LHMi7MdfzPx6tJL_KPDKsEpLOloPHY9R04-n48sQ/viewform?usp=sf_link&#34; width=&#34;1000&#34; height=&#34;1000&#34; frameborder=&#34;0&#34; marginheight=&#34;0&#34; marginwidth=&#34;0&#34;&gt;
-Loading…
-&lt;/iframe&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Investment compass</title>
-      <link>/project/investment_compass_guidance/</link>
-      <pubDate>Thu, 09 Aug 2018 21:30:46 +0800</pubDate>
-      
-      <guid>/project/investment_compass_guidance/</guid>
-      <description>
-
-&lt;h2 id=&#34;investment-compass-kindly-wait-10-seconds-for-the-entire-app-to-load-best-viewed-in-desktop&#34;&gt;Investment Compass (Kindly wait 10 seconds for the entire app to load. Best viewed in Desktop)&lt;/h2&gt;
-
-&lt;p&gt;This serves as a compass for me to visualize the potential returns given the % fall from 52 week high. See my linkedin article &lt;a href=&#34;https://www.linkedin.com/pulse/investment-compass-our-volatile-times-jirong-huang/&#34;&gt;here&lt;/a&gt; for further explanation on why I think this is a good indicator.&lt;/p&gt;
-
-&lt;p&gt;The app consists of 3 tabs. The &amp;lsquo;Visualize&amp;rsquo; tab contains 3 graphs plotting % fall from 52 week high against the expected returns 1 to 3 years later. And the value boxes are simply the fitted values from the best fit lines.&lt;/p&gt;
-
-&lt;p&gt;The second tab contains the description of the indexes. For eg. ^STI refers to Straits Times Index. It will be useful for selection of the Index under Visualization tab.&lt;/p&gt;
-
-&lt;p&gt;The third tab is just a summary of the Linkedin article.&lt;/p&gt;
-
-&lt;p&gt;If you&amp;rsquo;re interested in reading the codes, pls visit my github &lt;a href=&#34;https://github.com/jironghuang/investment_compass&#34;&gt;link&lt;/a&gt;. At the moment, the lagging of indicators are done in a grossly inefficient way because I was just cobbling together some codes I did in the past. Will optimize it by using parallelized functions like mclapply in the future (used for crawling the stock process but not the computation).&lt;/p&gt;
-
-&lt;iframe src=&#34;https://sef88.shinyapps.io/investment_compass/&#34; width=&#34;1200&#34; height=&#34;1500&#34; style=&#34;border: none;&#34;&gt;&lt;/iframe&gt;
 </description>
     </item>
     

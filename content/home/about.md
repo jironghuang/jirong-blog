@@ -35,6 +35,16 @@ weight = 5
   course = "Bsc in Economics and Finance"
   institution = "Singapore Management University"
   year = 2013
+
+[[education.courses]]
+  course = "CFA Level 1"
+  institution = "Chartered Financial Analyst Institute"
+  year = 2012
+
+[[education.courses]]
+  course = "CMT Level 1"
+  institution = "Market Technicians' Association"
+  year = 2011
   
 +++
 

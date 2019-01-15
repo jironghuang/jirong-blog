@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Wed, 26 Dec 2018 12:30:03 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 01 Jan 2019 00:15:53 +0800</lastBuildDate>
     
 	<atom:link href="/tags/trading/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Translating Ernest Chan Kalman Filter Strategy Matlab and Python Code Into R</title>
+      <link>/post/translating-ernest-chan-kalman-filter-strategy-matlab-and-python-code-into-r/</link>
+      <pubDate>Tue, 01 Jan 2019 00:15:53 +0800</pubDate>
+      
+      <guid>/post/translating-ernest-chan-kalman-filter-strategy-matlab-and-python-code-into-r/</guid>
+      <description>Translating Ernest Chan Kalman Filter Strategy Matlab and Python Code Into R I&amp;rsquo;m really intrigued by Ernest Chan&amp;rsquo;s approach in Quant Trading.
+Often in the retail trading space, what &amp;lsquo;gurus&amp;rsquo; preach often sounds really dubious. But Ernest Chan is different. He&amp;rsquo;s sincere, down-to-earth and earnest (meant to be a pun here).
+In my first month of deploying algo trading strategies, I focus mainly on mean-reversion strategies - paricularly amongst pairs.</description>
+    </item>
     
     <item>
       <title>How I Find Country Pairs for Mean Reversion Strategy</title>

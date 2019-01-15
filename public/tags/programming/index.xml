@@ -7,10 +7,33 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Sat, 08 Dec 2018 01:11:52 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 09 Jan 2019 23:39:22 +0800</lastBuildDate>
     
 	<atom:link href="/tags/programming/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>How to Create a Python Environment in Ubuntu or any Debian-based system</title>
+      <link>/post/how-to-create-a-python-environment-in-ubuntu/</link>
+      <pubDate>Wed, 09 Jan 2019 23:39:22 +0800</pubDate>
+      
+      <guid>/post/how-to-create-a-python-environment-in-ubuntu/</guid>
+      <description>Often, certain projects or classes involving python require a set of modules/packages for the code to work.
+1 solution is to create a Python Environment dedicated to that project.
+First set up a folder, and include a .yml file with the specific modules and environment that you wish to install. Here is an example (env.yml),
+name: env channels: !!python/tuple - !!python/unicode &#39;defaults&#39; dependencies: - nb_conda=2.2.0=py27_0 - python=2.7.13=0 - cycler=0.10.0 - functools32=3.</description>
+    </item>
+    
+    <item>
+      <title>Translating Ernest Chan Kalman Filter Strategy Matlab and Python Code Into R</title>
+      <link>/post/translating-ernest-chan-kalman-filter-strategy-matlab-and-python-code-into-r/</link>
+      <pubDate>Tue, 01 Jan 2019 00:15:53 +0800</pubDate>
+      
+      <guid>/post/translating-ernest-chan-kalman-filter-strategy-matlab-and-python-code-into-r/</guid>
+      <description>Translating Ernest Chan Kalman Filter Strategy Matlab and Python Code Into R I&amp;rsquo;m really intrigued by Ernest Chan&amp;rsquo;s approach in Quant Trading.
+Often in the retail trading space, what &amp;lsquo;gurus&amp;rsquo; preach often sounds really dubious. But Ernest Chan is different. He&amp;rsquo;s sincere, down-to-earth and earnest (meant to be a pun here).
+In my first month of deploying algo trading strategies, I focus mainly on mean-reversion strategies - paricularly amongst pairs.</description>
+    </item>
     
     <item>
       <title>Summary of My Computational Photography Module From Georgia Tech Computer Science Masters</title>
