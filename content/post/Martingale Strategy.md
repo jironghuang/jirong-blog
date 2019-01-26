@@ -52,7 +52,7 @@ However the the risk is enormous. Near the average 120th run, the standard devia
 
 <img src="/post/img/1000_simulations.png" alt="/post/img/1000_simulations.png">
 
-<img src="/post/img/simulations_sd.png alt="/post/img/simulations_sd.png">
+<img src="/post/img/simulation_sd.png" alt="/post/img/simulation_sd.png">
 
 ### Insights from this strategy
 
