@@ -22,7 +22,7 @@ preview = true
 
 ## Martingale Strategy
 
-In this post, I will simulate a martingale strategy in Roulette's context to highlight the potential risks associate with this strategy.
+In this post, I will simulate a martingale strategy in Roulette's context to highlight the potential risks associated with this strategy.
 
 Double down! That's essentially the essence of it.
 
@@ -33,7 +33,7 @@ Here's a simple explanation of the strategy,
 - If you lose, you double your bet amount
 - And if your accumulated winnings hits a certain amount, you stop and leave the casino
 
-So how would the strategy turn out? To explain, I will use Monte Carlo with a Bernoulli distribution for each roulette spin (X ~ B(1, 0.48)).
+So how would the strategy fare? To explain, I will use Monte Carlo with a Bernoulli distribution for each roulette spin (X ~ B(1, 0.48)).
 
 ### Simulate strategy 10 runs/ times
 
