@@ -62,5 +62,10 @@ Over the course of my career, I hope to stay insatiably curious by thinking, lea
 
 Through this blog, I hope to share my thoughts on analytics and quantitative investment. The latter is something I'm keeping track of - with skin in the game. It aligns with my belief that I should put my money where my mouth is - literally!
 
-You may contact me at jironghuang88@gmail.com if we share common interests!
+Please contact me at jironghuang88@gmail.com if we share common interests!
 
+If you're interested to find out more about what I do, you may find my CV - compiled in latex - <a href="/post/document/Jirong_cv.pdf">here</a>.
+
+Cheers,
+
+Jirong
