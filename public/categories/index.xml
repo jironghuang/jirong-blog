@@ -23,7 +23,7 @@
     <item>
       <title>betting</title>
       <link>/categories/betting/</link>
-      <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 26 Jan 2019 11:46:49 +0800</pubDate>
       
       <guid>/categories/betting/</guid>
       <description></description>
@@ -68,9 +68,27 @@
     <item>
       <title>programming</title>
       <link>/categories/programming/</link>
-      <pubDate>Wed, 09 Jan 2019 23:39:22 +0800</pubDate>
+      <pubDate>Fri, 15 Feb 2019 13:09:44 +0800</pubDate>
       
       <guid>/categories/programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>risk</title>
+      <link>/categories/risk/</link>
+      <pubDate>Sat, 26 Jan 2019 11:46:49 +0800</pubDate>
+      
+      <guid>/categories/risk/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>simulation</title>
+      <link>/categories/simulation/</link>
+      <pubDate>Sat, 26 Jan 2019 11:46:49 +0800</pubDate>
+      
+      <guid>/categories/simulation/</guid>
       <description></description>
     </item>
     

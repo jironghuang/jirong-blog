@@ -11,6 +11,90 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Building a decision tree algorithm from scratch</title>
+      <link>/post/building-adecision-tree-from-scratch/</link>
+      <pubDate>Fri, 15 Feb 2019 13:09:44 +0800</pubDate>
+      
+      <guid>/post/building-adecision-tree-from-scratch/</guid>
+      <description>
+
+&lt;h2 id=&#34;building-a-decision-tree-from-scratch&#34;&gt;Building a decision tree from scratch&lt;/h2&gt;
+
+&lt;p&gt;Sometimes to truly understand and internalise an algorithm, it&amp;rsquo;s always useful to build from scratch. Rather than relying on a module or library written by someone else.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m fortunate to be given the chance to do it in 1 of my assignments for decision trees.&lt;/p&gt;
+
+&lt;p&gt;From this exercise, I had to rely on my knowledge on recursion, binary trees (in-order traversal) and object oriented programming.&lt;/p&gt;
+
+&lt;p&gt;Below is a snippet of method in a class. The algorithm works as follows,&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;First you define a leaf size i.e. the maximum number of data you allow to be left in the leaf node.&lt;/li&gt;
+&lt;li&gt;If number of data in leaf node is still more than the allowable size, check if all data is the same. If it&amp;rsquo;s the same, return just 1 value&lt;/li&gt;
+&lt;li&gt;Next I find the feature based on best correlation (gini coefficient and information gain works too) with the dependent variable values. Note that as you traverse down the tree, this dataset gets smaller&lt;/li&gt;
+&lt;li&gt;With the best feature found in each split, I proceed to contruct the left tree and right tree together with a root node&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The idea is that if you are left with a node that&amp;rsquo;s smaller or equals to allowable leaf size, it will stop traversing.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/img/Building_decision_tree.png&#34; alt=&#34;/post/img/Building_decision_tree.png&#34;&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Martingale Strategy - Double Down</title>
+      <link>/post/martingale-strategy/</link>
+      <pubDate>Sat, 26 Jan 2019 11:46:49 +0800</pubDate>
+      
+      <guid>/post/martingale-strategy/</guid>
+      <description>
+
+&lt;h2 id=&#34;martingale-strategy&#34;&gt;Martingale Strategy&lt;/h2&gt;
+
+&lt;p&gt;In this post, I will simulate a martingale strategy in Roulette&amp;rsquo;s context to highlight the potential risks associated with this strategy.&lt;/p&gt;
+
+&lt;p&gt;Double down! That&amp;rsquo;s essentially the essence of it.&lt;/p&gt;
+
+&lt;p&gt;Here&amp;rsquo;s a simple explanation of the strategy,&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The croupier spins the ball. If it&amp;rsquo;s red you win the amount you bet, black you lose the same amount&lt;/li&gt;
+&lt;li&gt;If you win, you continue to bet the same amount (same as your 1st bet amount)&lt;/li&gt;
+&lt;li&gt;If you lose, you double your bet amount&lt;/li&gt;
+&lt;li&gt;And if your accumulated winnings hits a certain amount, you stop and leave the casino&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So how would the strategy fare? To explain, I will use Monte Carlo with a Bernoulli distribution for each roulette spin (X ~ B(1, 0.48)).&lt;/p&gt;
+
+&lt;h3 id=&#34;simulate-strategy-10-runs-times&#34;&gt;Simulate strategy 10 runs/ times&lt;/h3&gt;
+
+&lt;p&gt;Here, I simulate the strategy of 10 times. Think of it in this way, there&amp;rsquo;re 10 alternate universes which you exist and you play the same game 10 times. Or you can just simply treat this as going back to the casino on 10 separate days.&lt;/p&gt;
+
+&lt;p&gt;In the chart below, you will notice that for some runs; because of a sequence of bad luck, the losses quick spiralled!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/img/10_simulations.png&#34; alt=&#34;/post/img/10_simulations.png&#34;&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;simulate-strategy-1000-runs-times-and-compute-the-mean&#34;&gt;Simulate strategy 1000 runs/ times and compute the mean&lt;/h3&gt;
+
+&lt;p&gt;Next, for a more robust interpretation, I went on to simulate this strategy 1000 times and computed the mean and standard deviation. You will notice that the strategy eventually converges to a desired terminal value. In this case, it&amp;rsquo;s $80. So essentially, out of 1000 simulations, all of them reaches my profit target!&lt;/p&gt;
+
+&lt;p&gt;However the the risk is enormous. Near the average 120th run, the standard deviation sky-rocketed to 120,000. I&amp;rsquo;m unsure if anyone could stomach this loss at any one point of time. The journey matters!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/img/1000_simulations.png&#34; alt=&#34;/post/img/1000_simulations.png&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/img/simulation_sd.png&#34; alt=&#34;/post/img/simulation_sd.png&#34;&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;insights-from-this-strategy&#34;&gt;Insights from this strategy&lt;/h3&gt;
+
+&lt;p&gt;Martingale strategy - to put it simply - is a win small, lose potentially huge strategy.&lt;/p&gt;
+
+&lt;p&gt;In this strategy, you will win 100% of the time.&lt;/p&gt;
+
+&lt;p&gt;But the question is, do you have the money (or infinite bankroll) to tide through tough times?&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>How to Create a Python Environment in Ubuntu or any Debian-based system</title>
       <link>/post/how-to-create-a-python-environment-in-ubuntu/</link>
       <pubDate>Wed, 09 Jan 2019 23:39:22 +0800</pubDate>
@@ -930,99 +1014,6 @@ recipients &amp;lt;- emails
       <description>&lt;p&gt;This section indicates my overall current asset allocation, not based on any quantitative analysis but based on rule-of-thumb from wealth management community.&lt;/p&gt;
 
 &lt;iframe src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubchart?oid=963907902&amp;amp;format=interactive&#34; width=&#34;1000&#34; height=&#34;1000&#34; frameborder=&#34;0&#34; marginheight=&#34;0&#34; marginwidth=&#34;0&#34;&gt;Loading...&lt;/iframe&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Naming Conventions in R. Let&#39;s call it JR Notations</title>
-      <link>/post/jr-naming-conventions-in-r/</link>
-      <pubDate>Sun, 26 Aug 2018 14:09:02 +0800</pubDate>
-      
-      <guid>/post/jr-naming-conventions-in-r/</guid>
-      <description>
-
-&lt;h2 id=&#34;naming-conventions-in-r-let-s-call-it-jr-notations&#34;&gt;Naming Conventions in R. Let&amp;rsquo;s call it JR Notations.&lt;/h2&gt;
-
-&lt;p&gt;&amp;lsquo;Naming conventions&amp;rsquo; is a huge thing in many programming languages/ paradigms/ communities. But it&amp;rsquo;s noticeably absent in the R programming community.&lt;/p&gt;
-
-&lt;p&gt;With some inspiration from the Hungarian Notation, here&amp;rsquo;s a blue-print that I came up with while working on a major R project over the last 2 months. Drumroll please&amp;hellip;&lt;/p&gt;
-
-&lt;h3 id=&#34;1-naming-conventions-for-r-scripts&#34;&gt;1. Naming conventions for R scripts&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;F_ for R scripts that contains functions.&lt;/li&gt;
-&lt;li&gt;O_ for R scripts that contains classes.&lt;/li&gt;
-&lt;li&gt;P_ for R scripts that runs the procedures.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;2-naming-conventions-for-r-functions-at-the-start-of-the-function-name&#34;&gt;2. Naming conventions for R functions. At the start of the function name,&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;bf stands for a return in boolean value&lt;/li&gt;
-&lt;li&gt;sf stands for a return in string value&lt;/li&gt;
-&lt;li&gt;nf stands for a return in numeric value&lt;/li&gt;
-&lt;li&gt;mf stands for a return in matrix values&lt;/li&gt;
-&lt;li&gt;lf stands for a return in list values&lt;/li&gt;
-&lt;li&gt;af stands for a return in array values&lt;/li&gt;
-&lt;li&gt;df stands for a return in data frame&lt;/li&gt;
-&lt;li&gt;vf stands for a void function. i.e. executing a function without returning a variable.&lt;/li&gt;
-&lt;li&gt;gf stands for a return in graph value&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;3-naming-conventions-for-parameters-in-functions&#34;&gt;3. Naming conventions for parameters in functions&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;bp stands for boolean parameter&lt;/li&gt;
-&lt;li&gt;sp stands for string parameter&lt;/li&gt;
-&lt;li&gt;np stands for numeric parameter&lt;/li&gt;
-&lt;li&gt;mp stands for matrix parameter&lt;/li&gt;
-&lt;li&gt;lp stands for list parameter&lt;/li&gt;
-&lt;li&gt;ap stands for array parameter&lt;/li&gt;
-&lt;li&gt;dp stands for data frame parameter&lt;/li&gt;
-&lt;li&gt;gp stands for a return in graph parameter&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;4-naming-conventions-for-r-variables&#34;&gt;4. Naming conventions for R variables&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;b stands for boolean variable&lt;/li&gt;
-&lt;li&gt;s stands for string variable&lt;/li&gt;
-&lt;li&gt;n stands for numeric variable&lt;/li&gt;
-&lt;li&gt;m stands for matrix variable&lt;/li&gt;
-&lt;li&gt;l stands for list variable&lt;/li&gt;
-&lt;li&gt;a stands for array variable&lt;/li&gt;
-&lt;li&gt;d stands for data frame variable&lt;/li&gt;
-&lt;li&gt;g stands for graph variable&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;5-naming-conventions-for-r-global-variables&#34;&gt;5. Naming conventions for R global variables&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;bg stands for boolean global variable&lt;/li&gt;
-&lt;li&gt;sg stands for string global variable&lt;/li&gt;
-&lt;li&gt;ng stands for numeric global variable&lt;/li&gt;
-&lt;li&gt;mg stands for matrix global variable&lt;/li&gt;
-&lt;li&gt;lg stands for list global variable&lt;/li&gt;
-&lt;li&gt;ag stands for array global variable&lt;/li&gt;
-&lt;li&gt;dg stands for data frame global variable&lt;/li&gt;
-&lt;li&gt;gg stands for global graph variable&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Skin in the Game</title>
-      <link>/skin/skin-in-the-game/</link>
-      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/skin/skin-in-the-game/</guid>
-      <description>&lt;p&gt;In this section, I&amp;rsquo;ll note all the quantitative decisions I have made in the areas of investing, trading and betting. Money allocated here excludes the portion that I placed in conservative asset allocation.&lt;/p&gt;
-
-&lt;p&gt;Skin in the game or put in another way - putting where your mouth aligns with my core belief. Any serious analysis that I feel strongly about should have a stake in the game.&lt;/p&gt;
-
-&lt;p&gt;Also, I&amp;rsquo;m of the view that if you make enough calculated bets with positive expected returns in your life, eventually it will be a net positive in the long run.&lt;/p&gt;
-
-&lt;iframe src=&#34;https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubhtml?gid=606546538&amp;amp;single=true&amp;amp;widget=true&amp;amp;headers=false&#34; width=&#34;1000&#34; height=&#34;1000&#34; frameborder=&#34;0&#34; marginheight=&#34;0&#34; marginwidth=&#34;0&#34;&gt;Loading...&lt;/iframe&gt;
 </description>
     </item>
     

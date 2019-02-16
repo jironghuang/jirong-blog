@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Fri, 15 Jun 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 26 Jan 2019 11:46:49 +0800</lastBuildDate>
     
 	<atom:link href="/categories/betting/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Martingale Strategy - Double Down</title>
+      <link>/post/martingale-strategy/</link>
+      <pubDate>Sat, 26 Jan 2019 11:46:49 +0800</pubDate>
+      
+      <guid>/post/martingale-strategy/</guid>
+      <description>Martingale Strategy In this post, I will simulate a martingale strategy in Roulette&amp;rsquo;s context to highlight the potential risks associated with this strategy.
+Double down! That&amp;rsquo;s essentially the essence of it.
+Here&amp;rsquo;s a simple explanation of the strategy,
+ The croupier spins the ball. If it&amp;rsquo;s red you win the amount you bet, black you lose the same amount If you win, you continue to bet the same amount (same as your 1st bet amount) If you lose, you double your bet amount And if your accumulated winnings hits a certain amount, you stop and leave the casino  So how would the strategy fare?</description>
+    </item>
     
     <item>
       <title>World Cup - Singapore Pools odds</title>

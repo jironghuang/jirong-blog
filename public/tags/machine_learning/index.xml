@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>machine_learning on Jirong&#39;s sandbox</title>
+    <link>/tags/machine_learning/</link>
+    <description>Recent content in machine_learning on Jirong&#39;s sandbox</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Fri, 15 Feb 2019 13:09:44 +0800</lastBuildDate>
+    
+	<atom:link href="/tags/machine_learning/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Building a decision tree algorithm from scratch</title>
+      <link>/post/building-adecision-tree-from-scratch/</link>
+      <pubDate>Fri, 15 Feb 2019 13:09:44 +0800</pubDate>
+      
+      <guid>/post/building-adecision-tree-from-scratch/</guid>
+      <description>Building a decision tree from scratch Sometimes to truly understand and internalise an algorithm, it&amp;rsquo;s always useful to build from scratch. Rather than relying on a module or library written by someone else.
+I&amp;rsquo;m fortunate to be given the chance to do it in 1 of my assignments for decision trees.
+From this exercise, I had to rely on my knowledge on recursion, binary trees (in-order traversal) and object oriented programming.</description>
+    </item>
+    
+  </channel>
+</rss>
