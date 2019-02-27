@@ -1,6 +1,6 @@
 +++
 title = "Sampling With Replacement Using First Principles"
-date = 2019-02-27T22:58:46+08:00
+date = 2019-02-27T11:46:49+08:00
 draft = false
 
 # Tags and categories
