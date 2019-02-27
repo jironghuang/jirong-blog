@@ -1,12 +1,12 @@
 +++
-title = "Sampling With Replacement"
-date = 2019-02-27T22:24:21+08:00
+title = "Sampling With Replacement Using First Principles"
+date = 2019-02-27T22:58:46+08:00
 draft = false
 
 # Tags and categories
 # For example, use `tags = []` for no tags, or the form `tags = ["A Tag", "Another Tag"]` for one or more tags.
-tags = ["programming", "statistics", "firstPrinciples"]
-categories = ["programming", "statistics", "firstPrinciples"]
+tags = []
+categories = []
 
 # Featured image
 # Place your image in the `static/img/` folder and reference its filename below, e.g. `image = "example.jpg"`.
@@ -20,7 +20,7 @@ preview = true
 
 +++
 
-## Sampling with replacement
+# Sampling with replacement
 
 Hello! It's me once again attempting to explain things from first principles - a term popularized by Elon Musk. 
 
@@ -92,8 +92,3 @@ num = randint(0, 1)
 bootstrapped_data = rbind.fill(lapply(1: 100, bootstrap_weights))
 
 ```
-
-
-
-
-
