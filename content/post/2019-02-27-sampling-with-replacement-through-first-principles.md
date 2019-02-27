@@ -3,8 +3,8 @@ title: Sampling With Replacement Through First Principles
 author: ~
 date: '2019-02-27'
 slug: sampling-with-replacement-through-first-principles
-categories: []
-tags: []
+categories: ["programming", "statistics", "firstPrinciples"]
+tags: ["programming", "statistics", "firstPrinciples"]
 header:
   caption: ''
   image: ''
@@ -18,7 +18,7 @@ I will use some psudeo code - on sampling with replacement for weights - to aid 
 
 Earlier in the week, I attempted to write a simple function from scratch but I gave up after realising that it will take me more than 15 mins! Difficulties lies in the multiple switch statements in defining the intervals. Haven't figured that part out yet.
 
-There're definitely packages out there that does sort of stuff but forces me to understand the underlying theory from scratch.
+There're definitely packages out there that does sort of stuff but this forces me to understand the underlying theory from scratch.
 
 So here is the idea, I've a dataset with 4 individuals, tagged to respective weights that corresponds to the population. And I wish to do a bootstrap i.e. sampling with replacement to get a sample size of N = 100
 
