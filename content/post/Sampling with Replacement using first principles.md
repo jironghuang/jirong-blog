@@ -28,7 +28,7 @@ I will use some psudeo code - on sampling with replacement for weights - to aid 
 
 Earlier in the week, I attempted to write a simple function from scratch but I gave up after realising that it will take me more than 15 mins! Difficulties lies in the multiple switch statements in defining the intervals. Haven't figured that part out yet.
 
-There're definitely packages out there that does sort of stuff but forces me to understand the underlying theory from scratch.
+There're definitely packages out there that does sort of stuff but this forces me to understand the underlying theory from scratch.
 
 So here is the idea, I've a dataset with 4 individuals, tagged to respective weights that corresponds to the population. And I wish to do a bootstrap i.e. sampling with replacement to get a sample size of N = 100
 
@@ -42,7 +42,7 @@ id weight PMF     CDF
 1  2      20%    [0, 20]
 2  3      30%    (20, 50]
 3  3      30%    (50, 80]
-4  3      20%    (80, 200]
+4  2      20%    (80, 200]
 
 ```
 
