@@ -11,86 +11,6 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Sampling With Replacement Using First Principles</title>
-      <link>/post/sampling-with-replacement-using-first-principles/</link>
-      <pubDate>Wed, 27 Feb 2019 11:46:49 +0800</pubDate>
-      
-      <guid>/post/sampling-with-replacement-using-first-principles/</guid>
-      <description>
-
-&lt;h1 id=&#34;sampling-with-replacement&#34;&gt;Sampling with replacement&lt;/h1&gt;
-
-&lt;p&gt;Hello! It&amp;rsquo;s me once again attempting to explain things from first principles - a term popularized by Elon Musk.&lt;/p&gt;
-
-&lt;p&gt;I will use some psudeo code - on sampling with replacement for weights - to aid my explanation.&lt;/p&gt;
-
-&lt;p&gt;Earlier in the week, I attempted to write a simple function from scratch but I gave up after realising that it will take me more than 15 mins! Difficulties lies in the multiple switch statements in defining the intervals. Haven&amp;rsquo;t figured that part out yet.&lt;/p&gt;
-
-&lt;p&gt;There&amp;rsquo;re definitely packages out there that does sort of stuff but this forces me to understand the underlying theory from scratch.&lt;/p&gt;
-
-&lt;p&gt;So here is the idea, I&amp;rsquo;ve a dataset with 4 individuals, tagged to respective weights that corresponds to the population. And I wish to do a bootstrap i.e. sampling with replacement to get a sample size of N = 100&lt;/p&gt;
-
-&lt;p&gt;See Wikipedia page on advantages of Bootstrapping &amp;ndash;&amp;gt; &lt;a href=&#34;https://en.wikipedia.org/wiki/Bootstrapping_(statistics&#34; target=&#34;_blank&#34;&gt;https://en.wikipedia.org/wiki/Bootstrapping_(statistics&lt;/a&gt;)&lt;/p&gt;
-
-&lt;p&gt;Here&amp;rsquo;s what I will do. I will first line up the individuals and find the Probability Mass Function (PMF) for each individual accounting for its weight. Second, I will add up the PMF to obtain the Cumulative Density Function (cumulative proportion)&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;data
-id weight PMF     CDF
-1  2      20%    [0, 20]
-2  3      30%    (20, 50]
-3  3      30%    (50, 80]
-4  2      20%    (80, 200]
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Next, I will do a loop of 100 times. At the start of each loop I will obtain a float of between 0 to 1. If the value lies between a certain range, I will add that individual to the dataset. Given that num is random, it will lie between the various ranges without order, accouting for length of the interval.&lt;/p&gt;
-
-&lt;p&gt;Note that sampling with replacement means there&amp;rsquo;s a chance that an individual may be represented more than once in the dataset.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;for (i in 1:100){
-
-  num = randint(0, 1)
-  
-  if(num &amp;lt; 0.2){
-    add_to_new_dataset(id = 1)
-  }else if (num between 0.2 to 0.5){
-    add_to_new_dataset(id = 2)
-  }else if (num between 0.5 to 0.8){
-    add_to_new_dataset(id = 3)
-  }else{
-    add_to_new_dataset(id = 3)
-  }
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Of course! In R, you should avoid an explicit loop at all costs. The solution is to embed it in a function and use a lapply function.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;bootstrap_weights = function(i){
-
-num = randint(0, 1)
-
-  if(num &amp;lt; 0.2){
-    id = 1
-  }else if (num between 0.2 to 0.5){
-    id = 2 
-  }else if (num between 0.5 to 0.8){
-    id = 3
-  }else{
-    id = 4
-  }
-  
-  data_row = data[id, ]
-  return (data_row)
-}
-
-bootstrapped_data = rbind.fill(lapply(1: 100, bootstrap_weights))
-
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
       <title>Sampling With Replacement Through First Principles</title>
       <link>/post/sampling-with-replacement-through-first-principles/</link>
       <pubDate>Wed, 27 Feb 2019 00:00:00 +0000</pubDate>
@@ -1117,6 +1037,52 @@ ss_analysis &amp;lt;- shift_share(ap_grp_labels = c(&amp;quot;grp1&amp;quot;, &a
          Description within_effect across_effect dynamic_effect overall_effect
 1 aggregated_effects     0.6883117   -0.07415129     -0.3175097      0.2966507
 
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Automated Email Notification of my ETF watchlist</title>
+      <link>/post/automated_email_notification/</link>
+      <pubDate>Tue, 04 Sep 2018 01:37:53 +0800</pubDate>
+      
+      <guid>/post/automated_email_notification/</guid>
+      <description>&lt;p&gt;I wrote an automated email notification code to send out my daily ETF watchlist in csv - an extension of my ETF watchlist project &lt;a href=&#34;http://jirong-huang.netlify.com/project/watch_list/&#34;&gt;here&lt;/a&gt;. I figured out that people will not visit my site. So why not blast out the watchlist instead:)&lt;/p&gt;
+
+&lt;p&gt;And if you are interested in the code. Here you go.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#Steps for sending watchlist
+library(&amp;quot;rJava&amp;quot;)
+library(&#39;mailR&#39;)
+
+source(&amp;quot;./R/emails.R&amp;quot;)
+
+# Write the content of your email
+msg &amp;lt;- paste(&amp;quot;Hey there, I&#39;m sending this ETF watchlist that is updated as of &amp;quot;, 
+             &amp;quot;\n&amp;quot;,
+             as.character(date()),
+             &amp;quot;\n&amp;quot;,
+             &amp;quot;This is part of my daily automated ETF dashboard + Email notification and I thought you may be interested in it. See the following link for more details: http://jirong-huang.netlify.com/project/watch_list/&amp;quot;,
+             &amp;quot;\n&amp;quot;,
+             &amp;quot;If this irritates you too much, let me know and I can take you out of this mailing list:)&amp;quot;,&amp;quot;&amp;quot;,&amp;quot;Best,&amp;quot;,&amp;quot;Jirong&amp;quot;, sep = &amp;quot;\n&amp;quot;)
+
+# Define who the sender is
+sender &amp;lt;- &amp;quot;jironghuang88@gmail.com&amp;quot;
+# Define who should get your email
+recipients &amp;lt;- emails
+              # Send your email with the send.mail function
+              send.mail(from = sender,
+                        to = recipients,
+                        subject = &amp;quot;ETF Watchlist&amp;quot;,
+                        body = msg,
+                        attach.files = &amp;quot;./Output/yahoo_crawled_data.csv&amp;quot;,
+                        smtp = list(host.name = &amp;quot;smtp.gmail.com&amp;quot;, port = 587,
+                                    user.name = &amp;quot;jironghuang88@gmail.com&amp;quot;,
+                                    passwd = Sys.getenv(&amp;quot;mail&amp;quot;), ssl = TRUE),
+                        authenticate = TRUE,
+                        send = TRUE)
+              
+              # JAVA_HOME /usr/lib/jvm/java-8-oracle             
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
