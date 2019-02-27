@@ -518,6 +518,26 @@
     
     <url>
     
+      <loc>/tags/firstprinciples/</loc>
+      <lastmod>2019-02-27T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/firstprinciples/</loc>
+      <lastmod>2019-02-27T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/tags/investment/</loc>
       <lastmod>2018-08-09T21:30:46+08:00</lastmod>
       <priority>0</priority>
@@ -599,7 +619,7 @@
     <url>
     
       <loc>/tags/programming/</loc>
-      <lastmod>2019-02-15T13:09:44+08:00</lastmod>
+      <lastmod>2019-02-27T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -609,7 +629,7 @@
     <url>
     
       <loc>/categories/programming/</loc>
-      <lastmod>2019-02-15T13:09:44+08:00</lastmod>
+      <lastmod>2019-02-27T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -650,6 +670,26 @@
     
       <loc>/categories/simulation/</loc>
       <lastmod>2019-01-26T11:46:49+08:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/statistics/</loc>
+      <lastmod>2019-02-27T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/statistics/</loc>
+      <lastmod>2019-02-27T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
