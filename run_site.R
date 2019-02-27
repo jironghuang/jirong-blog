@@ -3,7 +3,7 @@ library(blogdown)
 # blogdown::new_site(theme = "gcushen/hugo-academic")
 # blogdown::serve_site()
 
-# blogdown::new_post("Testing embedding of Java JAR files in Websites/Intranet")
+# blogdown::new_post("Sampling With Replacement Through First Principles")
 #blogdown::new_post("Updated ETF watchlist codes")
 
 # blogdown::new_post("Rolling out the Investment Compass interactive app that I promised to myself eons ago")
