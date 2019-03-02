@@ -27,7 +27,7 @@ See Wikipedia page on advantages of Bootstrapping --> https://en.wikipedia.org/w
 Here's what I will do. I will first line up the individuals and find the Probability Mass Function (PMF) for each individual accounting for its weight. Second, I will add up the PMF to obtain the Cumulative Density Function (cumulative proportion)
 
 ```
-data
+df
 id weight PMF     CDF
 1  2      20%    [0, 20]
 2  3      30%    (20, 50]
@@ -100,9 +100,10 @@ getValue <- function(x, data) {
 
 # Using rand function to get a list of numbers
 rand_numbers <- c(0.1, 0.173, 0.235)
-sapply(x, getValue, data=df)
+sapply(rand_numbers, getValue, data = df)
 ```
 
+Cheers!
 
 
 
