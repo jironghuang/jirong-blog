@@ -32,7 +32,7 @@ id weight PMF     CDF
 1  2      20%    [0, 20]
 2  3      30%    (20, 50]
 3  3      30%    (50, 80]
-4  2      20%    (80, 200]
+4  2      20%    (80, 100]
 
 ```
 
@@ -84,3 +84,31 @@ bootstrapped_data = rbind.fill(lapply(1: 100, bootstrap_weights))
 ```
 
 I hope this is useful!
+
+## Latest developments
+
+Courtesy of this post here --> https://stackoverflow.com/questions/24766104/checking-if-value-in-vector-is-in-range-of-values-in-different-length-vector 
+
+Here's the simple solution to link a value to an interval,
+
+```
+getValue <- function(x, data) {
+  tmp <- data %>%
+    filter(CDF1 <= x, x <= CDF2)
+  return(tmp$id)
+}
+
+# Using rand function to get a list of numbers
+rand_numbers <- c(0.1, 0.173, 0.235)
+sapply(x, getValue, data=df)
+```
+
+
+
+
+
+
+
+
+
+
