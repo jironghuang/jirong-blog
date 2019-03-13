@@ -22,6 +22,8 @@ You may find my R scripts <a href="https://github.com/jironghuang/ETF_watchlist"
 
 And here's the googlesheet (updated daily) opened to the public. Hope you find it useful!
 
+Point to note: There seems to be some errors in the % 52 week high indicator for London Stock Exchange and Hong Kong Stock Exchange Stocks (i.e. .L and .HK tickers). So consume this information with a pinch of salt.
+
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQtSJfzakpUWRkryIoXaqJm7szd-g6R1SHr-aAXAlHNOFEDXYGhCBNC9UeYEYv8cYf8krgsS6LPpED9/pubhtml?gid=0&single=true" width="900" height="780" style="border: none;"></iframe>
 
 
