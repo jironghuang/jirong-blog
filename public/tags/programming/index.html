@@ -82,7 +82,7 @@
   <meta property="og:description" content="Data scientist and Quantitative Investor/ Trader">
   <meta property="og:locale" content="en-us">
   
-  <meta property="og:updated_time" content="2019-02-27T00:00:00&#43;00:00">
+  <meta property="og:updated_time" content="2019-02-28T23:34:32&#43;08:00">
   
 
   
@@ -257,6 +257,19 @@
   
   
   <div>
+    <h2><a href="/post/hosting-a-flask-app-on-heroku/">Hosting a Flask App on Heroku</a></h2>
+    <div class="article-style">
+      
+      Following the steps here &ndash;&gt; <a href="https://realpython.com/flask-by-example-part-1-project-setup/" target="_blank">https://realpython.com/flask-by-example-part-1-project-setup/</a>
+I managed to deploy my python flask app in Heroku.
+from flask import Flask app = Flask(<strong>name</strong>) @app.route(&lsquo;/&rsquo;) def hello(): return &quot;Hello World!&quot; @app.route(&lsquo;/&lt;name&gt;&rsquo;) def hello_name(name): return &quot;Hello {}!&quot;.format(name) if <strong>name</strong> == &lsquo;<strong>main</strong>&lsquo;: app.run()  You may visit the following link &ndash;&gt;<a href="https://jirong-stage.herokuapp.com/" target="_blank">https://jirong-stage.herokuapp.com/</a> &amp; add a suffix to it.
+Example <a href="https://jirong-stage.herokuapp.com/jirong" target="_blank">https://jirong-stage.herokuapp.com/jirong</a> &amp; this will return Hello jirong!
+Possibilites are immense! I can easily create APIs or host dashboard here.
+      
+    </div>
+  </div>
+  
+  <div>
     <h2><a href="/post/sampling-with-replacement-through-first-principles/">Sampling With Replacement Through First Principles</a></h2>
     <div class="article-style">
       
@@ -344,16 +357,6 @@ In my first month of deploying algo trading strategies, I focus mainly on mean-r
       
       Snippet of my Seam Carving Report from my Msc Computer Science Georgia Tech&rsquo;s Computational Photography module Besides removing of streams, we can also add streams. We identify k streams for removal and duplicate by averaging the left and right neighbours. The computation of these averages is done by convolving the following matrix with the images’ colour channels.
 kernel = np.array([[0, 0, 0], [0.5, 0, 0.5], [0, 0, 0]])  In the implementation of my scaling_up algorithm, I first remove k streams (depending on ratio set by user) and recorded the coordinates and cumulative energy values of the original picture in each removal.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/decomposing-a-position-into-exchange-rate-and-non-exchange-rate-effects/">R package: Decomposing a Position Into Exchange Rate and Non Exchange Rate Effects</a></h2>
-    <div class="article-style">
-      
-      Decomposing a Position Into Exchange Rate and Non Exchange Rate Effects If you are someone with a stake in foreign positions, this package I wrote here may be a useful tool to help you understand the impact of foreign currency on your positions. For instance,
- If you are an investor, you may use it to analyze impact of exchange rate on your investment positions. If you are in the treasury department, you may wish to analyze the impact of exchange rates on your bonds.
       
     </div>
   </div>

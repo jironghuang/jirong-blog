@@ -11,6 +11,41 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Hosting a Flask App on Heroku</title>
+      <link>/post/hosting-a-flask-app-on-heroku/</link>
+      <pubDate>Thu, 28 Feb 2019 23:34:32 +0800</pubDate>
+      
+      <guid>/post/hosting-a-flask-app-on-heroku/</guid>
+      <description>&lt;p&gt;Following the steps here &amp;ndash;&amp;gt; &lt;a href=&#34;https://realpython.com/flask-by-example-part-1-project-setup/&#34; target=&#34;_blank&#34;&gt;https://realpython.com/flask-by-example-part-1-project-setup/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I managed to deploy my python flask app in Heroku.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;from flask import Flask
+app = Flask(__name__)
+
+
+@app.route(&#39;/&#39;)
+def hello():
+    return &amp;quot;Hello World!&amp;quot;
+
+
+@app.route(&#39;/&amp;lt;name&amp;gt;&#39;)
+def hello_name(name):
+    return &amp;quot;Hello {}!&amp;quot;.format(name)
+
+if __name__ == &#39;__main__&#39;:
+    app.run()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You may visit the following link &amp;ndash;&amp;gt;&lt;a href=&#34;https://jirong-stage.herokuapp.com/&#34; target=&#34;_blank&#34;&gt;https://jirong-stage.herokuapp.com/&lt;/a&gt; &amp;amp; add a suffix to it.&lt;/p&gt;
+
+&lt;p&gt;Example &lt;a href=&#34;https://jirong-stage.herokuapp.com/jirong&#34; target=&#34;_blank&#34;&gt;https://jirong-stage.herokuapp.com/jirong&lt;/a&gt; &amp;amp; this will return Hello jirong!&lt;/p&gt;
+
+&lt;p&gt;Possibilites are immense! I can easily create APIs or host dashboard here. Pretty exciting to me:)&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Sampling With Replacement Through First Principles</title>
       <link>/post/sampling-with-replacement-through-first-principles/</link>
       <pubDate>Wed, 27 Feb 2019 00:00:00 +0000</pubDate>
@@ -34,12 +69,12 @@
 
 &lt;p&gt;Here&amp;rsquo;s what I will do. I will first line up the individuals and find the Probability Mass Function (PMF) for each individual accounting for its weight. Second, I will add up the PMF to obtain the Cumulative Density Function (cumulative proportion)&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;data
+&lt;pre&gt;&lt;code&gt;df
 id weight PMF     CDF
 1  2      20%    [0, 20]
 2  3      30%    (20, 50]
 3  3      30%    (50, 80]
-4  2      20%    (80, 200]
+4  2      20%    (80, 100]
 
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -89,6 +124,25 @@ bootstrapped_data = rbind.fill(lapply(1: 100, bootstrap_weights))
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;I hope this is useful!&lt;/p&gt;
+
+&lt;h2 id=&#34;latest-developments&#34;&gt;Latest developments&lt;/h2&gt;
+
+&lt;p&gt;Courtesy of this post here &amp;ndash;&amp;gt; &lt;a href=&#34;https://stackoverflow.com/questions/24766104/checking-if-value-in-vector-is-in-range-of-values-in-different-length-vector&#34; target=&#34;_blank&#34;&gt;https://stackoverflow.com/questions/24766104/checking-if-value-in-vector-is-in-range-of-values-in-different-length-vector&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Here&amp;rsquo;s the simple solution to link a value to an interval,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;getValue &amp;lt;- function(x, data) {
+  tmp &amp;lt;- data %&amp;gt;%
+    filter(CDF1 &amp;lt;= x, x &amp;lt;= CDF2)
+  return(tmp$id)
+}
+
+# Using rand function to get a list of numbers
+rand_numbers &amp;lt;- c(0.1, 0.173, 0.235)
+sapply(rand_numbers, getValue, data = df)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Cheers!&lt;/p&gt;
 </description>
     </item>
     
@@ -1037,52 +1091,6 @@ ss_analysis &amp;lt;- shift_share(ap_grp_labels = c(&amp;quot;grp1&amp;quot;, &a
          Description within_effect across_effect dynamic_effect overall_effect
 1 aggregated_effects     0.6883117   -0.07415129     -0.3175097      0.2966507
 
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Automated Email Notification of my ETF watchlist</title>
-      <link>/post/automated_email_notification/</link>
-      <pubDate>Tue, 04 Sep 2018 01:37:53 +0800</pubDate>
-      
-      <guid>/post/automated_email_notification/</guid>
-      <description>&lt;p&gt;I wrote an automated email notification code to send out my daily ETF watchlist in csv - an extension of my ETF watchlist project &lt;a href=&#34;http://jirong-huang.netlify.com/project/watch_list/&#34;&gt;here&lt;/a&gt;. I figured out that people will not visit my site. So why not blast out the watchlist instead:)&lt;/p&gt;
-
-&lt;p&gt;And if you are interested in the code. Here you go.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;#Steps for sending watchlist
-library(&amp;quot;rJava&amp;quot;)
-library(&#39;mailR&#39;)
-
-source(&amp;quot;./R/emails.R&amp;quot;)
-
-# Write the content of your email
-msg &amp;lt;- paste(&amp;quot;Hey there, I&#39;m sending this ETF watchlist that is updated as of &amp;quot;, 
-             &amp;quot;\n&amp;quot;,
-             as.character(date()),
-             &amp;quot;\n&amp;quot;,
-             &amp;quot;This is part of my daily automated ETF dashboard + Email notification and I thought you may be interested in it. See the following link for more details: http://jirong-huang.netlify.com/project/watch_list/&amp;quot;,
-             &amp;quot;\n&amp;quot;,
-             &amp;quot;If this irritates you too much, let me know and I can take you out of this mailing list:)&amp;quot;,&amp;quot;&amp;quot;,&amp;quot;Best,&amp;quot;,&amp;quot;Jirong&amp;quot;, sep = &amp;quot;\n&amp;quot;)
-
-# Define who the sender is
-sender &amp;lt;- &amp;quot;jironghuang88@gmail.com&amp;quot;
-# Define who should get your email
-recipients &amp;lt;- emails
-              # Send your email with the send.mail function
-              send.mail(from = sender,
-                        to = recipients,
-                        subject = &amp;quot;ETF Watchlist&amp;quot;,
-                        body = msg,
-                        attach.files = &amp;quot;./Output/yahoo_crawled_data.csv&amp;quot;,
-                        smtp = list(host.name = &amp;quot;smtp.gmail.com&amp;quot;, port = 587,
-                                    user.name = &amp;quot;jironghuang88@gmail.com&amp;quot;,
-                                    passwd = Sys.getenv(&amp;quot;mail&amp;quot;), ssl = TRUE),
-                        authenticate = TRUE,
-                        send = TRUE)
-              
-              # JAVA_HOME /usr/lib/jvm/java-8-oracle             
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

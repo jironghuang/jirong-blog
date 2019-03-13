@@ -80,7 +80,7 @@
   <meta property="og:description" content="Data scientist and Quantitative Investor/ Trader">
   <meta property="og:locale" content="en-us">
   
-  <meta property="og:updated_time" content="2019-02-27T00:00:00&#43;00:00">
+  <meta property="og:updated_time" content="2019-02-28T23:34:32&#43;08:00">
   
 
   
@@ -261,6 +261,83 @@
   
   
   <h3 class="article-title" itemprop="headline">
+    <a href="/post/hosting-a-flask-app-on-heroku/" itemprop="url">Hosting a Flask App on Heroku</a>
+  </h3>
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2019-02-28 23:34:32 &#43;0800 &#43;08" itemprop="datePublished dateModified">
+      Feb 28, 2019
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Huang Jirong">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    1 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/hosting-a-flask-app-on-heroku/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/programming">programming</a
+    >, 
+    
+    <a href="/categories/api">api</a
+    >, 
+    
+    <a href="/categories/python">python</a
+    >
+    
+  </span>
+  
+  
+
+  
+
+</div>
+
+  <div class="article-style" itemprop="articleBody">
+    
+    Following the steps here &ndash;&gt; https://realpython.com/flask-by-example-part-1-project-setup/
+I managed to deploy my python flask app in Heroku.
+from flask import Flask app = Flask(__name__) @app.route('/') def hello(): return &quot;Hello World!&quot; @app.route('/&lt;name&gt;') def hello_name(name): return &quot;Hello {}!&quot;.format(name) if __name__ == '__main__': app.run()  You may visit the following link &ndash;&gt;https://jirong-stage.herokuapp.com/ &amp; add a suffix to it.
+Example https://jirong-stage.herokuapp.com/jirong &amp; this will return Hello jirong!
+Possibilites are immense! I can easily create APIs or host dashboard here.
+    
+  </div>
+  <p class="read-more" itemprop="mainEntityOfPage">
+    <a href="/post/hosting-a-flask-app-on-heroku/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+  
+    
+    
+
+<div class="article-list-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+  
+  
+  <h3 class="article-title" itemprop="headline">
     <a href="/post/sampling-with-replacement-through-first-principles/" itemprop="url">Sampling With Replacement Through First Principles</a>
   </h3>
   
@@ -280,7 +357,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    2 min read
+    3 min read
   </span>
   
 
@@ -919,75 +996,6 @@ In the backtesting below (using a pair of silver ETFs as an example), I assumed 
   </div>
   <p class="read-more" itemprop="mainEntityOfPage">
     <a href="/post/summary-of-my-computational-photography-from-georgia-tech-computer-science-masters/" class="btn btn-primary btn-outline">
-      CONTINUE READING
-    </a>
-  </p>
-</div>
-
-  
-    
-    
-
-<div class="article-list-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
-  
-  
-  <h3 class="article-title" itemprop="headline">
-    <a href="/post/colorization/" itemprop="url">Colorization</a>
-  </h3>
-  
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    
-    <time datetime="2018-12-05 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
-      Dec 5, 2018
-    </time>
-  </span>
-  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Huang Jirong">
-  </span>
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    2 min read
-  </span>
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <a href="/post/colorization/#disqus_thread"></a>
-  
-
-  
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fa fa-folder"></i>
-    
-    <a href="/categories/programming">programming</a
-    >
-    
-  </span>
-  
-  
-
-  
-
-</div>
-
-  <div class="article-style" itemprop="articleBody">
-    
-    Colorization The following is a high level project pipeline of my Computational Photography Colorization report. The project scope involves minimizing a quadratic cost function. An artist would only need to make a few colour scribble on a grey photograph and the algorithm will automatically populate the entire photograph with the associated colours.
-1.Input: I first read in the image using imread function.
-2.Find the difference: Next I compute the difference between the marked and grey scale image.
-    
-  </div>
-  <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="/post/colorization/" class="btn btn-primary btn-outline">
       CONTINUE READING
     </a>
   </p>

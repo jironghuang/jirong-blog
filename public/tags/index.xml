@@ -31,6 +31,15 @@
     </item>
     
     <item>
+      <title>api</title>
+      <link>/tags/api/</link>
+      <pubDate>Thu, 28 Feb 2019 23:34:32 +0800</pubDate>
+      
+      <guid>/tags/api/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>asset_allocation</title>
       <link>/tags/asset_allocation/</link>
       <pubDate>Wed, 04 Apr 2018 00:00:00 +0000</pubDate>
@@ -150,9 +159,18 @@
     <item>
       <title>programming</title>
       <link>/tags/programming/</link>
-      <pubDate>Wed, 27 Feb 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 28 Feb 2019 23:34:32 +0800</pubDate>
       
       <guid>/tags/programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>/tags/python/</link>
+      <pubDate>Thu, 28 Feb 2019 23:34:32 +0800</pubDate>
+      
+      <guid>/tags/python/</guid>
       <description></description>
     </item>
     

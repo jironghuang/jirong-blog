@@ -271,7 +271,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    2 min read
+    3 min read
   </span>
   
 
@@ -367,12 +367,12 @@
 
 <p>Here&rsquo;s what I will do. I will first line up the individuals and find the Probability Mass Function (PMF) for each individual accounting for its weight. Second, I will add up the PMF to obtain the Cumulative Density Function (cumulative proportion)</p>
 
-<pre><code>data
+<pre><code>df
 id weight PMF     CDF
 1  2      20%    [0, 20]
 2  3      30%    (20, 50]
 3  3      30%    (50, 80]
-4  2      20%    (80, 200]
+4  2      20%    (80, 100]
 
 </code></pre>
 
@@ -422,6 +422,25 @@ bootstrapped_data = rbind.fill(lapply(1: 100, bootstrap_weights))
 </code></pre>
 
 <p>I hope this is useful!</p>
+
+<h2 id="latest-developments">Latest developments</h2>
+
+<p>Courtesy of this post here &ndash;&gt; <a href="https://stackoverflow.com/questions/24766104/checking-if-value-in-vector-is-in-range-of-values-in-different-length-vector" target="_blank">https://stackoverflow.com/questions/24766104/checking-if-value-in-vector-is-in-range-of-values-in-different-length-vector</a></p>
+
+<p>Here&rsquo;s the simple solution to link a value to an interval,</p>
+
+<pre><code>getValue &lt;- function(x, data) {
+  tmp &lt;- data %&gt;%
+    filter(CDF1 &lt;= x, x &lt;= CDF2)
+  return(tmp$id)
+}
+
+# Using rand function to get a list of numbers
+rand_numbers &lt;- c(0.1, 0.173, 0.235)
+sapply(rand_numbers, getValue, data = df)
+</code></pre>
+
+<p>Cheers!</p>
 
       </div>
 

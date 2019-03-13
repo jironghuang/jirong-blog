@@ -483,6 +483,102 @@
   
   
   <h3 class="article-title" itemprop="headline">
+    <a href="/post/hosting-a-flask-app-on-heroku/" itemprop="url">Hosting a Flask App on Heroku</a>
+  </h3>
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2019-02-28 23:34:32 &#43;0800 &#43;08" itemprop="datePublished dateModified">
+      Feb 28, 2019
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Huang Jirong">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    1 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/hosting-a-flask-app-on-heroku/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/programming">programming</a
+    >, 
+    
+    <a href="/categories/api">api</a
+    >, 
+    
+    <a href="/categories/python">python</a
+    >
+    
+  </span>
+  
+  
+
+  
+
+</div>
+
+  <div class="article-style" itemprop="articleBody">
+    
+    Following the steps here &ndash;&gt; https://realpython.com/flask-by-example-part-1-project-setup/
+I managed to deploy my python flask app in Heroku.
+from flask import Flask app = Flask(__name__) @app.route('/') def hello(): return &quot;Hello World!&quot; @app.route('/&lt;name&gt;') def hello_name(name): return &quot;Hello {}!&quot;.format(name) if __name__ == '__main__': app.run()  You may visit the following link &ndash;&gt;https://jirong-stage.herokuapp.com/ &amp; add a suffix to it.
+Example https://jirong-stage.herokuapp.com/jirong &amp; this will return Hello jirong!
+Possibilites are immense! I can easily create APIs or host dashboard here.
+    
+  </div>
+  <p class="read-more" itemprop="mainEntityOfPage">
+    <a href="/post/hosting-a-flask-app-on-heroku/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
+
+      
+
+        
+
+        
+        
+
+        
+        
+          
+      
+          
+      
+          
+      
+
+      
+      
+        
+        
+
+<div class="article-list-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+  
+  
+  <h3 class="article-title" itemprop="headline">
     <a href="/post/sampling-with-replacement-through-first-principles/" itemprop="url">Sampling With Replacement Through First Principles</a>
   </h3>
   
@@ -502,7 +598,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    2 min read
+    3 min read
   </span>
   
 
@@ -824,100 +920,6 @@ name: env channels: !!python/tuple - !!python/unicode 'defaults' dependencies: -
       
 
       
-
-        
-
-        
-        
-
-        
-        
-          
-      
-          
-      
-          
-      
-
-      
-      
-        
-        
-
-<div class="article-list-item" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
-  
-  
-  <h3 class="article-title" itemprop="headline">
-    <a href="/post/translating-ernest-chan-kalman-filter-strategy-matlab-and-python-code-into-r/" itemprop="url">Translating Ernest Chan Kalman Filter Strategy Matlab and Python Code Into R</a>
-  </h3>
-  
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    
-    <time datetime="2019-01-01 00:15:53 &#43;0800 &#43;08" itemprop="datePublished dateModified">
-      Jan 1, 2019
-    </time>
-  </span>
-  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Huang Jirong">
-  </span>
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    5 min read
-  </span>
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <a href="/post/translating-ernest-chan-kalman-filter-strategy-matlab-and-python-code-into-r/#disqus_thread"></a>
-  
-
-  
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fa fa-folder"></i>
-    
-    <a href="/categories/algo">algo</a
-    >, 
-    
-    <a href="/categories/trading">trading</a
-    >, 
-    
-    <a href="/categories/programming">programming</a
-    >
-    
-  </span>
-  
-  
-
-  
-
-</div>
-
-  <div class="article-style" itemprop="articleBody">
-    
-    Translating Ernest Chan Kalman Filter Strategy Matlab and Python Code Into R I&rsquo;m really intrigued by Ernest Chan&rsquo;s approach in Quant Trading.
-Often in the retail trading space, what &lsquo;gurus&rsquo; preach often sounds really dubious. But Ernest Chan is different. He&rsquo;s sincere, down-to-earth and earnest (meant to be a pun here).
-In my first month of deploying algo trading strategies, I focus mainly on mean-reversion strategies - paricularly amongst pairs.
-    
-  </div>
-  <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="/post/translating-ernest-chan-kalman-filter-strategy-matlab-and-python-code-into-r/" class="btn btn-primary btn-outline">
-      CONTINUE READING
-    </a>
-  </p>
-</div>
-
-      
-
-      
     
 
   </div>
@@ -1079,21 +1081,28 @@ In my first month of deploying algo trading strategies, I focus mainly on mean-r
           
           
           
-          <a href="/tags/algo" style="font-size:1.5076924285718585rem">algo</a>
+          <a href="/tags/algo" style="font-size:1.4896625808397617rem">algo</a>
         
           
           
           
           
           
-          <a href="/tags/asset_allocation" style="font-size:1.246504209563229rem">asset_allocation</a>
+          <a href="/tags/api" style="font-size:0.8rem">api</a>
         
           
           
           
           
           
-          <a href="/tags/betting" style="font-size:1.5076924285718585rem">betting</a>
+          <a href="/tags/asset_allocation" style="font-size:1.2351286421766865rem">asset_allocation</a>
+        
+          
+          
+          
+          
+          
+          <a href="/tags/betting" style="font-size:1.4896625808397617rem">betting</a>
         
           
           
@@ -1107,7 +1116,7 @@ In my first month of deploying algo trading strategies, I focus mainly on mean-r
           
           
           
-          <a href="/tags/dashboard" style="font-size:1.246504209563229rem">dashboard</a>
+          <a href="/tags/dashboard" style="font-size:1.2351286421766865rem">dashboard</a>
         
           
           
@@ -1121,7 +1130,7 @@ In my first month of deploying algo trading strategies, I focus mainly on mean-r
           
           
           
-          <a href="/tags/finance" style="font-size:2.2832548782335653rem">finance</a>
+          <a href="/tags/finance" style="font-size:2.2454660613369244rem">finance</a>
         
           
           
@@ -1135,7 +1144,7 @@ In my first month of deploying algo trading strategies, I focus mainly on mean-r
           
           
           
-          <a href="/tags/investment" style="font-size:2.215384857143717rem">investment</a>
+          <a href="/tags/investment" style="font-size:2.179325161679524rem">investment</a>
         
           
           
@@ -1156,28 +1165,35 @@ In my first month of deploying algo trading strategies, I focus mainly on mean-r
           
           
           
-          <a href="/tags/momentum" style="font-size:1.246504209563229rem">momentum</a>
+          <a href="/tags/momentum" style="font-size:1.2351286421766865rem">momentum</a>
         
           
           
           
           
           
-          <a href="/tags/odds" style="font-size:1.246504209563229rem">odds</a>
+          <a href="/tags/odds" style="font-size:1.2351286421766865rem">odds</a>
         
           
           
           
           
           
-          <a href="/tags/probability" style="font-size:1.246504209563229rem">probability</a>
+          <a href="/tags/probability" style="font-size:1.2351286421766865rem">probability</a>
         
           
           
           
           
           
-          <a href="/tags/programming" style="font-size:2.452261911384966rem">programming</a>
+          <a href="/tags/programming" style="font-size:2.4566891775196487rem">programming</a>
+        
+          
+          
+          
+          
+          
+          <a href="/tags/python" style="font-size:0.8rem">python</a>
         
           
           
@@ -1205,7 +1221,7 @@ In my first month of deploying algo trading strategies, I focus mainly on mean-r
           
           
           
-          <a href="/tags/trading" style="font-size:1.8367506686703359rem">trading</a>
+          <a href="/tags/trading" style="font-size:1.810337419160238rem">trading</a>
         
       </div>
     
@@ -1250,21 +1266,28 @@ In my first month of deploying algo trading strategies, I focus mainly on mean-r
           
           
           
-          <a href="/tags/algo" style="font-size:1.5076924285718585rem">algo</a>
+          <a href="/tags/algo" style="font-size:1.4896625808397617rem">algo</a>
         
           
           
           
           
           
-          <a href="/tags/asset_allocation" style="font-size:1.246504209563229rem">asset_allocation</a>
+          <a href="/tags/api" style="font-size:0.8rem">api</a>
         
           
           
           
           
           
-          <a href="/tags/betting" style="font-size:1.5076924285718585rem">betting</a>
+          <a href="/tags/asset_allocation" style="font-size:1.2351286421766865rem">asset_allocation</a>
+        
+          
+          
+          
+          
+          
+          <a href="/tags/betting" style="font-size:1.4896625808397617rem">betting</a>
         
           
           
@@ -1278,7 +1301,7 @@ In my first month of deploying algo trading strategies, I focus mainly on mean-r
           
           
           
-          <a href="/tags/dashboard" style="font-size:1.246504209563229rem">dashboard</a>
+          <a href="/tags/dashboard" style="font-size:1.2351286421766865rem">dashboard</a>
         
           
           
@@ -1292,7 +1315,7 @@ In my first month of deploying algo trading strategies, I focus mainly on mean-r
           
           
           
-          <a href="/tags/finance" style="font-size:2.2832548782335653rem">finance</a>
+          <a href="/tags/finance" style="font-size:2.2454660613369244rem">finance</a>
         
           
           
@@ -1306,7 +1329,7 @@ In my first month of deploying algo trading strategies, I focus mainly on mean-r
           
           
           
-          <a href="/tags/investment" style="font-size:2.215384857143717rem">investment</a>
+          <a href="/tags/investment" style="font-size:2.179325161679524rem">investment</a>
         
           
           
@@ -1327,28 +1350,35 @@ In my first month of deploying algo trading strategies, I focus mainly on mean-r
           
           
           
-          <a href="/tags/momentum" style="font-size:1.246504209563229rem">momentum</a>
+          <a href="/tags/momentum" style="font-size:1.2351286421766865rem">momentum</a>
         
           
           
           
           
           
-          <a href="/tags/odds" style="font-size:1.246504209563229rem">odds</a>
+          <a href="/tags/odds" style="font-size:1.2351286421766865rem">odds</a>
         
           
           
           
           
           
-          <a href="/tags/probability" style="font-size:1.246504209563229rem">probability</a>
+          <a href="/tags/probability" style="font-size:1.2351286421766865rem">probability</a>
         
           
           
           
           
           
-          <a href="/tags/programming" style="font-size:2.452261911384966rem">programming</a>
+          <a href="/tags/programming" style="font-size:2.4566891775196487rem">programming</a>
+        
+          
+          
+          
+          
+          
+          <a href="/tags/python" style="font-size:0.8rem">python</a>
         
           
           
@@ -1376,7 +1406,7 @@ In my first month of deploying algo trading strategies, I focus mainly on mean-r
           
           
           
-          <a href="/tags/trading" style="font-size:1.8367506686703359rem">trading</a>
+          <a href="/tags/trading" style="font-size:1.810337419160238rem">trading</a>
         
       </div>
     
