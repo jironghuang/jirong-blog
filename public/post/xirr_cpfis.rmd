@@ -10,7 +10,7 @@ tags: ["investment"]
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## What's the XIRR for my CPFIS Portfolio?
+## What's the returns (XIRR) for my CPFIS Portfolio?
 
 Every employee in Singapore is bounded by the same set of CPF rules. 
 
