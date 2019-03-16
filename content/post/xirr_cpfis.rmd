@@ -1,5 +1,5 @@
 ---
-title: "What's the XIRR for my CPFIS Portfolio"
+title: "What's the returns (XIRR) for my CPFIS Portfolio"
 author: "Jirong"
 date: 2019-03-16
 categories: ["investment"]
