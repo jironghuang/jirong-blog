@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Sun, 05 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 16 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/investment/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>What&#39;s the XIRR for my CPFIS Portfolio</title>
+      <link>/post/xirr_cpfis/</link>
+      <pubDate>Sat, 16 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/xirr_cpfis/</guid>
+      <description>What’s the XIRR for my CPFIS Portfolio? Every employee in Singapore is bounded by the same set of CPF rules.
+As an ex-economist/ data geek who doesn’t shy away from having skin in the game. I asked myself this question back in 2015 when I was still a starry-eyed young man 2 years into the workforce - how do I set out to optimize my returns in my CPF OA with these given set of constraints,</description>
+    </item>
     
     <item>
       <title>Rolling out the Investment Compass interactive app that I promised eons ago</title>

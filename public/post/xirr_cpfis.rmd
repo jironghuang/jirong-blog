@@ -1,0 +1,89 @@
+---
+title: "What's the XIRR for my CPFIS Portfolio"
+author: "Jirong"
+date: 2019-03-16
+categories: ["investment"]
+tags: ["investment"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## What's the XIRR for my CPFIS Portfolio?
+
+Every employee in Singapore is bounded by the same set of CPF rules. 
+
+As an ex-economist/ data geek who doesn't shy away from having skin in the game. I asked myself this question back in 2015 when I was still a starry-eyed young man 2 years into the workforce - how do I set out to optimize my returns in my CPF OA with these given set of constraints,
+
+- You cannot withraw your CPF OA till you are 55 years old
+- You can only invest CPF OA beyond 20k
+- And of this delta, you can only invest 35% in non ETFs instruments OR 100% of it in ETFs
+- CPF OA returns of 2.5% per annum
+
+The last point is something that I want to highlight. If I choose to invest, I would have to overcome the 2.5% hurdle rate from CPF OA.
+
+Subscribing to Vanguard's philosophy, a pioneeer & leader in the space of index funds - (https://personal.vanguard.com/pdf/s315.pdf) at least for my CPFIS portion, they advocate that lump sum investing proves to be superior than spacing out your investments.
+
+Since then - whenever I have 5-6k in my CPF OA beyond the 20k, I promptly allocated it to the market. 
+
+### How did this strategy fare thus far?
+
+XIRR- a metric used in assessing rate of returns with a given set of cashflows - came up to be around 5.7%! Note: This figure here accounts for the dividends received over the years.
+
+Hurray! It's more than twice the 2.5% hurdle rate in CPF OA. And even the 4% rate from SA. One could voluntarily transfer OA to SA, but you will lose the flexibility of using the OA for serving mortage in future
+
+### My thoughts
+
+This is still an ongoing experiment in my 'lab'. Apparently it seems to be working well! Going forward, I will continue this strategy.
+
+### If you are keen in the technicalities of computing XIRR (applied the function developed by someone else here -->#https://github.com/SunilVeeravalli/xirr)...
+
+```{r}
+suppressMessages(source("./CPFOA/F_xirr.R"))
+suppressMessages(source("./CPFOA/another_irr_eg.R"))
+suppressPackageStartupMessages(library(tvm))
+
+#Reading my dataset
+cpf_contrib <- read_csv(file = "./CPFOA/jr_cpfis_contrib.csv", col_names = TRUE)
+
+#Formattting date
+cpf_contrib$Date = as.Date(cpf_contrib$Date, format = "%m/%d/%y")
+names(cpf_contrib)[which(names(cpf_contrib) == "Date")] = "dates" 
+
+#including ss
+cpf_contrib$net_stocks_purchase = lead(cpf_contrib$num_stocks_cpf_port - lag(cpf_contrib$num_stocks_cpf_port))
+
+#Contributions
+cpf_contrib$stock_amt_purchase = cpf_contrib$net_stocks_purchase * cpf_contrib$sti_px
+
+#Dividends amount
+cpf_contrib$dividends = cpf_contrib$num_stocks_cpf_port * cpf_contrib$Dividends_per_share 
+cpf_contrib$dividends = ifelse(is.na(cpf_contrib$dividends), 0, cpf_contrib$dividends)
+
+#Net cashflow
+cpf_contrib = cpf_contrib %>%
+                mutate(net_cash_flow = dividends - stock_amt_purchase)
+
+#Setting final cashflow  
+cpf_contrib$net_cash_flow[nrow(cpf_contrib)] = cpf_contrib$cpf_oa_port_val[nrow(cpf_contrib)]
+
+#Computing the xirr
+xirr(cpf_contrib[, c("dates","net_cash_flow")])
+print(xirr2(cpf_contrib$net_cash_flow, cpf_contrib$dates))
+```
+
+### Final dataset on dividends, purchases, cashflows, portfolio values
+```{r}
+suppressPackageStartupMessages(library(knitr))
+suppressPackageStartupMessages(library(kableExtra))
+
+kable(cpf_contrib, caption = "Final data-frame of dividends, purchase, cashflows, portfolio values")
+
+```
+
+
+
+
+
+

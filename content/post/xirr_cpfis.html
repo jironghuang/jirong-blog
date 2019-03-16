@@ -1,0 +1,1484 @@
+---
+title: "What's the XIRR for my CPFIS Portfolio"
+author: "Jirong"
+date: 2019-03-16
+categories: ["investment"]
+tags: ["investment"]
+---
+
+
+
+<div id="whats-the-xirr-for-my-cpfis-portfolio" class="section level2">
+<h2>What’s the XIRR for my CPFIS Portfolio?</h2>
+<p>Every employee in Singapore is bounded by the same set of CPF rules.</p>
+<p>As an ex-economist/ data geek who doesn’t shy away from having skin in the game. I asked myself this question back in 2015 when I was still a starry-eyed young man 2 years into the workforce - how do I set out to optimize my returns in my CPF OA with these given set of constraints,</p>
+<ul>
+<li>You cannot withraw your CPF OA till you are 55 years old</li>
+<li>You can only invest CPF OA beyond 20k</li>
+<li>And of this delta, you can only invest 35% in non ETFs instruments OR 100% of it in ETFs</li>
+<li>CPF OA returns of 2.5% per annum</li>
+</ul>
+<p>The last point is something that I want to highlight. If I choose to invest, I would have to overcome the 2.5% hurdle rate from CPF OA.</p>
+<p>Subscribing to Vanguard’s philosophy, a pioneeer &amp; leader in the space of index funds - (<a href="https://personal.vanguard.com/pdf/s315.pdf" class="uri">https://personal.vanguard.com/pdf/s315.pdf</a>) at least for my CPFIS portion, they advocate that lump sum investing proves to be superior than spacing out your investments.</p>
+<p>Since then - whenever I have 5-6k in my CPF OA beyond the 20k, I promptly allocated it to the market.</p>
+<div id="how-did-this-strategy-fare-thus-far" class="section level3">
+<h3>How did this strategy fare thus far?</h3>
+<p>XIRR- a metric used in assessing rate of returns with a given set of cashflows - came up to be around 5.7%! Note: This figure here accounts for the dividends received over the years.</p>
+<p>Hurray! It’s more than twice the 2.5% hurdle rate in CPF OA. And even the 4% rate from SA. One could voluntarily transfer OA to SA, but you will lose the flexibility of using the OA for serving mortage in future</p>
+</div>
+<div id="my-thoughts" class="section level3">
+<h3>My thoughts</h3>
+<p>This is still an ongoing experiment in my ‘lab’. Apparently it seems to be working well! Going forward, I will continue this strategy.</p>
+</div>
+<div id="if-you-are-keen-in-the-technicalities-of-computing-xirr-applied-the-function-developed-by-someone-else-here-httpsgithub.comsunilveeravallixirr" class="section level3">
+<h3>If you are keen in the technicalities of computing XIRR (applied the function developed by someone else here –&gt;#<a href="https://github.com/SunilVeeravalli/xirr" class="uri">https://github.com/SunilVeeravalli/xirr</a>)…</h3>
+<pre class="r"><code>suppressMessages(source(&quot;./CPFOA/F_xirr.R&quot;))
+suppressMessages(source(&quot;./CPFOA/another_irr_eg.R&quot;))
+suppressPackageStartupMessages(library(tvm))
+
+#Reading my dataset
+cpf_contrib &lt;- read_csv(file = &quot;./CPFOA/jr_cpfis_contrib.csv&quot;, col_names = TRUE)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Date = col_character(),
+##   num_stocks_cpf_port = col_double(),
+##   sti_px = col_double(),
+##   cpf_oa_port_val = col_double(),
+##   Dividends_per_share = col_double()
+## )</code></pre>
+<pre class="r"><code>#Formattting date
+cpf_contrib$Date = as.Date(cpf_contrib$Date, format = &quot;%m/%d/%y&quot;)
+names(cpf_contrib)[which(names(cpf_contrib) == &quot;Date&quot;)] = &quot;dates&quot; 
+
+#including ss
+cpf_contrib$net_stocks_purchase = lead(cpf_contrib$num_stocks_cpf_port - lag(cpf_contrib$num_stocks_cpf_port))
+
+#Contributions
+cpf_contrib$stock_amt_purchase = cpf_contrib$net_stocks_purchase * cpf_contrib$sti_px
+
+#Dividends amount
+cpf_contrib$dividends = cpf_contrib$num_stocks_cpf_port * cpf_contrib$Dividends_per_share 
+cpf_contrib$dividends = ifelse(is.na(cpf_contrib$dividends), 0, cpf_contrib$dividends)
+
+#Net cashflow
+cpf_contrib = cpf_contrib %&gt;%
+                mutate(net_cash_flow = dividends - stock_amt_purchase)
+
+#Setting final cashflow  
+cpf_contrib$net_cash_flow[nrow(cpf_contrib)] = cpf_contrib$cpf_oa_port_val[nrow(cpf_contrib)]
+
+#Computing the xirr
+xirr(cpf_contrib[, c(&quot;dates&quot;,&quot;net_cash_flow&quot;)])</code></pre>
+<pre><code>## [1] &quot;XIRR is 5.775%&quot;</code></pre>
+<pre class="r"><code>print(xirr2(cpf_contrib$net_cash_flow, cpf_contrib$dates))</code></pre>
+<pre><code>## [1] 0.05777714</code></pre>
+</div>
+<div id="final-dataset-on-dividends-purchases-cashflows-portfolio-values" class="section level3">
+<h3>Final dataset on dividends, purchases, cashflows, portfolio values</h3>
+<pre class="r"><code>suppressPackageStartupMessages(library(knitr))
+suppressPackageStartupMessages(library(kableExtra))
+
+kable(cpf_contrib, caption = &quot;Final data-frame of dividends, purchase, cashflows, portfolio values&quot;)</code></pre>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-2">Table 1: </span>Final data-frame of dividends, purchase, cashflows, portfolio values
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+dates
+</th>
+<th style="text-align:right;">
+num_stocks_cpf_port
+</th>
+<th style="text-align:right;">
+sti_px
+</th>
+<th style="text-align:right;">
+cpf_oa_port_val
+</th>
+<th style="text-align:right;">
+Dividends_per_share
+</th>
+<th style="text-align:right;">
+net_stocks_purchase
+</th>
+<th style="text-align:right;">
+stock_amt_purchase
+</th>
+<th style="text-align:right;">
+dividends
+</th>
+<th style="text-align:right;">
+net_cash_flow
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2015-05-01
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3.350
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1800
+</td>
+<td style="text-align:right;">
+6030.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-6030.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2015-06-01
+</td>
+<td style="text-align:right;">
+1800
+</td>
+<td style="text-align:right;">
+3.240
+</td>
+<td style="text-align:right;">
+5562
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:right;">
+3240.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-3240.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2015-07-15
+</td>
+<td style="text-align:right;">
+2800
+</td>
+<td style="text-align:right;">
+2.970
+</td>
+<td style="text-align:right;">
+8372
+</td>
+<td style="text-align:right;">
+0.049
+</td>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:right;">
+2970.0
+</td>
+<td style="text-align:right;">
+137.2
+</td>
+<td style="text-align:right;">
+-2832.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2015-08-12
+</td>
+<td style="text-align:right;">
+3800
+</td>
+<td style="text-align:right;">
+2.850
+</td>
+<td style="text-align:right;">
+10564
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2000
+</td>
+<td style="text-align:right;">
+5700.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-5700.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2015-09-13
+</td>
+<td style="text-align:right;">
+5800
+</td>
+<td style="text-align:right;">
+3.040
+</td>
+<td style="text-align:right;">
+15486
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2015-10-10
+</td>
+<td style="text-align:right;">
+5800
+</td>
+<td style="text-align:right;">
+2.920
+</td>
+<td style="text-align:right;">
+16530
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2015-11-11
+</td>
+<td style="text-align:right;">
+5800
+</td>
+<td style="text-align:right;">
+2.950
+</td>
+<td style="text-align:right;">
+15892
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:right;">
+2950.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-2950.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2015-12-12
+</td>
+<td style="text-align:right;">
+6800
+</td>
+<td style="text-align:right;">
+2.630
+</td>
+<td style="text-align:right;">
+18768
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2016-01-12
+</td>
+<td style="text-align:right;">
+6800
+</td>
+<td style="text-align:right;">
+2.690
+</td>
+<td style="text-align:right;">
+16728
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+700
+</td>
+<td style="text-align:right;">
+1883.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-1883.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2016-02-03
+</td>
+<td style="text-align:right;">
+7500
+</td>
+<td style="text-align:right;">
+2.860
+</td>
+<td style="text-align:right;">
+19275
+</td>
+<td style="text-align:right;">
+0.107
+</td>
+<td style="text-align:right;">
+400
+</td>
+<td style="text-align:right;">
+1144.0
+</td>
+<td style="text-align:right;">
+802.5
+</td>
+<td style="text-align:right;">
+-341.5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2016-03-21
+</td>
+<td style="text-align:right;">
+7900
+</td>
+<td style="text-align:right;">
+2.870
+</td>
+<td style="text-align:right;">
+21567
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+400
+</td>
+<td style="text-align:right;">
+1148.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-1148.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2016-04-12
+</td>
+<td style="text-align:right;">
+8300
+</td>
+<td style="text-align:right;">
+2.840
+</td>
+<td style="text-align:right;">
+22742
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+900
+</td>
+<td style="text-align:right;">
+2556.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-2556.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2016-05-12
+</td>
+<td style="text-align:right;">
+9200
+</td>
+<td style="text-align:right;">
+2.880
+</td>
+<td style="text-align:right;">
+24932
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+600
+</td>
+<td style="text-align:right;">
+1728.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-1728.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2016-06-10
+</td>
+<td style="text-align:right;">
+9800
+</td>
+<td style="text-align:right;">
+2.880
+</td>
+<td style="text-align:right;">
+26950
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+400
+</td>
+<td style="text-align:right;">
+1152.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-1152.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2016-07-12
+</td>
+<td style="text-align:right;">
+10200
+</td>
+<td style="text-align:right;">
+2.860
+</td>
+<td style="text-align:right;">
+28050
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+400
+</td>
+<td style="text-align:right;">
+1144.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-1144.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2016-08-12
+</td>
+<td style="text-align:right;">
+10600
+</td>
+<td style="text-align:right;">
+2.910
+</td>
+<td style="text-align:right;">
+29362
+</td>
+<td style="text-align:right;">
+0.084
+</td>
+<td style="text-align:right;">
+1000
+</td>
+<td style="text-align:right;">
+2910.0
+</td>
+<td style="text-align:right;">
+890.4
+</td>
+<td style="text-align:right;">
+-2019.6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2016-09-10
+</td>
+<td style="text-align:right;">
+11600
+</td>
+<td style="text-align:right;">
+2.860
+</td>
+<td style="text-align:right;">
+32712
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+700
+</td>
+<td style="text-align:right;">
+2002.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-2002.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2016-10-12
+</td>
+<td style="text-align:right;">
+12300
+</td>
+<td style="text-align:right;">
+2.950
+</td>
+<td style="text-align:right;">
+34071
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2016-11-12
+</td>
+<td style="text-align:right;">
+12300
+</td>
+<td style="text-align:right;">
+2.940
+</td>
+<td style="text-align:right;">
+35178
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2016-12-09
+</td>
+<td style="text-align:right;">
+12300
+</td>
+<td style="text-align:right;">
+3.110
+</td>
+<td style="text-align:right;">
+35055
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2017-01-12
+</td>
+<td style="text-align:right;">
+12300
+</td>
+<td style="text-align:right;">
+3.100
+</td>
+<td style="text-align:right;">
+37023
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1600
+</td>
+<td style="text-align:right;">
+4960.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-4960.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2017-02-25
+</td>
+<td style="text-align:right;">
+13900
+</td>
+<td style="text-align:right;">
+3.190
+</td>
+<td style="text-align:right;">
+41700
+</td>
+<td style="text-align:right;">
+0.053
+</td>
+<td style="text-align:right;">
+600
+</td>
+<td style="text-align:right;">
+1914.0
+</td>
+<td style="text-align:right;">
+736.7
+</td>
+<td style="text-align:right;">
+-1177.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2017-03-25
+</td>
+<td style="text-align:right;">
+14500
+</td>
+<td style="text-align:right;">
+3.200
+</td>
+<td style="text-align:right;">
+45530
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+800
+</td>
+<td style="text-align:right;">
+2560.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-2560.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2017-04-24
+</td>
+<td style="text-align:right;">
+15300
+</td>
+<td style="text-align:right;">
+3.260
+</td>
+<td style="text-align:right;">
+48195
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2017-05-24
+</td>
+<td style="text-align:right;">
+15300
+</td>
+<td style="text-align:right;">
+3.270
+</td>
+<td style="text-align:right;">
+49113
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2017-06-22
+</td>
+<td style="text-align:right;">
+15300
+</td>
+<td style="text-align:right;">
+3.320
+</td>
+<td style="text-align:right;">
+49266
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+800
+</td>
+<td style="text-align:right;">
+2656.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-2656.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2017-07-21
+</td>
+<td style="text-align:right;">
+16100
+</td>
+<td style="text-align:right;">
+3.320
+</td>
+<td style="text-align:right;">
+52647
+</td>
+<td style="text-align:right;">
+0.048
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+772.8
+</td>
+<td style="text-align:right;">
+772.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2017-08-24
+</td>
+<td style="text-align:right;">
+16100
+</td>
+<td style="text-align:right;">
+3.250
+</td>
+<td style="text-align:right;">
+53452
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+400
+</td>
+<td style="text-align:right;">
+1300.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-1300.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2017-09-24
+</td>
+<td style="text-align:right;">
+16500
+</td>
+<td style="text-align:right;">
+3.420
+</td>
+<td style="text-align:right;">
+53625
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1100
+</td>
+<td style="text-align:right;">
+3762.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-3762.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2017-10-25
+</td>
+<td style="text-align:right;">
+17600
+</td>
+<td style="text-align:right;">
+3.480
+</td>
+<td style="text-align:right;">
+60192
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2017-11-24
+</td>
+<td style="text-align:right;">
+17600
+</td>
+<td style="text-align:right;">
+3.450
+</td>
+<td style="text-align:right;">
+61072
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2017-12-23
+</td>
+<td style="text-align:right;">
+17600
+</td>
+<td style="text-align:right;">
+3.580
+</td>
+<td style="text-align:right;">
+60544
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2018-01-24
+</td>
+<td style="text-align:right;">
+17600
+</td>
+<td style="text-align:right;">
+3.520
+</td>
+<td style="text-align:right;">
+64416
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2018-02-22
+</td>
+<td style="text-align:right;">
+17600
+</td>
+<td style="text-align:right;">
+3.430
+</td>
+<td style="text-align:right;">
+61952
+</td>
+<td style="text-align:right;">
+0.053
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+932.8
+</td>
+<td style="text-align:right;">
+932.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2018-03-23
+</td>
+<td style="text-align:right;">
+17600
+</td>
+<td style="text-align:right;">
+3.637
+</td>
+<td style="text-align:right;">
+60368
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2018-04-24
+</td>
+<td style="text-align:right;">
+17600
+</td>
+<td style="text-align:right;">
+3.500
+</td>
+<td style="text-align:right;">
+63184
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2018-05-17
+</td>
+<td style="text-align:right;">
+17600
+</td>
+<td style="text-align:right;">
+3.321
+</td>
+<td style="text-align:right;">
+63008
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2018-06-24
+</td>
+<td style="text-align:right;">
+17600
+</td>
+<td style="text-align:right;">
+3.388
+</td>
+<td style="text-align:right;">
+58960
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2018-07-12
+</td>
+<td style="text-align:right;">
+17600
+</td>
+<td style="text-align:right;">
+3.251
+</td>
+<td style="text-align:right;">
+58432
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2018-08-10
+</td>
+<td style="text-align:right;">
+17600
+</td>
+<td style="text-align:right;">
+3.299
+</td>
+<td style="text-align:right;">
+58080
+</td>
+<td style="text-align:right;">
+0.060
+</td>
+<td style="text-align:right;">
+1700
+</td>
+<td style="text-align:right;">
+5608.3
+</td>
+<td style="text-align:right;">
+1056.0
+</td>
+<td style="text-align:right;">
+-4552.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2018-09-12
+</td>
+<td style="text-align:right;">
+19300
+</td>
+<td style="text-align:right;">
+3.061
+</td>
+<td style="text-align:right;">
+60795
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2018-10-12
+</td>
+<td style="text-align:right;">
+19300
+</td>
+<td style="text-align:right;">
+3.156
+</td>
+<td style="text-align:right;">
+60216
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1300
+</td>
+<td style="text-align:right;">
+4102.8
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+-4102.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2018-11-10
+</td>
+<td style="text-align:right;">
+20600
+</td>
+<td style="text-align:right;">
+3.100
+</td>
+<td style="text-align:right;">
+64272
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2018-12-12
+</td>
+<td style="text-align:right;">
+20600
+</td>
+<td style="text-align:right;">
+3.247
+</td>
+<td style="text-align:right;">
+63860
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-01-11
+</td>
+<td style="text-align:right;">
+20600
+</td>
+<td style="text-align:right;">
+3.218
+</td>
+<td style="text-align:right;">
+67362
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-02-19
+</td>
+<td style="text-align:right;">
+20600
+</td>
+<td style="text-align:right;">
+3.191
+</td>
+<td style="text-align:right;">
+66332
+</td>
+<td style="text-align:right;">
+0.056
+</td>
+<td style="text-align:right;">
+2000
+</td>
+<td style="text-align:right;">
+6382.0
+</td>
+<td style="text-align:right;">
+1153.6
+</td>
+<td style="text-align:right;">
+-5228.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2019-03-12
+</td>
+<td style="text-align:right;">
+22600
+</td>
+<td style="text-align:right;">
+3.210
+</td>
+<td style="text-align:right;">
+72388
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+72388.0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
