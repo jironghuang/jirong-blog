@@ -48,7 +48,7 @@ weight = 5
   
 +++
 
-# Biography
+# Biography (I've moved the site to https://jironghuang.github.io & am no longer maintaining this site here.)
 
 I'm a versatile analyst/scientist that understands the supply chain of Analytics: 1.) Sourcing for raw data (Web-Crawling, Social Media APIs) 2.) Database (SQL) 3.) Analysis (Statistics, Econometrics, Machine-Learning) and 4.) Delivery (Interactive Data visualizations, Automated Reports, Intranet). In addition, I possess strong project-management and communication skills essential in delivering results to stakeholders. 
 
